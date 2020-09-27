@@ -4,7 +4,7 @@ TH2F *hEvt_Adj_tracks[Nadjproj];
 TH2F *hEvt_Adj_tracksPt[Nadjproj];
 TH2F *hEvt_Adj_tracksPt_max[Nadjproj];
 
-std::vector<int> DetImgProducer::findSubcrystal(const CaloGeometry* caloGeom, const float& eta, const float& phi, const int& granularityMultiEta, const int& granularityMultiPhi)
+std::vector<int> DetFrameProducer::findSubcrystal(const CaloGeometry* caloGeom, const float& eta, const float& phi, const int& granularityMultiEta, const int& granularityMultiPhi)
 {
     // Histograms for monitoring
     hEvt_Adj_tracks[proj] = new TH2F((std::string("evt_Adj_tracks")+adj_projections[proj]).c_str(), "E(#phi,#eta);#phi;#eta",
@@ -151,14 +151,14 @@ std::vector<int> DetImgProducer::findSubcrystal(const CaloGeometry* caloGeom, co
     return return_vector;
 }
 
-void DetImgProducer::fillByBinNumber(TH2F * histo, const std::vector<int>& phi_eta, const float& value)
+void DetFrameProducer::fillByBinNumber(TH2F * histo, const std::vector<int>& phi_eta, const float& value)
 {
   histo->SetBinContent(phi_eta[0],phi_eta[1],
   histo->GetBinContent(phi_eta[0],phi_eta[1])+value);
 }
 
 // Fill adjustable EE-, EB, EE+ rechits ________________________________________________________//
-void DetImgProducer::fillTracksAtECALadjustable ( const edm::Event& iEvent, const edm::EventSetup& iSetup, unsigned int proj ) {
+void DetFrameProducer::fillTracksAtECALadjustable ( const edm::Event& iEvent, const edm::EventSetup& iSetup, unsigned int proj ) {
 
   //int iphi_, ieta_, iz_, idx_;
   //int ieta_global, ieta_signed;
