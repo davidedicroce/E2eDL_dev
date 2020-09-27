@@ -15,7 +15,6 @@
 <use name="DataFormats/ParticleFlowCandidate"/>
 <use name="DataFormats/PatCandidates"/>
 <use name="DataFormats/EgammaCandidates"/>
-<use name="DataFormats/PatCandidates"/>
 <use name="Geometry/EcalMapping"/>
 <use name="Geometry/CaloGeometry"/>
 <use name="Geometry/CaloTopology"/>
