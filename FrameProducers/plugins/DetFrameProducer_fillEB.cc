@@ -1,7 +1,7 @@
 #include "E2eDL/FrameProducers/interface/DetFrameProducer.h"
 
 // Fill EB rechits _________________________________________________________________//
-void DetImgProducer::fillEB ( const edm::Event& iEvent, const edm::EventSetup& iSetup ) {
+void DetFrameProducer::fillEB ( const edm::Event& iEvent, const edm::EventSetup& iSetup ) {
 
   int iphi_, ieta_, idx_; // rows:ieta, cols:iphi
   float energy_;
