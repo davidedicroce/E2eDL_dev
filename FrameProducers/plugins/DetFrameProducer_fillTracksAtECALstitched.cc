@@ -5,10 +5,7 @@ TH2F *hEvt_EE_tracksPt[nEE];
 std::vector<float> vECAL_tracksPt_;
 
 // Function to map EE(phi,eta) histograms to ECAL(iphi,ieta) vector _______________________________//
-void fillTracksAtECAL_with_EEproj (std::vector<float>& vECAL_tracksPt_, TH2F *hEvt_EE_tracksPt_, /*TH2F *hEvt_EE_tracksQPt_, 
-				   TH2F *hEvt_EE_tracksPt_PV_, TH2F *hEvt_EE_tracksQPt_PV_, TH2F *hEvt_EE_tracksd0_PV_, TH2F *hEvt_EE_tracksz0_PV_, TH2F *hEvt_EE_tracksd0sig_PV_, TH2F *hEvt_EE_tracksz0sig_PV_, 
-				   TH2F *hEvt_EE_tracksPt_nPV_, TH2F *hEvt_EE_tracksQPt_nPV_,*/ 
-				   int ieta_global_offset, int ieta_signed_offset ) {
+void fillTracksAtECAL_with_EEproj (std::vector<float>& vECAL_tracksPt_, TH2F *hEvt_EE_tracksPt_, int ieta_global_offset, int ieta_signed_offset ) {
 
   int ieta_global_, ieta_signed_;
   int ieta_, iphi_, idx_;
