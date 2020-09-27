@@ -26,7 +26,6 @@
 <use name="DQM/HcalCommon"/>
 <use name="Geometry/Records"/>
 <use name="Calibration/IsolatedParticles"/>
-<use name="E2eDL/E2eDLrecClasses"/>
 <export>
   <lib name="1"/>
 </export>
