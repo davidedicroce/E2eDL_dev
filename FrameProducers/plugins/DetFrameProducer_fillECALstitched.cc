@@ -19,14 +19,6 @@ TProfile2D *hECAL_energy;
 
 // Function to map EE(phi,eta) histograms to ECAL(iphi,ieta) vector _______________________________//
 void fillECAL_with_EEproj ( std::vector<float>& vECAL_energy_, TH2F *hEvt_EE_energy_, int ieta_global_offset, int ieta_signed_offset ) {
-
-  // Intermediate helper histogram (single event only)
-  hEvt_EE_energy[0] = new TH2F("evt_EEm_energy", "E(i#phi,i#eta);i#phi;i#eta",
-      EB_IPHI_MAX, -TMath::Pi(), TMath::Pi(),
-      5*(HBHE_IETA_MAX_HE-1-HBHE_IETA_MAX_EB), eta_bins_EEm );
-  hEvt_EE_energy[1] = new TH2F("evt_EEp_energy", "E(i#phi,i#eta);i#phi;i#eta",
-      EB_IPHI_MAX, -TMath::Pi(), TMath::Pi(),
-      5*(HBHE_IETA_MAX_HE-1-HBHE_IETA_MAX_EB), eta_bins_EEp );
   
   int ieta_global_, ieta_signed_;
   int ieta_, iphi_, idx_;
@@ -47,8 +39,6 @@ void fillECAL_with_EEproj ( std::vector<float>& vECAL_energy_, TH2F *hEvt_EE_ene
       idx_  = ieta_global_*EB_IPHI_MAX + iphi_;
       // Fill vector for image
       vECAL_energy_[idx_] = energy_;
-      // Fill histogram for monitoring
-      hECAL_energy->Fill( iphi_, ieta_signed_, energy_ );
 
     } // iphi_
   } // ieta_
@@ -58,6 +48,14 @@ void fillECAL_with_EEproj ( std::vector<float>& vECAL_energy_, TH2F *hEvt_EE_ene
 // Fill stitched EE-, EB, EE+ rechits ________________________________________________________//
 void DetImgProducer::fillECALstitched ( const edm::Event& iEvent, const edm::EventSetup& iSetup ) {
 
+  // Intermediate helper histogram (single event only)
+  hEvt_EE_energy[0] = new TH2F("evt_EEm_energy", "E(i#phi,i#eta);i#phi;i#eta",
+      EB_IPHI_MAX, -TMath::Pi(), TMath::Pi(),
+      5*(HBHE_IETA_MAX_HE-1-HBHE_IETA_MAX_EB), eta_bins_EEm );
+  hEvt_EE_energy[1] = new TH2F("evt_EEp_energy", "E(i#phi,i#eta);i#phi;i#eta",
+      EB_IPHI_MAX, -TMath::Pi(), TMath::Pi(),
+      5*(HBHE_IETA_MAX_HE-1-HBHE_IETA_MAX_EB), eta_bins_EEp );
+  
   int iphi_, ieta_, iz_, idx_;
   int ieta_global, ieta_signed;
   int ieta_global_offset, ieta_signed_offset;
@@ -88,8 +86,6 @@ void DetImgProducer::fillECALstitched ( const edm::Event& iEvent, const edm::Eve
     pos  = caloGeom->getPosition( eeId );
     eta = pos.eta();
     phi = pos.phi();
-    // Fill intermediate helper histogram by eta,phi
-    hEvt_EE_energy[iz_]->Fill( phi, eta, iRHit->energy() );
     
   } // EE+/-
 
@@ -114,8 +110,6 @@ void DetImgProducer::fillECALstitched ( const edm::Event& iEvent, const edm::Eve
     ieta_global = ieta_ + EB_IETA_MAX + ieta_global_offset;
     idx_ = ieta_global*EB_IPHI_MAX + iphi_; 
     vECAL_energy_[idx_] = energy_;
-    // Fill histogram for monitoring
-    hECAL_energy->Fill( iphi_, ieta_signed, energy_ );
 
     pos  = caloGeom->getPosition( ebId );
     eta = pos.eta();
