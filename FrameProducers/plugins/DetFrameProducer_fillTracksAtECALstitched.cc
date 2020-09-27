@@ -5,16 +5,15 @@ TH2F *hEvt_EE_tracksPt[nEE];
 std::vector<float> vECAL_tracksPt_;
 
 // Function to map EE(phi,eta) histograms to ECAL(iphi,ieta) vector _______________________________//
-void fillTracksAtECAL_with_EEproj (std::vector<float>& vECAL_tracksPt_, TH2F *hEvt_EE_tracksPt_, int ieta_global_offset, int ieta_signed_offset ) {
+void fillTracksAtECAL_with_EEproj (std::vector<float>& vECAL_tracksPt_, TH2F *hEvt_EE_tracksPt_, int ieta_global_offset ) {
 
-  int ieta_global_, ieta_signed_;
+  int ieta_global_;
   int ieta_, iphi_, idx_;
   float trackPt_;//, trackQPt_;
   
   for (int ieta = 1; ieta < hEvt_EE_tracksPt_->GetNbinsY()+1; ieta++) {
     ieta_ = ieta - 1;
     ieta_global_ = ieta_ + ieta_global_offset;
-    ieta_signed_ = ieta_ + ieta_signed_offset;
     for (int iphi = 1; iphi < hEvt_EE_tracksPt_->GetNbinsX()+1; iphi++) {
 
       trackPt_        = hEvt_EE_tracksPt_->GetBinContent( iphi, ieta );
@@ -36,8 +35,8 @@ void fillTracksAtECAL_with_EEproj (std::vector<float>& vECAL_tracksPt_, TH2F *hE
 void DetFrameProducer::fillTracksAtECALstitched ( const edm::Event& iEvent, const edm::EventSetup& iSetup ) {
 
   int iphi_, ieta_, iz_, idx_;
-  int ieta_global, ieta_signed;
-  int ieta_global_offset, ieta_signed_offset;
+  int ieta_global;
+  int ieta_global_offset;
   float eta, phi, trackPt_; //trackQPt_, trackd0_, trackz0_, trackd0sig_, trackz0sig_;
   GlobalPoint pos;
 
@@ -82,8 +81,8 @@ void DetFrameProducer::fillTracksAtECALstitched ( const edm::Event& iEvent, cons
   
   // Map EE-(phi,eta) to bottom part of ECAL(iphi,ieta)
   ieta_global_offset = 0;
-  ieta_signed_offset = -ECAL_IETA_MAX_EXT;
-  fillTracksAtECAL_with_EEproj( vECAL_tracksPt_, hEvt_EE_tracksPt[0], ieta_global_offset, ieta_signed_offset );
+  
+  fillTracksAtECAL_with_EEproj( vECAL_tracksPt_, hEvt_EE_tracksPt[0], ieta_global_offset );
   
   // Fill middle part of ECAL(iphi,ieta) with the EB rechits.
   ieta_global_offset = 55;
@@ -104,7 +103,6 @@ void DetFrameProducer::fillTracksAtECALstitched ( const edm::Event& iEvent, cons
       ieta_ = ebId.ieta() > 0 ? ebId.ieta()-1 : ebId.ieta();
       if ( trackPt_ <= zs ) continue;
       // Fill vector for image
-      ieta_signed = ieta_;
       ieta_global = ieta_ + EB_IETA_MAX + ieta_global_offset;
       idx_ = ieta_global*EB_IPHI_MAX + iphi_; 
       vECAL_tracksPt_[idx_] += trackPt_;
@@ -113,6 +111,6 @@ void DetFrameProducer::fillTracksAtECALstitched ( const edm::Event& iEvent, cons
   
   // Map EE+(phi,eta) to upper part of ECAL(iphi,ieta)
   ieta_global_offset = ECAL_IETA_MAX_EXT + EB_IETA_MAX;
-  ieta_signed_offset = EB_IETA_MAX;
-  fillTracksAtECAL_with_EEproj( vECAL_tracksPt_, hEvt_EE_tracksPt[1], ieta_global_offset, ieta_signed_offset );
+  
+  fillTracksAtECAL_with_EEproj( vECAL_tracksPt_, hEvt_EE_tracksPt[1], ieta_global_offset );
 } // fillTracksAtECALstitched()
