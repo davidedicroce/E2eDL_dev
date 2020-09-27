@@ -45,7 +45,7 @@ void fillECAL_with_EEproj ( std::vector<float>& vECAL_energy_, TH2F *hEvt_EE_ene
 } // fillECAL_with_EEproj
 
 // Fill stitched EE-, EB, EE+ rechits ________________________________________________________//
-void DetImgProducer::fillECALstitched ( const edm::Event& iEvent, const edm::EventSetup& iSetup ) {
+void DetFrameProducer::fillECALstitched ( const edm::Event& iEvent, const edm::EventSetup& iSetup ) {
 
   // Intermediate helper histogram (single event only)
   hEvt_EE_energy[0] = new TH2F("evt_EEm_energy", "E(i#phi,i#eta);i#phi;i#eta",
