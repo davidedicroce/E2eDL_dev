@@ -5,6 +5,11 @@ TH2F *hEvt_HBHE_energy;
 // Fill HBHE rechits _________________________________________________________________//
 void DetImgProducer::fillHBHE ( const edm::Event& iEvent, const edm::EventSetup& iSetup ) {
 
+  // Intermediate helper histogram (single event only)
+  hEvt_HBHE_energy = new TH2F("evt_HBHE_energy", "E(i#phi,i#eta);i#phi;i#eta",
+      HBHE_IPHI_NUM,           HBHE_IPHI_MIN-1,    HBHE_IPHI_MAX,
+      2*(HBHE_IETA_MAX_HE-1),-(HBHE_IETA_MAX_HE-1),HBHE_IETA_MAX_HE-1 );
+  
   int iphi_, ieta_, ietaAbs_, idx_;
   float energy_;
   //float eta, GlobalPoint pos;
@@ -48,9 +53,6 @@ void DetImgProducer::fillHBHE ( const edm::Event& iEvent, const edm::EventSetup&
     // NOTE: HBHE iphis only occur in even numbers in coarse region
     // => Fill adjacent (odd) iphi bin and split energy evenly.
     if ( hId.ietaAbs() > HBHE_IETA_MAX_FINE ) {
-      // Fill histograms for monitoring
-      hHBHE_energy->Fill( iphi_  , ieta_, energy_*0.5 );
-      hHBHE_energy->Fill( iphi_+1, ieta_, energy_*0.5 );
       // Fill intermediate helper histogram
       hEvt_HBHE_energy->Fill( iphi_  , ieta_, energy_*0.5 );
       hEvt_HBHE_energy->Fill( iphi_+1, ieta_, energy_*0.5 );
@@ -60,15 +62,12 @@ void DetImgProducer::fillHBHE ( const edm::Event& iEvent, const edm::EventSetup&
     // (B) hId.ieta() <= 20: fine iphi granularity (beyond this, iphi granularity is halved)
     // Fill histograms normally
     else {
-      hHBHE_energy->Fill( iphi_,ieta_,energy_ );
       hEvt_HBHE_energy->Fill( iphi_,ieta_,energy_ );
     }
 
     // (C) hId.ieta() <= 17: overlap with EB 
     // Additionally, fill EB-overlap-only vectors/histograms
     if ( hId.ietaAbs() > HBHE_IETA_MAX_EB ) continue;
-    // Fill histograms for monitoring
-    hHBHE_energy_EB->Fill( iphi_,ieta_,energy_ );
     // Create hashed index: maps from [ieta][iphi][:] -> [idx_]
     // Effectively sums energies over depth for a given (ieta,iphi)
     idx_ = ( ieta_+HBHE_IETA_MAX_EB )*HBHE_IPHI_NUM + iphi_;
