@@ -12,10 +12,9 @@
 // 'ieta_global' keeps track of the global ieta index count used
 // for filling the extended image vector vECAL_energy.
 // 'ieta_signed' keeps track of the position along [-140,140] used
-// for filling the monitoring histogram hECAL_energy.
+// for filling the monitoring histogram hECAL_energy. (hECAL_energy is not written in the code below. It will have to be added if monitoring is needed.) 
 
 TH2F *hEvt_EE_energy[nEE];
-TProfile2D *hECAL_energy;
 
 // Function to map EE(phi,eta) histograms to ECAL(iphi,ieta) vector _______________________________//
 void fillECAL_with_EEproj ( std::vector<float>& vECAL_energy_, TH2F *hEvt_EE_energy_, int ieta_global_offset, int ieta_signed_offset ) {
