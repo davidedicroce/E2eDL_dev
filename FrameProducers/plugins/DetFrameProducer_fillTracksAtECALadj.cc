@@ -6,6 +6,16 @@ TH2F *hEvt_Adj_tracksPt_max[Nadjproj];
 
 std::vector<int> DetImgProducer::findSubcrystal(const CaloGeometry* caloGeom, const float& eta, const float& phi, const int& granularityMultiEta, const int& granularityMultiPhi)
 {
+    // Histograms for monitoring
+    hEvt_Adj_tracks[proj] = new TH2F((std::string("evt_Adj_tracks")+adj_projections[proj]).c_str(), "E(#phi,#eta);#phi;#eta",
+        totalPhiBins[proj], -TMath::Pi(), TMath::Pi(),
+        adjEtaBins[proj].size()-1, &adjEtaBins[proj][0] );
+    hEvt_Adj_tracksPt[proj] = new TH2F((std::string("evt_Adj_tracksPt")+adj_projections[proj]).c_str(), "E(#phi,#eta);#phi;#eta",
+        totalPhiBins[proj], -TMath::Pi(), TMath::Pi(),
+        adjEtaBins[proj].size()-1, &adjEtaBins[proj][0] );
+    hEvt_Adj_tracksPt_max[proj] = new TH2F((std::string("evt_Adj_tracksPt_max")+adj_projections[proj]).c_str(), "E(#phi,#eta);#phi;#eta",
+        totalPhiBins[proj], -TMath::Pi(), TMath::Pi(),
+        adjEtaBins[proj].size()-1, &adjEtaBins[proj][0] );
 
     DetId id( spr::findDetIdECAL( caloGeom, eta, phi, false ) );
     std::vector<int> return_vector;
