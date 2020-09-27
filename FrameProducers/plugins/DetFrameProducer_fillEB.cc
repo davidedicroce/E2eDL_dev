@@ -3,7 +3,7 @@
 // Fill EB rechits _________________________________________________________________//
 void DetFrameProducer::fillEB ( const edm::Event& iEvent, const edm::EventSetup& iSetup ) {
 
-  int iphi_, ieta_, idx_; // rows:ieta, cols:iphi
+  int idx_; // rows:ieta, cols:iphi
   float energy_;
 
   vEB_energy_.assign( EBDetId::kSizeForDenseIndexing, 0. );
