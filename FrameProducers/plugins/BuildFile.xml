@@ -25,4 +25,5 @@
 <use name="SimDataFormats/GeneratorProducts"/>
 <use name="Calibration/IsolatedParticles"/>
 <use name="DQM/HcalCommon"/>
+<use name="DataFormats/EgammaCandidates"/>
 <flags EDM_PLUGIN="1"/>
