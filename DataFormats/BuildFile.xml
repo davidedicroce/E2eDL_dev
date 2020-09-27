@@ -1,4 +1,8 @@
 <use name="FWCore/Framework"/>
+<use name="FWCore/PluginManager"/>
+<use name="FWCore/ParameterSet"/>
+<use name="FWCore/Common"/>
+<use name="FWCore/Utilities"/>
 <use name="DataFormats/Common"/>
 <use name="DataFormats/EcalDigi"/>
 <use name="DataFormats/EcalDetId"/>
@@ -12,6 +16,17 @@
 <use name="DataFormats/PatCandidates"/>
 <use name="DataFormats/EgammaCandidates"/>
 <use name="DataFormats/PatCandidates"/>
+<use name="Geometry/EcalMapping"/>
+<use name="Geometry/CaloGeometry"/>
+<use name="Geometry/CaloTopology"/>
+<use name="CommonTools/UtilAlgos"/>
+<use name="CondFormats/AlignmentRecord"/>
+<use name="boost"/>
+<use name="SimDataFormats/GeneratorProducts"/>
+<use name="DQM/HcalCommon"/>
+<use name="Geometry/Records"/>
+<use name="Calibration/IsolatedParticles"/>
+<use name="E2eDL/E2eDLrecClasses"/>
 <export>
   <lib name="1"/>
 </export>
