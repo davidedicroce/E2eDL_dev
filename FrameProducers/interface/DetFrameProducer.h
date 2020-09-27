@@ -106,6 +106,17 @@ class DetImgProducer : public edm::stream::EDProducer<> {
       edm::EDGetTokenT<EcalRecHitCollection> EBRecHitCollectionT_; 
       edm::EDGetTokenT<PhotonCollection> photonCollectionT_;
       edm::EDGetTokenT<HBHERecHitCollection> HBHERecHitCollectionT_;
+      edm::EDGetTokenT<EcalRecHitCollection> EERecHitCollectionT_;
+      edm::EDGetTokenT<reco::TrackCollection> trackCollectionT_;
+      edm::EDGetTokenT<reco::VertexCollection> vertexCollectionT_;
+      edm::EDGetTokenT<reco::PFJetCollection> jetCollectionT_;
+      edm::EDGetTokenT<reco::GenParticleCollection> genParticleCollectionT_;
+      edm::EDGetTokenT<reco::JetTagCollection> jetTagCollectionT_;
+      edm::EDGetTokenT<std::vector<reco::CandIPTagInfo> >    ipTagInfoCollectionT_;
+      edm::EDGetTokenT<reco::GenJetCollection> genJetCollectionT_;
+      edm::EDGetTokenT<TrackingRecHitCollection> TRKRecHitCollectionT_;
+      edm::EDGetTokenT<edm::View<reco::Jet> > recoJetsT_;
+      edm::EDGetTokenT<EBDigiCollection>     EBDigiCollectionT_;
       
       static const int nPhotons = 2;
       
