@@ -20,8 +20,6 @@ void DetFrameProducer::fillEB ( const edm::Event& iEvent, const edm::EventSetup&
     if ( energy_ <= zs ) continue;
     // Get detector id and convert to histogram-friendly coordinates
     EBDetId ebId( iRHit->id() );
-    iphi_ = ebId.iphi() - 1;
-    ieta_ = ebId.ieta() > 0 ? ebId.ieta()-1 : ebId.ieta();
     
     // Get Hashed Index: provides convenient 
     // index mapping from [ieta][iphi] -> [idx]
