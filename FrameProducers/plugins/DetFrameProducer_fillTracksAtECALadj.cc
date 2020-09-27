@@ -238,9 +238,6 @@ void DetImgProducer::fillTracksAtECALadjustable ( const edm::Event& iEvent, cons
       if ( trackPt_ > hEvt_Adj_tracksPt_max[proj]->GetBinContent( phi_eta[0],phi_eta[1] ) ) {
         hEvt_Adj_tracksPt_max[proj]->SetBinContent( phi_eta[0],phi_eta[1], trackPt_ );
       }
-      
-      fillByBinNumber(hECALadj_tracks[proj], phi_eta, 1.0);
-      fillByBinNumber(hECALadj_tracksPt[proj], phi_eta, trackPt_);
     }
   } //tracks loop
   int index1d=0;
