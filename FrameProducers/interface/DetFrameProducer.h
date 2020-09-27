@@ -83,11 +83,11 @@ static const unsigned int Nproj = 5;
 static const unsigned int Nhitproj = 2;
 static const unsigned int Nadjproj = 2;
 
-class DetImgProducer : public edm::stream::EDProducer<> {
+class DetFrameProducer : public edm::stream::EDProducer<> {
    public:
       
-      explicit DetImgProducer(const edm::ParameterSet&);
-      ~DetImgProducer();
+      explicit DetFrameProducer(const edm::ParameterSet&);
+      ~DetFrameProducer();
       
       static void fillDescriptions(edm::ConfigurationDescriptions& descriptions);
 
