@@ -34,6 +34,10 @@ void fillTracksAtECAL_with_EEproj (std::vector<float>& vECAL_tracksPt_, TH2F *hE
 // Fill stitched EE-, EB, EE+ rechits ________________________________________________________//
 void DetFrameProducer::fillTracksAtECALstitched ( const edm::Event& iEvent, const edm::EventSetup& iSetup ) {
 
+  hEvt_EE_tracksPt[idx] = new TH2F(("evt_EE"+strIndex[idx]+"_tracksPt").c_str(), "E(i#phi,i#eta);i#phi;i#eta",
+				     EB_IPHI_MAX, -TMath::Pi(), TMath::Pi(),
+				     5*(HBHE_IETA_MAX_HE-1-HBHE_IETA_MAX_EB), binIndex[idx] );
+  
   int iphi_, ieta_, iz_, idx_;
   int ieta_global;
   int ieta_global_offset;
