@@ -33,7 +33,8 @@ void fillTracksAtECAL_with_EEproj (std::vector<float>& vECAL_tracksPt_, TH2F *hE
 
 // Fill stitched EE-, EB, EE+ rechits ________________________________________________________//
 void DetFrameProducer::fillTracksAtECALstitched ( const edm::Event& iEvent, const edm::EventSetup& iSetup ) {
-  
+  static const std::string strIndex[2] = {"m","p"};
+  static const double* binIndex[2] = {eta_bins_EEm, eta_bins_EEp};
   for(unsigned int idx = 0; idx < 2; ++idx){
   hEvt_EE_tracksPt[idx] = new TH2F(("evt_EE"+strIndex[idx]+"_tracksPt").c_str(), "E(i#phi,i#eta);i#phi;i#eta",
 				     EB_IPHI_MAX, -TMath::Pi(), TMath::Pi(),
