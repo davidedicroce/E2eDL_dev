@@ -17,16 +17,16 @@
 TH2F *hEvt_EE_energy[nEE];
 
 // Function to map EE(phi,eta) histograms to ECAL(iphi,ieta) vector _______________________________//
-void fillECAL_with_EEproj ( std::vector<float>& vECAL_energy_, TH2F *hEvt_EE_energy_, int ieta_global_offset, int ieta_signed_offset ) {
+void fillECAL_with_EEproj ( std::vector<float>& vECAL_energy_, TH2F *hEvt_EE_energy_, int ieta_global_offset ) {
   
-  int ieta_global_, ieta_signed_;
+  int ieta_global_;
   int ieta_, iphi_, idx_;
   float energy_;
 
   for (int ieta = 1; ieta < hEvt_EE_energy_->GetNbinsY()+1; ieta++) {
     ieta_ = ieta - 1;
     ieta_global_ = ieta_ + ieta_global_offset;
-    ieta_signed_ = ieta_ + ieta_signed_offset;
+    
     for (int iphi = 1; iphi < hEvt_EE_energy_->GetNbinsX()+1; iphi++) {
 
       energy_ = hEvt_EE_energy_->GetBinContent( iphi, ieta );
@@ -55,10 +55,10 @@ void DetFrameProducer::fillECALstitched ( const edm::Event& iEvent, const edm::E
       EB_IPHI_MAX, -TMath::Pi(), TMath::Pi(),
       5*(HBHE_IETA_MAX_HE-1-HBHE_IETA_MAX_EB), eta_bins_EEp );
   
-  int iphi_, ieta_, iz_, idx_;
-  int ieta_global, ieta_signed;
-  int ieta_global_offset, ieta_signed_offset;
-  float eta, phi, energy_;
+  int iphi_, ieta_, idx_;
+  int ieta_global;
+  int ieta_global_offset;
+  float energy_;
   GlobalPoint pos;
 
   vECAL_energy_.assign( 2*ECAL_IETA_MAX_EXT*EB_IPHI_MAX, 0. );
@@ -80,18 +80,15 @@ void DetFrameProducer::fillECALstitched ( const edm::Event& iEvent, const edm::E
     if ( energy_ <= zs ) continue;
     // Get detector id
     EEDetId eeId( iRHit->id() );
-    iz_ = ( eeId.zside() > 0 ) ? 1 : 0;
     // Get position of cell centers
     pos  = caloGeom->getPosition( eeId );
-    eta = pos.eta();
-    phi = pos.phi();
     
   } // EE+/-
 
   // Map EE-(phi,eta) to bottom part of ECAL(iphi,ieta)
   ieta_global_offset = 0;
-  ieta_signed_offset = -ECAL_IETA_MAX_EXT;
-  fillECAL_with_EEproj( vECAL_energy_, hEvt_EE_energy[0], ieta_global_offset, ieta_signed_offset );
+  
+  fillECAL_with_EEproj( vECAL_energy_, hEvt_EE_energy[0], ieta_global_offset );
 
   // Fill middle part of ECAL(iphi,ieta) with the EB rechits.
   ieta_global_offset = 55;
@@ -105,20 +102,17 @@ void DetFrameProducer::fillECALstitched ( const edm::Event& iEvent, const edm::E
     iphi_ = ebId.iphi() - 1;
     ieta_ = ebId.ieta() > 0 ? ebId.ieta()-1 : ebId.ieta();
     // Fill vector for image
-    ieta_signed = ieta_;
     ieta_global = ieta_ + EB_IETA_MAX + ieta_global_offset;
     idx_ = ieta_global*EB_IPHI_MAX + iphi_; 
     vECAL_energy_[idx_] = energy_;
 
     pos  = caloGeom->getPosition( ebId );
-    eta = pos.eta();
-    phi = pos.phi();
 
   } // EB
 
   // Map EE+(phi,eta) to upper part of ECAL(iphi,ieta)
   ieta_global_offset = ECAL_IETA_MAX_EXT + EB_IETA_MAX;
-  ieta_signed_offset = EB_IETA_MAX;
-  fillECAL_with_EEproj( vECAL_energy_, hEvt_EE_energy[1], ieta_global_offset, ieta_signed_offset );
+  
+  fillECAL_with_EEproj( vECAL_energy_, hEvt_EE_energy[1], ieta_global_offset);
 
 } // fillECALstitched()
