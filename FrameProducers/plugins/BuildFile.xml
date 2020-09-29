@@ -22,6 +22,7 @@
 <use name="DataFormats/PatCandidates"/>
 <use name="boost"/>
 <use name="E2eDL/DataFormats"/>
+<use name="E2eDL/FrameProducers"/>
 <use name="SimDataFormats/GeneratorProducts"/>
 <use name="Calibration/IsolatedParticles"/>
 <use name="DQM/HcalCommon"/>
