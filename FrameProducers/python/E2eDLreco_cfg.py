@@ -70,6 +70,7 @@ print (" >> Loaded",len(options.inputFiles),"input files from list.")
 
 #process.load("ProdTutorial.ProducerTest.DetImg_cfi")
 process.load("E2eDL.FrameProducers.DetFrameProducer_cfi")
+process.load("E2eDL.FrameProducers.DetFrameProducer_cfi")
 
 #process.out = cms.OutputModule("PoolOutputModule",
 #    fileName = cms.untracked.string('myOutputFile.root')
@@ -87,7 +88,7 @@ process.TFileService = cms.Service("TFileService",
     fileName = cms.string("myoutput.root")#options.outputFile
    )
 
-process.p = cms.Path(process.DetFrameProducer)
+process.p = cms.Path(process.DetFrameProducer + process.EGFrames)
 process.ep=cms.EndPath(process.out)
 process.Timing = cms.Service("Timing",
   summaryOnly = cms.untracked.bool(False),
