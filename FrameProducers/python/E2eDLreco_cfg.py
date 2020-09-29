@@ -41,6 +41,11 @@ options.parseArguments()
 process = cms.Process("Classifier")
 
 process.load("FWCore.MessageService.MessageLogger_cfi")
+process.MessageLogger = cms.Service("MessageLogger",
+                                     destinations   = cms.untracked.vstring('detailedInfo'),
+                                     detailedInfo   = cms.untracked.PSet(threshold  = cms.untracked.string('INFO'))
+                                   )
+                                    
 process.load("Configuration.StandardSequences.GeometryDB_cff")
 #process.load('Configuration.Geometry.GeometryRecoDB_cff')
 process.load("Configuration.StandardSequences.FrontierConditions_GlobalTag_cff")
