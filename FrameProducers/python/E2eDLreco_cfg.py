@@ -70,7 +70,7 @@ print (" >> Loaded",len(options.inputFiles),"input files from list.")
 
 #process.load("ProdTutorial.ProducerTest.DetImg_cfi")
 process.load("E2eDL.FrameProducers.DetFrameProducer_cfi")
-process.load("E2eDL.FrameProducers.DetFrameProducer_cfi")
+process.load("E2eDL.FrameProducers.EGFrameProducer_cfi")
 
 #process.out = cms.OutputModule("PoolOutputModule",
 #    fileName = cms.untracked.string('myOutputFile.root')
