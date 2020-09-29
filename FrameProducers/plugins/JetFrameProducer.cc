@@ -127,3 +127,6 @@ JetFrameProducer::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
   // Load required tokens into input collection handles
   
 }
+
+//define this as a plug-in
+DEFINE_FWK_MODULE(JetFrameProducer);
