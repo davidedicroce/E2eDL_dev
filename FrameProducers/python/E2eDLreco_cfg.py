@@ -12,6 +12,12 @@ options.register('processMode',
     mult=VarParsing.VarParsing.multiplicity.singleton,
     mytype=VarParsing.VarParsing.varType.string,
     info = "process mode: JetLevel or EventLevel")
+# Set doEBenergy to 1 to produce EGSeeds and EGFrames.
+options.register('doEBenergy',
+    default=False,
+    mult=VarParsing.VarParsing.multiplicity.singleton,
+    mytype=VarParsing.VarParsing.varType.bool,
+    info = "set doEBenergy")
 # Name of the EGInference model to be used for inference.
 options.register('EGModelName',
     default='e_vs_ph_model.pb',
