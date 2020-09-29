@@ -4,5 +4,5 @@ EGFrames = cms.EDProducer('EGFrameProducer'
     , photonCollection = cms.InputTag('gedPhotons')
     , reducedEBRecHitCollection = cms.InputTag('reducedEcalRecHitsEB')
     , doEBenergy = cms.bool(True)
-    , EBEnergy = cms.InputTag('ProducerFrames','EBenergy')
+    , EBEnergy = cms.InputTag('DetFrames','EBenergy')
     )
