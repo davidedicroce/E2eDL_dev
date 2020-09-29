@@ -88,7 +88,7 @@ process.TFileService = cms.Service("TFileService",
     fileName = cms.string("myoutput.root")#options.outputFile
    )
 
-process.p = cms.Path(process.DetFrameProducer + process.EGFrames)
+process.p = cms.Path(process.DetFrames + process.EGFrames)
 process.ep=cms.EndPath(process.out)
 process.Timing = cms.Service("Timing",
   summaryOnly = cms.untracked.bool(False),
