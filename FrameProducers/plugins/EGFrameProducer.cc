@@ -46,7 +46,8 @@ EGFrameProducer::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
                                         e2e::Frame3D(nFrameD,
                                         e2e::Frame2D(nFrameH,
                                         e2e::Frame1D(nFrameW, 0.))) );
-
+  
+  edm::LogInfo("EGFrameProducer") << " >> Number of photon seeds: "<<nPhos;
   //_____ Find seed coordinates of each photon and crop frame around it  _____//
 
   for ( unsigned int iP = 0; iP < hPhoton->size(); iP++ ) {
