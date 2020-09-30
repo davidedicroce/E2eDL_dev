@@ -123,15 +123,15 @@ class DetFrameProducer : public edm::stream::EDProducer<> {
       TProfile2D *hEB_energy;
       TProfile2D *hEB_time;
       //TProfile2D *hEB_frame;
-      std::vector<float> vEB_energy_;
-      std::vector<float> vEB_time_;
-      std::vector<float> vHBHE_energy_EB_;
-      std::vector<float> vHBHE_energy_;
-      std::vector<float> vECAL_energy_;
-      std::vector<float> vECAL_tracksPt_;
-      std::vector<float> vECALadj_tracksPt_[Nadjproj];
-      std::vector<float> vECALadj_tracks_[Nadjproj];
-      std::vector<float> vECALadj_tracksPt_max_[Nadjproj];
+      e2e::Frame1D vEB_energy_;
+      e2e::Frame1D vEB_time_;
+      e2e::Frame1D vHBHE_energy_EB_;
+      e2e::Frame1D vHBHE_energy_;
+      e2e::Frame1D vECAL_energy_;
+      e2e::Frame1D vECAL_tracksPt_;
+      e2e::Frame1D vECALadj_tracksPt_[Nadjproj];
+      e2e::Frame1D vECALadj_tracks_[Nadjproj];
+      e2e::Frame1D vECALadj_tracksPt_max_[Nadjproj];
       
       unsigned int nPho;
       
@@ -159,8 +159,8 @@ class DetFrameProducer : public edm::stream::EDProducer<> {
       int totalPhiBins[Nadjproj];// = granularityMultiPhi * granularityMultiECAL*HBHE_IPHI_NUM;
       std::vector<double> adjEtaBins[Nadjproj];
       
-      std::vector<float> vIphi_Emax_;
-      std::vector<float> vIeta_Emax_;
+      e2e::Frame1D vIphi_Emax_;
+      e2e::Frame1D vIeta_Emax_;
       
       std::vector<int> vPreselPhoIdxs_;
       int nTotal=0;
