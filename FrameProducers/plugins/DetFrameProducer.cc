@@ -46,14 +46,14 @@ DetFrameProducer::DetFrameProducer(const edm::ParameterSet& iConfig)
   }
   
   //produces<float>("photonClasses").setBranchAlias("PhotonClass");
- produces<std::vector<float>>("EBenergy");
- produces<std::vector<float>>("HBHEenergy");
- produces<std::vector<float>>("HBHEenergyEB");
- produces<std::vector<float>>("ECALstitchedenergy");
- produces<std::vector<float>>("TracksAtECALstitchedPt");
- produces<std::vector<float>>("TracksAtECALadjPt");
- produces<std::vector<float>>("TracksAtECALadj");
- produces<std::vector<float>>("TracksAtECALadjPtMax");
+ produces<e2e::Frame1D>("EBenergy");
+ produces<e2e::Frame1D>("HBHEenergy");
+ produces<e2e::Frame1D>("HBHEenergyEB");
+ produces<e2e::Frame1D>("ECALstitchedenergy");
+ produces<e2e::Frame1D>("TracksAtECALstitchedPt");
+ produces<e2e::Frame1D>("TracksAtECALadjPt");
+ produces<e2e::Frame1D>("TracksAtECALadj");
+ produces<e2e::Frame1D>("TracksAtECALadjPtMax");
 }
 
 DetFrameProducer::~DetFrameProducer()
@@ -77,28 +77,28 @@ DetFrameProducer::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
    
    //auto photon_classes = std::make_unique<float>(10.0);
    fillEB( iEvent, iSetup );
-   std::unique_ptr<std::vector<float>> EBenergy_edm (new std::vector<float>(vEB_energy_));
+   std::unique_ptr<e2e::Frame1D> EBenergy_edm (new e2e::Frame1D(vEB_energy_));
 	
    std::cout<<" >> Adding EB done "<<std::endl;
    std::cout<<" >> Size of EB Energy vector is: "<<std::move(EBenergy_edm).get()->size()<<std::endl;
    iEvent.put(std::move(EBenergy_edm),"EBenergy");
  
    fillHBHE (iEvent, iSetup );
-   std::unique_ptr<std::vector<float>> HBHEenergy_edm (new std::vector<float>(vHBHE_energy_));
-   std::unique_ptr<std::vector<float>> HBHEenergyEB_edm (new std::vector<float>(vHBHE_energy_EB_));
+   std::unique_ptr<e2e::Frame1D> HBHEenergy_edm (new e2e::Frame1D(vHBHE_energy_));
+   std::unique_ptr<e2e::Frame1D> HBHEenergyEB_edm (new e2e::Frame1D(vHBHE_energy_EB_));
    std::cout<<" >> Size of HBHE Energy vector is: "<<std::move(HBHEenergy_edm).get()->size()<<std::endl;
    std::cout<<" >> Size of EB HBHE Energy vector is: "<<std::move(HBHEenergyEB_edm).get()->size()<<std::endl;
    iEvent.put(std::move(HBHEenergy_edm),"HBHEenergy");
    iEvent.put(std::move(HBHEenergyEB_edm),"HBHEenergyEB");
    
    fillECALstitched (iEvent, iSetup);
-   std::unique_ptr<std::vector<float>> ECALstitched_energy_edm (new std::vector<float>(vECAL_energy_));
+   std::unique_ptr<e2e::Frame1D> ECALstitched_energy_edm (new e2e::Frame1D(vECAL_energy_));
    std::cout<<" >> Size of Stitched ECAL Energy vector is: "<<std::move(ECALstitched_energy_edm).get()->size()<<std::endl;
    iEvent.put(std::move(ECALstitched_energy_edm), "ECALstitchedenergy");
 
    
    fillTracksAtECALstitched (iEvent, iSetup );
-   std::unique_ptr<std::vector<float>> TracksECALstitchedPt_edm (new std::vector<float>(vECAL_tracksPt_));
+   std::unique_ptr<e2e::Frame1D> TracksECALstitchedPt_edm (new e2e::Frame1D(vECAL_tracksPt_));
    std::cout<<" >> Size of Pt Tracks vector at Stitched ECAL is: "<<std::move(TracksECALstitchedPt_edm).get()->size()<<std::endl;
    iEvent.put(std::move(TracksECALstitchedPt_edm), "TracksAtECALstitchedPt");
 	
@@ -111,13 +111,13 @@ DetFrameProducer::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
    std::cout<<" >> Number of TracksAtECALadj per event: "<<sizeof(vECALadj_tracksPt_)/sizeof(vECALadj_tracksPt_[0])<<std::endl;
    std::cout<<" >> Number of TracksAtECALadjPtMax per event: "<<sizeof(vECALadj_tracksPt_max_)/sizeof(vECALadj_tracksPt_max_[0])<<std::endl;
    std::cout<<" >> Sizes of TracksadjPt, Tracksadj and TracksadjPtMax are: "<<vECALadj_tracksPt_[0].size()<<", "<<vECALadj_tracks_[0].size()<<", "<<vECALadj_tracksPt_max_[0].size()<<std::endl;
-   std::unique_ptr<std::vector<float>> TracksECALadjPt_edm (new std::vector<float>(vECALadj_tracksPt_[0]));
+   std::unique_ptr<e2e::Frame1D> TracksECALadjPt_edm (new e2e::Frame1D(vECALadj_tracksPt_[0]));
    std::cout<<" >> Size of Pt Tracks vector at ECAL adjustable is : "<<std::move(TracksECALadjPt_edm).get()->size()<<std::endl;
    iEvent.put(std::move(TracksECALadjPt_edm),"TracksAtECALadjPt");
-   std::unique_ptr<std::vector<float>> TracksECALadj_edm (new std::vector<float>(vECALadj_tracks_[0]));
+   std::unique_ptr<e2e::Frame1D> TracksECALadj_edm (new e2e::Frame1D(vECALadj_tracks_[0]));
    std::cout<<" >> Size of Track vector at ECAL adjustable is : "<<std::move(TracksECALadj_edm).get()->size()<<std::endl;
    iEvent.put(std::move(TracksECALadj_edm),"TracksAtECALadj");
-   std::unique_ptr<std::vector<float>> TracksECALadjPt_max_edm (new std::vector<float>(vECALadj_tracksPt_max_[0]));
+   std::unique_ptr<e2e::Frame1D> TracksECALadjPt_max_edm (new e2e::Frame1D(vECALadj_tracksPt_max_[0]));
    std::cout<<" >> Size of max Pt Track vector at ECAL adjustable is : "<<std::move(TracksECALadjPt_max_edm).get()->size()<<std::endl;
    iEvent.put(std::move(TracksECALadjPt_max_edm),"TracksAtECALadjPtMax");
  
