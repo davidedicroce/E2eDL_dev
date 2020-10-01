@@ -112,7 +112,7 @@ JetFrameProducer::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
      	if(vJetSeeds[idx][0]>=0){vJetSeeds[idx][0]=int(vJetSeeds[idx][0]*5+2);}  //5 EB xtals per HB tower
 	if(vJetSeeds[idx][1]>=0){vJetSeeds[idx][1]=int(vJetSeeds[idx][1]*5+2);}  //5 EB xtals per HB tower
      }
-     std::unique_ptr<e2e::seed> JetSeeds_edm (new e2e::seed(vJetSeed_ieta_));
+     std::unique_ptr<e2e::seed> JetSeeds_edm (new e2e::seed(vJetSeeds));
      if (jetCollection_sel == "ak4"){
      	iEvent.put(std::move(JetSeeds_edm),"ak4JetSeeds");
      }
