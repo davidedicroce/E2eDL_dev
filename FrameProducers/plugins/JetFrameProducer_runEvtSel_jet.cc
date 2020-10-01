@@ -7,7 +7,7 @@ extern unsigned int jet_runId_;
 extern unsigned int jet_lumiId_;
 extern unsigned long long jet_eventId_;
 
-bool JetFrameProducer::runEvtSel_jet ( const edm::Event& iEvent, const edm::EventSetup& iSetup, std::vector<e2e::seed>& vJetSeeds ) {
+bool JetFrameProducer::runEvtSel_jet ( const edm::Event& iEvent, const edm::EventSetup& iSetup ) {
 
    edm::ESHandle<CaloGeometry> caloGeomH_;
    iSetup.get<CaloGeometryRecord>().get( caloGeomH_ );
