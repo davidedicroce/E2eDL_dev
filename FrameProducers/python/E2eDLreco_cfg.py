@@ -24,18 +24,12 @@ options.register('EGModelName',
     mult=VarParsing.VarParsing.multiplicity.singleton,
     mytype=VarParsing.VarParsing.varType.string,
     info = "EGInference Model name")
-# Name of the QGInference model to be used for inference.
-options.register('QGModelName',
+# Name of the JetInference model to be used for inference.
+options.register('JetsModelName',
     default='ResNet.pb',
     mult=VarParsing.VarParsing.multiplicity.singleton,
     mytype=VarParsing.VarParsing.varType.string,
-    info = "QGInference Model name")
-# Name of the TopInference model to be used for inference.
-options.register('TopQuarksModelName',
-    default='ResNet.pb',
-    mult=VarParsing.VarParsing.multiplicity.singleton,
-    mytype=VarParsing.VarParsing.varType.string,
-    info = "TopQuarks Inference Model name")
+    info = "Jets Inference Model name")
 options.parseArguments()
 
 process = cms.Process("Classifier")
@@ -76,6 +70,7 @@ print (" >> Loaded",len(options.inputFiles),"input files from list.")
 #process.load("ProdTutorial.ProducerTest.DetImg_cfi")
 process.load("E2eDL.FrameProducers.DetFrameProducer_cfi")
 process.load("E2eDL.FrameProducers.EGFrameProducer_cfi")
+process.load("E2eDL.FrameProducers.JetFrameProducer_cfi")
 
 #process.out = cms.OutputModule("PoolOutputModule",
 #    fileName = cms.untracked.string('myOutputFile.root')
@@ -93,7 +88,7 @@ process.TFileService = cms.Service("TFileService",
     fileName = cms.string("myoutput.root")#options.outputFile
    )
 
-process.p = cms.Path(process.DetFrames + process.EGFrames)
+process.p = cms.Path(process.DetFrames + process.EGFrames + process.JetFrames)
 process.ep=cms.EndPath(process.out)
 process.Timing = cms.Service("Timing",
   summaryOnly = cms.untracked.bool(False),
