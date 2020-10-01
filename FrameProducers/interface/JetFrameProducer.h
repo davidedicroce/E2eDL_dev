@@ -121,8 +121,7 @@ class JetFrameProducer : public edm::stream::EDProducer<> {
       
       void fillEvtSel_jet_dijet      ( const edm::Event&, const edm::EventSetup& );
       void fillEvtSel_jet_dijet_gg_qq( const edm::Event&, const edm::EventSetup& );
-      bool runEvtSel          ( const edm::Event&, const edm::EventSetup&, e2e::seed& );
-      bool runEvtSel_jet      ( const edm::Event&, const edm::EventSetup&, e2e::seed& );
+      bool runEvtSel_jet      ( const edm::Event&, const edm::EventSetup&, std::vector<e2e::seed>& );
       
       std::string modelName;
       typedef std::vector<reco::PFCandidate>  PFCollection;
