@@ -78,45 +78,23 @@ JetFrameProducer::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
   
   bool passedSelection = false;
   // Selecting Jet Seeds (ak8 / ak4) and storing them in edm root file.
-  if ( doJets_ ) {
-    edm::LogInfo("JetFrameProducer") << " >> doJets set";
-    passedSelection = runEventSel_jet( iEvent, iSetup );
-    std::cout<<" >> Number of Jets: "<<vJetSeeds.size()<<std::endl;
-    std::cout<<" >> The jet seeds are (ieta,iphi): ";
+  edm::LogInfo("JetFrameProducer") << " >> doJets set";
+  passedSelection = runEventSel_jet( iEvent, iSetup );
+  std::cout<<" >> Number of Jets: "<<vJetSeeds.size()<<std::endl;
+  std::cout<<" >> The jet seeds are (ieta,iphi): ";
     
-    for (int idx=0;idx<int(vJetSeeds.size());idx++){
+  for (int idx=0;idx<int(vJetSeeds.size());idx++){
 	std::cout<<"("<<vJetSeeds[idx][0]<<","<<vJetSeeds[idx][1]<<") ";
      	if(vJetSeeds[idx][0]>=0){vJetSeeds[idx][0]=int(vJetSeeds[idx][0]*5+2);}  //5 EB xtals per HB tower
 	if(vJetSeeds[idx][1]>=0){vJetSeeds[idx][1]=int(vJetSeeds[idx][1]*5+2);}  //5 EB xtals per HB tower
-     }
-     std::cout<<std::endl;
-     std::unique_ptr<e2e::seed> JetSeeds_edm (new e2e::seed(vJetSeeds));
-     if (jetCollection_sel == "ak4"){
-     	iEvent.put(std::move(JetSeeds_edm),"ak8JetSeeds");
-     }
-     else if (jetCollection_sel == "ak8"){
+   }
+   std::cout<<std::endl;
+   std::unique_ptr<e2e::seed> JetSeeds_edm (new e2e::seed(vJetSeeds));
+   if (jetCollection_sel == "ak4"){
+   	iEvent.put(std::move(JetSeeds_edm),"ak8JetSeeds");
+   }
+   else if (jetCollection_sel == "ak8"){
 	iEvent.put(std::move(JetSeeds_edm, "ak4JetSeeds");
-     }
-  } 
-  else {
-     edm::LogInfo("JetFrameProducer") << " >> doJets not set";
-     passedSelection = runEvtSel( iEvent, iSetup );
-     std::cout<<" >> Number of Jets: "<<vJetSeeds.size()<<std::endl;
-     std::cout<<" The jet seeds are (ieta,iphi): ";
-    
-     for (int idx=0;idx<int(vJetSeeds.size());idx++){
-	std::cout<<"("<<vJetSeeds[idx][0]<<","<<vJetSeeds[idx][1]<<") ";
-     	if(vJetSeeds[idx][0]>=0){vJetSeeds[idx][0]=int(vJetSeeds[idx][0]*5+2);}  //5 EB xtals per HB tower
-	if(vJetSeeds[idx][1]>=0){vJetSeeds[idx][1]=int(vJetSeeds[idx][1]*5+2);}  //5 EB xtals per HB tower
-     }
-     std::cout<<std::endl;
-     std::unique_ptr<e2e::seed> JetSeeds_edm (new e2e::seed(vJetSeeds));
-     if (jetCollection_sel == "ak4"){
-     	iEvent.put(std::move(JetSeeds_edm),"ak4JetSeeds");
-     }
-     else if (jetCollection_sel == "ak8"){
-	iEvent.put(std::move(JetSeeds_edm, "ak8JetSeeds");
-     }
    }
 
    edm::Handle<e2e::Frame1D> ECALstitched_energy_handle;
