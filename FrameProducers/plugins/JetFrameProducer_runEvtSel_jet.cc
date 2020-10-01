@@ -7,7 +7,7 @@ extern unsigned int jet_runId_;
 extern unsigned int jet_lumiId_;
 extern unsigned long long jet_eventId_;
 
-bool TopProducer::runEventSel_jet ( const edm::Event& iEvent, const edm::EventSetup& iSetup ) {
+bool JetFrameProducer::runEventSel_jet ( const edm::Event& iEvent, const edm::EventSetup& iSetup, e2e::seed& vJetSeeds ) {
 
    edm::ESHandle<CaloGeometry> caloGeomH_;
    iSetup.get<CaloGeometryRecord>().get( caloGeomH_ );
@@ -26,8 +26,6 @@ bool TopProducer::runEventSel_jet ( const edm::Event& iEvent, const edm::EventSe
    int nJet = 0;
    
    vFailedJetIdx_.clear();
-   vJetSeed_iphi_.clear();
-   vJetSeed_ieta_.clear();
    
    std::cout<<" >> Reading and selecting Jets from "<<jets->size()<<" jet seeds: "<<std::endl;
    for (unsigned iJ=0;iJ<jets->size();iJ++){
@@ -39,14 +37,10 @@ bool TopProducer::runEventSel_jet ( const edm::Event& iEvent, const edm::EventSe
 	// Jet selection criteria
     	if ( std::abs(iJet->pt())  < minJetPt_ ) {keepJet = false; 
 		std::cout<<"     * Selection failed at Jet index: "<<iJ<<" because abs(pt) < minJetPt_ --> pt: "<<std::abs(iJet->pt())<<" minJetPt_: "<<minJetPt_<<". Adding "<<iphi_<<" to JetSeediphi and "<<ieta_<<" JetSeedieta vectors."<<std::endl;
-		vJetSeed_iphi_.push_back( iphi_ );
-    		vJetSeed_ieta_.push_back( ieta_ );
     		nJet++;					 
 	}
     	else if ( std::abs(iJet->eta()) > maxJetEta_ ) {keepJet = false; 
 		std::cout<<"     * Selection failed at Jet index: "<<iJ<<" because abs(eta) > maxJetEta_ --> eta: "<<std::abs(iJet->eta())<<" maxJetEta_: "<<maxJetEta_<<". Adding "<<iphi_<<" to JetSeediphi and "<<ieta_<<" JetSeedieta vectors."<<std::endl;
-		vJetSeed_iphi_.push_back( iphi_ );
-    		vJetSeed_ieta_.push_back( ieta_ );
     		nJet++;					  
 	}
 	//std::cout<<" # keepJet: "<<keepJet<<" --> pt: "<<std::abs(iJet->pt())<<", eta: "<<std::abs(iJet->eta())<<", minJetPt: "<<minJetPt_<<", maxJetEta: "<<maxJetEta_<<std::endl;
@@ -114,8 +108,6 @@ bool TopProducer::runEventSel_jet ( const edm::Event& iEvent, const edm::EventSe
 	std::cout<<"     * Failed Jet seed at index: "<<iJ<<" seed is too close to the edge of HE. Adding -1 to JetSeediphi and JetSeedieta vectors."<<std::endl;
 	ieta_=-1;
 	iphi_=-1;
-	vJetSeed_iphi_.push_back( iphi_ );
-    	vJetSeed_ieta_.push_back( ieta_ );
     	nJet++;
       	continue;
     	}
@@ -123,8 +115,8 @@ bool TopProducer::runEventSel_jet ( const edm::Event& iEvent, const edm::EventSe
     	// in EB-aligned coordinates
     	if ( debug ) std::cout << " !! ieta_:" << ieta_ << " iphi_:" << iphi_ << " ietaAbs_:" << ietaAbs_ << " E:" << seedE << std::endl;
 	
-    	vJetSeed_iphi_.push_back( iphi_ );
-    	vJetSeed_ieta_.push_back( ieta_ );
+    	vJetSeeds[iJ][0] = ieta_;
+	vJetSeeds[iJ][1] = iphi_;
     	nJet++;}
    } // good jets	
   
