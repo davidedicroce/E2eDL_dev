@@ -67,12 +67,7 @@ JetFrameProducer::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
   edm::LogInfo("JetFrameProducer") << " >> Running JetFrameProducer...";
   
   nTotal++;
-  std::vector<e2e::pred>    vPhProbs ( nPhos, defaultVal );
-  std::vector<e2e::seed>    vJetSeeds ( nPhos, e2e::seed(nSeedCoords, int(defaultVal)) );
-  std::vector<e2e::Frame3D> vPhoFrames( nPhos,
-                                        e2e::Frame3D(nFrameD,
-                                        e2e::Frame2D(nFrameH,
-                                        e2e::Frame1D(nFrameW, 0.))) );
+  
   
   bool passedSelection = false;
   // Selecting Jet Seeds (ak8 / ak4) and storing them in edm root file.
