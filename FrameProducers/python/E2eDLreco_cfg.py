@@ -19,7 +19,7 @@ options.register('doEBenergy',
     mytype=VarParsing.VarParsing.varType.bool,
     info = "set doEBenergy")
 # Name of the jets to be used.
-options.register('jetCollection_sel',
+options.register('jetCollection',
     default='ak8',
     mult=VarParsing.VarParsing.multiplicity.singleton,
     mytype=VarParsing.VarParsing.varType.string,
