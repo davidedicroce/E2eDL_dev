@@ -81,7 +81,7 @@ bool TopProducer::runEvtSel ( const edm::Event& iEvent, const edm::EventSetup& i
   
   // Fill kinematic variables
   //h_nJet->Fill( nJet );
-  h_m0->Fill( m0 );
+  //h_m0->Fill( m0 );
   diPhoE_  = 0.;
   diPhoPt_ = 0.;
   float dphi[2] = {0., 0.};
@@ -103,7 +103,7 @@ bool TopProducer::runEvtSel ( const edm::Event& iEvent, const edm::EventSetup& i
     dphi[iP] = iPho->phi();
   }
   vFC_inputs_.push_back( TMath::Cos(reco::deltaPhi(dphi[0], dphi[1])) );
-// Write out event
+  // Write out event
   m0_ = m0;
   //nJet_ = nJet;
   eventId_ = iEvent.id().event();
