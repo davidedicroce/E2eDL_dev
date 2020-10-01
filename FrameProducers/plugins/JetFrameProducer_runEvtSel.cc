@@ -88,14 +88,6 @@ bool TopProducer::runEvtSel ( const edm::Event& iEvent, const edm::EventSetup& i
   vFC_inputs_.clear();
   for ( int iP = 0; iP < nPho; iP++ ) {
     reco::PhotonRef iPho( photons, vPhoIdxs[ptOrder[iP]] );
-    //pat::PhotonRef iPho( photons, vPhoIdxs[ptOrder[iP]] );
-    h_phoPt->Fill( iPho->pt() ); 
-    h_phoE->Fill( iPho->energy() );
-    h_phoEta->Fill( iPho->eta() ); 
-    h_phoR9->Fill( iPho->r9() ); 
-    h_phoSieie->Fill( iPho->full5x5_sigmaIetaIeta() ); 
-    //h_phoMva->Fill( iPho->pfMVA() ); 
-    //std::cout << iPho->pfMVA() << std::endl;
     diPhoE_  += std::abs( iPho->energy() );
     diPhoPt_ += std::abs( iPho->pt() );
     vFC_inputs_.push_back( iPho->pt()/m0 );
