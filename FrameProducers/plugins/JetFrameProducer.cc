@@ -72,7 +72,7 @@ JetFrameProducer::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
   bool passedSelection = false;
   // Selecting Jet Seeds (ak8 / ak4) and storing them in edm root file.
   edm::LogInfo("JetFrameProducer") << " >> doJets set";
-  passedSelection = runEventSel_jet( iEvent, iSetup );
+  passedSelection = runEvtSel_jet( iEvent, iSetup );
   std::cout<<" >> Number of Jets: "<<vJetSeeds.size()<<std::endl;
   std::cout<<" >> The jet seeds are (ieta,iphi): ";
     
