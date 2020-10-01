@@ -18,6 +18,12 @@ options.register('doEBenergy',
     mult=VarParsing.VarParsing.multiplicity.singleton,
     mytype=VarParsing.VarParsing.varType.bool,
     info = "set doEBenergy")
+# Name of the jets to be used.
+options.register('jetCollection_sel',
+    default='ak8',
+    mult=VarParsing.VarParsing.multiplicity.singleton,
+    mytype=VarParsing.VarParsing.varType.string,
+    info = "Jets: ak4/ak8")
 # Name of the EGInference model to be used for inference.
 options.register('EGModelName',
     default='e_vs_ph_model.pb',
