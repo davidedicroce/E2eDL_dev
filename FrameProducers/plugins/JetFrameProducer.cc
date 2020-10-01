@@ -36,7 +36,7 @@ JetFrameProducer::JetFrameProducer(const edm::ParameterSet& iConfig)
   minJetPt_  = iConfig.getParameter<double>("minJetPt");
   maxJetEta_ = iConfig.getParameter<double>("maxJetEta");
   z0PVCut_   = iConfig.getParameter<double>("z0PVCut");
-  modelName = iConfig.getParameter<std::string>("QGModelName");
+
   std::cout << " >> Mode set to " << mode_ << std::endl;	
   if ( mode_ == "JetLevel" ) {
      doJets_ = true;
@@ -50,12 +50,12 @@ JetFrameProducer::JetFrameProducer(const edm::ParameterSet& iConfig)
   }
   
   // Output collections to be produced
-  produces<e2e::PhoSeedCollection>   ("QGTracksAtECALstitchedJetCollectionPtSeeds");
-  produces<e2e::PhoFrame3DCollection>("QGtracksAtECALstitchedJetCollectionPtFrames");
-  produces<e2e::PhoSeedCollection>   ("QGECALStitchedJetCollectionSeeds");
-  produces<e2e::PhoFrame3DCollection>("QGECALStitchedJetCollectionFrames");
-  produces<e2e::PhoSeedCollection>   ("QGHBHEJetCollectionSeeds");
-  produces<e2e::PhoFrame3DCollection>("QGHBHEJetCollectionFrames");
+  produces<e2e::PhoSeedCollection>   ("TracksAtECALstitchedJetCollectionPtSeeds");
+  produces<e2e::PhoFrame3DCollection>("TracksAtECALstitchedJetCollectionPtFrames");
+  produces<e2e::PhoSeedCollection>   ("ECALStitchedJetCollectionSeeds");
+  produces<e2e::PhoFrame3DCollection>("ECALStitchedJetCollectionFrames");
+  produces<e2e::PhoSeedCollection>   ("HBHEJetCollectionSeeds");
+  produces<e2e::PhoFrame3DCollection>("HBHEJetCollectionFrames");
 }
 
 JetFrameProducer::~JetFrameProducer()
