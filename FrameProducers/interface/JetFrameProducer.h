@@ -110,6 +110,14 @@ class JetFrameProducer : public edm::stream::EDProducer<> {
       edm::EDGetTokenT<EBDigiCollection>     EBDigiCollectionT_;
       
       static const int nPhotons = 2;
+   
+      // Output collections to be produced and values stored in them
+      std::unique_ptr<e2e::PhoPredCollection>    cPhoProbs;
+      std::unique_ptr<e2e::PhoSeedCollection>    cJetSeeds;
+      std::unique_ptr<e2e::PhoFrame3DCollection> cPhoFrames;
+      std::vector<e2e::pred>    vPhoProbs;
+      std::vector<e2e::seed>    vJetSeeds;
+      std::vector<e2e::Frame3D> vPhoFrames;
       
       void fillEvtSel_jet_dijet      ( const edm::Event&, const edm::EventSetup& );
       void fillEvtSel_jet_dijet_gg_qq( const edm::Event&, const edm::EventSetup& );
