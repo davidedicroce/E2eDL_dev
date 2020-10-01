@@ -73,11 +73,11 @@ using reco::PhotonRef;
 static const float defaultVal = -1.;        // default value to fill for invalid objects
 static const unsigned int nSeedCoords = 2;  // no. of elements to specify frame seed coordinates
 
-class TopProducer : public edm::stream::EDProducer<> {
+class JetFrameProducer : public edm::stream::EDProducer<> {
    public:
       
-      explicit TopProducer(const edm::ParameterSet&);
-      ~TopProducer();
+      explicit JetFrameProducer(const edm::ParameterSet&);
+      ~JetFrameProducer();
       
       static void fillDescriptions(edm::ConfigurationDescriptions& descriptions);
 
