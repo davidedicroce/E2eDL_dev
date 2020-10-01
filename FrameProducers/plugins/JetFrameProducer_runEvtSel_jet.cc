@@ -2,7 +2,7 @@
 
 const int search_window = 7;
 const int image_padding = 12;
-extern vector<int>   vFailedJetIdx_;
+vector<int>   vFailedJetIdx_;
 extern unsigned int jet_runId_;
 extern unsigned int jet_lumiId_;
 extern unsigned long long jet_eventId_;
