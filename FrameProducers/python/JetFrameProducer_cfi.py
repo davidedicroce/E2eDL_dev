@@ -1,6 +1,6 @@
 import FWCore.ParameterSet.Config as cms 
 
-JetInference = cms.EDProducer('JetFrameProducer'
+JetFrames = cms.EDProducer('JetFrameProducer'
     #, tracks = cms.untracked.InputTag('ctfWithMaterialTracks')
     #, EBRecHitCollection = cms.InputTag('ecalRecHit:EcalRecHitsEB')
     , reducedEBRecHitCollection = cms.InputTag('reducedEcalRecHitsEB')
@@ -52,5 +52,4 @@ JetInference = cms.EDProducer('JetFrameProducer'
     , isTTbar = cms.bool(True)
     , minTopPt = cms.double(200.)
     , maxTopEta = cms.double(2.4)
-    , JetsModelName = cms.string("ResNet.pb")
     )
