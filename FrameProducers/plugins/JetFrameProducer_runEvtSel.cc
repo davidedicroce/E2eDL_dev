@@ -80,8 +80,6 @@ bool TopProducer::runEvtSel ( const edm::Event& iEvent, const edm::EventSetup& i
   }
   
   // Fill kinematic variables
-  //h_nJet->Fill( nJet );
-  //h_m0->Fill( m0 );
   diPhoE_  = 0.;
   diPhoPt_ = 0.;
   float dphi[2] = {0., 0.};
