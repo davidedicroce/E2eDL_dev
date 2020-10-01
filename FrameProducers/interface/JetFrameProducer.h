@@ -61,11 +61,17 @@
 #include "TRandom.h"
 #include "TSystem.h"
 
+#include "E2eDL/FrameProducers/interface/DetFrameProducer.h"
+#include "E2eDL/DataFormats/interface/FrameCollections.h"
+
 #include <iostream>
 using namespace std;
 using namespace edm;
 using reco::PhotonCollection;
 using reco::PhotonRef;
+
+static const float defaultVal = -1.;        // default value to fill for invalid objects
+static const unsigned int nSeedCoords = 2;  // no. of elements to specify frame seed coordinates
 
 class TopProducer : public edm::stream::EDProducer<> {
    public:
@@ -89,10 +95,10 @@ class TopProducer : public edm::stream::EDProducer<> {
       edm::EDGetTokenT<PhotonCollection> photonCollectionT_;
       edm::EDGetTokenT<EcalRecHitCollection> EBRecHitCollectionT_;
       edm::EDGetTokenT<HBHERecHitCollection> HBHERecHitCollectionT_;
-      edm::EDGetTokenT<std::vector<float>> ECALstitched_energy_token;
-      edm::EDGetTokenT<std::vector<float>> TracksAtECALstitchedPt_token;
-      edm::EDGetTokenT<std::vector<float>> TracksAtECALadjPt_token;
-      edm::EDGetTokenT<std::vector<float>> HBHEenergy_token;
+      edm::EDGetTokenT<e2e::Frame1D> ECALstitched_energy_token;
+      edm::EDGetTokenT<e2e::Frame1D> TracksAtECALstitchedPt_token;
+      edm::EDGetTokenT<e2e::Frame1D> TracksAtECALadjPt_token;
+      edm::EDGetTokenT<e2e::Frame1D> HBHEenergy_token;
       edm::EDGetTokenT<reco::VertexCollection> vertexCollectionT_;
       edm::EDGetTokenT<reco::PFJetCollection> jetCollectionT_;
       edm::EDGetTokenT<reco::GenParticleCollection> genParticleCollectionT_;
@@ -105,28 +111,17 @@ class TopProducer : public edm::stream::EDProducer<> {
       
       static const int nPhotons = 2;
       
-      bool runEvtSel_jet_dijet      ( const edm::Event&, const edm::EventSetup& );
-      bool runEvtSel_jet_dijet_gg_qq( const edm::Event&, const edm::EventSetup& );
       void fillEvtSel_jet_dijet      ( const edm::Event&, const edm::EventSetup& );
       void fillEvtSel_jet_dijet_gg_qq( const edm::Event&, const edm::EventSetup& );
-      bool runEvtSel          ( const edm::Event&, const edm::EventSetup& );
-      bool runEventSel_jet       ( const edm::Event&, const edm::EventSetup& );
-      bool runEvtSel_jet      ( const edm::Event&, const edm::EventSetup& );
+      bool runEvtSel          ( const edm::Event&, const edm::EventSetup&, e2e::seed& );
+      bool runEvtSel_jet      ( const edm::Event&, const edm::EventSetup&, e2e::seed& );
       
       std::string modelName;
       typedef std::vector<reco::PFCandidate>  PFCollection;
       edm::EDGetTokenT<PFCollection> pfCollectionT_;
       
-      std::vector<std::vector<float>> vHBHEenergy_frame;
-      std::vector<std::vector<float>> vECALstitched_frame;
-      std::vector<std::vector<float>> vTracksAtECALstitchedPt_frame;
-      std::vector<std::vector<float>> vTracksAtECALadjPt_frame;
-      
-      vector<int> vJetSeed_iphi_;
-      vector<int> vJetSeed_ieta_;
       std::vector<float> vSC_eta_;
       std::vector<float> vSC_phi_;
-      const std::vector<float> vpredictions= {-1};
       unsigned int nPho;
       
       std::string mode_;  // EventLevel / JetLevel
@@ -142,9 +137,6 @@ class TopProducer : public edm::stream::EDProducer<> {
       const reco::Track* getTrackCand(edm::Handle<reco::TrackCollection> trackCands, float eta, float phi, float& minDr, bool debug = false);
       int   getTruthLabel(const reco::PFJetRef& recJet, edm::Handle<reco::GenParticleCollection> genParticles, float dRMatch = 0.4, bool debug = false);
       float getBTaggingValue(const reco::PFJetRef& recJet, edm::Handle<edm::View<reco::Jet> >& recoJetCollection, edm::Handle<reco::JetTagCollection>& btagCollection, float dRMatch = 0.1, bool debug= false );
-      
-      typedef edm::SortedCollection<framePredCollection> qgJetCollection;
-      typedef edm::SortedCollection<framePredCollection> topqJetCollection;
       
       int nTotal, nPassed;
 };
