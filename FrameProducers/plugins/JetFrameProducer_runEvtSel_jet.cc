@@ -24,7 +24,7 @@ bool JetFrameProducer::runEvtSel_jet ( const edm::Event& iEvent, const edm::Even
    float seedE;
    int iphi_, ieta_, ietaAbs_;
    int nJet = 0;
-   
+   std::vector<e2e::seed>    vJetSeeds ( jets->size(), e2e::seed(nSeedCoords, int(defaultVal)) );
    vFailedJetIdx_.clear();
    
    std::cout<<" >> Reading and selecting Jets from "<<jets->size()<<" jet seeds: "<<std::endl;
