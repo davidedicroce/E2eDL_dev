@@ -50,11 +50,9 @@ JetFrameProducer::JetFrameProducer(const edm::ParameterSet& iConfig)
   }
   
   // Output collections to be produced
-  produces<e2e::PhoSeedCollection>   ("TracksAtECALstitchedJetCollectionPtSeeds");
+  produces<e2e::PhoSeedCollection>   ("JetSeeds");
   produces<e2e::PhoFrame3DCollection>("TracksAtECALstitchedJetCollectionPtFrames");
-  produces<e2e::PhoSeedCollection>   ("ECALStitchedJetCollectionSeeds");
   produces<e2e::PhoFrame3DCollection>("ECALStitchedJetCollectionFrames");
-  produces<e2e::PhoSeedCollection>   ("HBHEJetCollectionSeeds");
   produces<e2e::PhoFrame3DCollection>("HBHEJetCollectionFrames");
 }
 
@@ -97,6 +95,7 @@ JetFrameProducer::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
 	iEvent.put(std::move(JetSeeds_edm, "ak4JetSeeds");
    }
 
+   
    edm::Handle<e2e::Frame1D> ECALstitched_energy_handle;
    iEvent.getByToken(ECALstitched_energy_token, ECALstitched_energy_handle);
    edm::Handle<e2e::Frame1D> TracksAtECALstitchedPt_handle;
@@ -109,6 +108,14 @@ JetFrameProducer::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
    iEvent.getByToken(HBHEenergy_token, HBHEenergy_handle);
    // Load required tokens into input collection handles
   
+   // Set association between photon ref (key) and products to be stored (val)
+   for ( unsigned int iJ = 0; iJ < vJetSeeds->size(); iJ++ ) {
+     cJetSeeds->setValue ( iJ, vJetSeeds[iJ]  );
+   } // photons
+
+   // Put collections into output EDM file
+   iEvent.put( std::move(cJetSeeds),  "JetSeeds"  ); 
+
    return;
 }
 
