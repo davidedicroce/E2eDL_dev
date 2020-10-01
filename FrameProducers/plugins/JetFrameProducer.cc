@@ -82,14 +82,6 @@ JetFrameProducer::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
 	if(vJetSeeds[idx][1]>=0){vJetSeeds[idx][1]=int(vJetSeeds[idx][1]*5+2);}  //5 EB xtals per HB tower
    }
    std::cout<<std::endl;
-   std::unique_ptr<e2e::seed> JetSeeds_edm (new e2e::seed(vJetSeeds));
-   if (jetCollection_sel == "ak4"){
-   	iEvent.put(std::move(JetSeeds_edm),"ak8JetSeeds");
-   }
-   else if (jetCollection_sel == "ak8"){
-	iEvent.put(std::move(JetSeeds_edm, "ak4JetSeeds");
-   }
-
    
    edm::Handle<e2e::Frame1D> ECALstitched_energy_handle;
    iEvent.getByToken(ECALstitched_energy_token, ECALstitched_energy_handle);
@@ -102,12 +94,8 @@ JetFrameProducer::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
    edm::Handle<std::vector<float>> HBHEenergy_handle;
    iEvent.getByToken(HBHEenergy_token, HBHEenergy_handle);
    // Load required tokens into input collection handles
-  
-   // Set association between photon ref (key) and products to be stored (val)
-   for ( unsigned int iJ = 0; iJ < vJetSeeds->size(); iJ++ ) {
-     cJetSeeds->setValue ( iJ, vJetSeeds[iJ]  );
-   } // photons
-
+   std::unique_ptr<e2e::Frame2D> cJetSeeds (new e2e::Frame2D(vJetSeeds));
+   
    // Put collections into output EDM file
    iEvent.put( std::move(cJetSeeds),  "JetSeeds"  ); 
 
