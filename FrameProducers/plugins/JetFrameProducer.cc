@@ -1,4 +1,4 @@
-#include "E2eDL/FrameProducers/plugins/JetFrameProducer.h"
+#include "E2eDL/FrameProducers/interface/JetFrameProducer.h"
 
 JetFrameProducer::JetFrameProducer(const edm::ParameterSet& iConfig)
 {
