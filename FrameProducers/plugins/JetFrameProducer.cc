@@ -51,7 +51,7 @@ JetFrameProducer::JetFrameProducer(const edm::ParameterSet& iConfig)
   
   // Output collections to be produced
   produces<e2e::Frame2D>   ("JetSeeds");
-  produces<e2e::Frame4D> ("HBHEFrames")
+  produces<e2e::Frame4D> ("HBHEFrames");
   produces<e2e::Frame4D>("ECALstitchedFrames");
   produces<e2e::Frame4D>("TracksAtECALstitchedPtFrames");
   if (jetCollection_sel == "ak8") produces<e2e::Frame4D>("TracksAtECALadjPtFrames");
@@ -101,7 +101,7 @@ JetFrameProducer::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
    iEvent.put( std::move(cJetSeeds),  "JetSeeds"  ); 
 
    //Setting frame depth to 1 	
-   nFrameD = 1;
+   const unsigned int nFrameD = 1;
    std::vector<e2e::Frame3D> vECALstitchedFrames( vJetSeeds.size(),
                                         	  e2e::Frame3D(nFrameD,
                                        	  	  e2e::Frame2D(nFrameH,
@@ -119,6 +119,7 @@ JetFrameProducer::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
    	std::cout<<"Generating stitched and adjustable ECAL frames and their track frames from the jet seed "<<idx+1<<"/"<<vJetSeed_ieta_.size()<<" with seed value: ("<<vJetSeed_ieta_[idx]<<","<<vJetSeed_iphi_[idx]<<")"<<std::endl;
    	if(vJetSeed_ieta_[idx]>=0) {
    		// Producing cropped frames.
+		vJetSeeds_ = new e2e::seed (vJetSeeds[idx]);
     		getFrame(vECALstitchedFrames[idx][0], vJetSeed_ieta_[idx], vJetSeed_iphi_[idx], nDetImgH, nDetImgW, *ECALstitched_energy_handle); 
     		getFrame(vTracksAtECALstitchedPtFrames[idx][0], vJetSeed_ieta_[idx], vJetSeed_iphi_[idx] , nDetImgH, nDetImgW, *TracksAtECALstitchedPt_handle);
     		if (jetCollection_sel == "ak8") getFrame(vTracksAtECALadjPtFrames[idx][0], vJetSeed_ieta_[idx], vJetSeed_iphi_[idx], nDetImgH, nDetImgW, TracksAtECALadjPt_handle);
