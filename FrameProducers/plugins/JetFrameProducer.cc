@@ -94,6 +94,10 @@ JetFrameProducer::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
    edm::Handle<std::vector<float>> HBHEenergy_handle;
    iEvent.getByToken(HBHEenergy_token, HBHEenergy_handle);
 	
+   e2e::Frame1D* vECALstitchedptr = *ECALstitched_energy_handle;
+   e2e::Frame1D* vTracksAtECALstitchedPtptr = *TracksAtECALstitchedPt_handle;
+   e2e::Frame1D* vTracksAtECALadjPtptr = *TracksAtECALadjPt_handle;
+	
    // Put collections into output EDM file
    std::unique_ptr<e2e::Frame2D> cJetSeeds (new e2e::Frame2D(vJetSeeds));
    iEvent.put( std::move(cJetSeeds),  "JetSeeds"  ); 
@@ -120,9 +124,9 @@ JetFrameProducer::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
 		e2e::seed vJetSeed_ = {-1,-1};
 		vJetSeed_[0] = vJetSeeds[idx][0];
 		vJetSeed_[1] = vJetSeeds[idx][1];
-    		e2e::getFrame(vECALstitchedFrames[idx][0], vJetSeed_, ECALstitched_energy_handle, nDetImgH, nDetImgW); 
-    		e2e::getFrame(vTracksAtECALstitchedPtFrames[idx][0], vJetSeed_, TracksAtECALstitchedPt_handle, nDetImgH, nDetImgW);
-    		if (jetCollection_sel == "ak8") e2e::getFrame(vTracksAtECALadjPtFrames[idx][0], vJetSeed_, TracksAtECALadjPt_handle, nDetImgH, nDetImgW);
+    		e2e::getFrame(vECALstitchedFrames[idx][0], vJetSeed_, vECALstitchedptr, nDetImgH, nDetImgW); 
+    		e2e::getFrame(vTracksAtECALstitchedPtFrames[idx][0], vJetSeed_, vTracksAtECALstitchedPtptr, nDetImgH, nDetImgW);
+    		if (jetCollection_sel == "ak8") e2e::getFrame(vTracksAtECALadjPtFrames[idx][0], vJetSeed_, vTracksAtECALadjPtptr, nDetImgH, nDetImgW);
     		
     		// running inference on the cropped frames
     		//vECALstitchedClass = predict_tf(vECALstitched_frame, modelName, "inputs","outputs");
