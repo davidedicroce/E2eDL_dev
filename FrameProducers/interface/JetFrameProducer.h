@@ -72,8 +72,10 @@ using reco::PhotonRef;
 
 static const float defaultVal = -1.;        // default value to fill for invalid objects
 static const unsigned int nSeedCoords = 2;  // no. of elements to specify frame seed coordinates
-const unsigned int nFrameH = 32;            // frame height in no. of pixels
-const unsigned int nFrameW = 32;            // frame width in no. of pixel
+const unsigned int nFrameH = 125;            // frame height in no. of pixels
+const unsigned int nFrameW = 125;            // frame width in no. of pixel
+const unsigned int nDetImgH = 280;            // frame height in no. of pixels
+const unsigned int nDetImgW = 360;            // frame width in no. of pixel
 
 class JetFrameProducer : public edm::stream::EDProducer<> {
    public:
