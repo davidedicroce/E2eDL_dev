@@ -89,7 +89,7 @@ JetFrameProducer::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
    edm::Handle<e2e::Frame1D> TracksAtECALstitchedPt_handle;
    iEvent.getByToken(TracksAtECALstitchedPt_token, TracksAtECALstitchedPt_handle);
    if (jetCollection_sel == "ak8"){
-   edm::Handle<e2e::Frame1D> TracksAtECALadjPt_handle;
+   	edm::Handle<e2e::Frame1D> TracksAtECALadjPt_handle;
    	iEvent.getByToken(TracksAtECALadjPt_token, TracksAtECALadjPt_handle);
    }
    edm::Handle<std::vector<float>> HBHEenergy_handle;
