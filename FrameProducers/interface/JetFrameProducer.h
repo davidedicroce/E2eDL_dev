@@ -116,12 +116,19 @@ class JetFrameProducer : public edm::stream::EDProducer<> {
       static const int nPhotons = 2;
    
       // Output collections to be produced and values stored in them
-      std::unique_ptr<e2e::PhoPredCollection>    cPhoProbs;
-      std::unique_ptr<e2e::PhoSeedCollection>    cJetSeeds;
-      std::unique_ptr<e2e::PhoFrame3DCollection> cPhoFrames;
-      std::vector<e2e::pred>    vPhoProbs;
       e2e::Frame2D    vJetSeeds;
-      std::vector<e2e::Frame3D> vPhoFrames;
+      std::vector<e2e::Frame3D> vECALstitchedFrames( vJetSeeds.size(),
+                                        	  e2e::Frame3D(nFrameD,
+                                       	  e2e::Frame2D(nFrameH,
+                                        	  e2e::Frame1D(nFrameW, 0.))) );
+      std::vector<e2e::Frame3D> vTracksAtECALstitchedPtFrames( vJetSeeds.size(),
+                                        		    e2e::Frame3D(nFrameD,
+                                        		    e2e::Frame2D(nFrameH,
+                                       		    e2e::Frame1D(nFrameW, 0.))) );
+      std::vector<e2e::Frame3D> vTracksAtECALadjPtFrames( vJetSeeds.size(),
+                                        					  e2e::Frame3D(nFrameD,
+                                         					  e2e::Frame2D(nFrameH,
+                                        					  e2e::Frame1D(nFrameW, 0.))) );
       
       void fillEvtSel_jet_dijet      ( const edm::Event&, const edm::EventSetup& );
       void fillEvtSel_jet_dijet_gg_qq( const edm::Event&, const edm::EventSetup& );
