@@ -115,14 +115,14 @@ JetFrameProducer::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
 	
    for (int idx=0;idx<int(vJetSeeds.size());idx++){
    	std::cout<<"Generating stitched and adjustable ECAL frames and their track frames from the jet seed "<<idx+1<<"/"<<vJetSeeds.size()<<" with seed value: ("<<vJetSeeds[idx][0]<<","<<vJetSeeds[idx][1]<<")"<<std::endl;
-   	if(vJetSeed_ieta_[idx]>=0) {
+   	if(vJetSeeds[idx][0]>=0) {
    		// Producing cropped frames.
 		e2e::seed vJetSeed_ = {-1,-1};
 		vJetSeed_[0] = vJetSeeds[idx][0];
 		vJetSeed_[1] = vJetSeeds[idx][1];
-    		e2e::getFrame(vECALstitchedFrames[idx][0], vJetSeed_, *ECALstitched_energy_handle, nDetImgH, nDetImgW); 
-    		e2e::getFrame(vTracksAtECALstitchedPtFrames[idx][0], vJetSeed_, *TracksAtECALstitchedPt_handle, nDetImgH, nDetImgW);
-    		if (jetCollection_sel == "ak8") e2e::getFrame(vTracksAtECALadjPtFrames[idx][0], vJetSeed_, *TracksAtECALadjPt_handle, nDetImgH, nDetImgW);
+    		e2e::getFrame(vECALstitchedFrames[idx][0], vJetSeed_, ECALstitched_energy_handle, nDetImgH, nDetImgW); 
+    		e2e::getFrame(vTracksAtECALstitchedPtFrames[idx][0], vJetSeed_, TracksAtECALstitchedPt_handle, nDetImgH, nDetImgW);
+    		if (jetCollection_sel == "ak8") e2e::getFrame(vTracksAtECALadjPtFrames[idx][0], vJetSeed_, TracksAtECALadjPt_handle, nDetImgH, nDetImgW);
     		
     		// running inference on the cropped frames
     		//vECALstitchedClass = predict_tf(vECALstitched_frame, modelName, "inputs","outputs");
