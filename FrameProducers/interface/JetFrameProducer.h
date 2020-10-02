@@ -63,6 +63,7 @@
 
 #include "E2eDL/FrameProducers/interface/DetFrameProducer.h"
 #include "E2eDL/DataFormats/interface/FrameCollections.h"
+#include "E2eDL/FrameProducers/interface/FrameCropping.h"
 
 #include <iostream>
 using namespace std;
