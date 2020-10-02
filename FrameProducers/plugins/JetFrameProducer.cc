@@ -99,7 +99,7 @@ JetFrameProducer::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
    e2e::Frame1D vTracksAtECALadjPt = *TracksAtECALadjPt_handle;
    e2e::Frame1D* vECALstitchedptr = &vECALstitched;
    e2e::Frame1D* vTracksAtECALstitchedPtptr = &vTracksAtECALstitchedPt;
-   e2e::Frame1D vTracksAtECALadjPtptr = &vTracksAtECALadjPt;
+   e2e::Frame1D* vTracksAtECALadjPtptr = &vTracksAtECALadjPt;
 	
    // Put collections into output EDM file
    std::unique_ptr<e2e::Frame2D> cJetSeeds (new e2e::Frame2D(vJetSeeds));
