@@ -52,4 +52,5 @@ JetFrames = cms.EDProducer('JetFrameProducer'
     , isTTbar = cms.bool(True)
     , minTopPt = cms.double(200.)
     , maxTopEta = cms.double(2.4)
+    , jetCollection = cms.string('ak8')
     )
