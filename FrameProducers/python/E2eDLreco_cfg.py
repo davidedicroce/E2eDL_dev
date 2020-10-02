@@ -77,7 +77,7 @@ print (" >> Loaded",len(options.inputFiles),"input files from list.")
 process.load("E2eDL.FrameProducers.DetFrameProducer_cfi")
 process.load("E2eDL.FrameProducers.EGFrameProducer_cfi")
 process.load("E2eDL.FrameProducers.JetFrameProducer_cfi")
-
+process.JetFrameProducer.jetCollection = options.jetCollection
 #process.out = cms.OutputModule("PoolOutputModule",
 #    fileName = cms.untracked.string('myOutputFile.root')
 #    ,outputCommands = cms.untracked.vstring('drop *',
