@@ -49,5 +49,9 @@
   <class name="std::vector<std::pair<edm::Ref<std::vector<reco::Photon>,reco::Photon,edm::refhelper::FindUsingAdvance<std::vector<reco::Photon>,reco::Photon> >,e2e::Frame3D > >"/>
   <class name="edm::Wrapper<e2e::Frame3D>"/>
   <class name="edm::Wrapper<e2e::PhoFrame3DCollection>"/>
+  
+  <!--typedef e2e::Frame4D-->
+  <class name="e2e::Frame4D"/>
+  <class name="edm::Wrapper<e2e::Frame4D>"/>
 
 </lcgdict>
