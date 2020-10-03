@@ -12,11 +12,11 @@ e2e::Frame2D e2e::predict_tf(e2e::Frame4D& vinputFrame, string model_filename, s
  std::cout<<" >> Running Inference."<<endl;
  int batch_sz = vinputFrame.size();
  if (batch_sz>0){ 
-  int frame_height = vinputFrame[0].size();
-  if (frame_height>0){
-   int frame_width = vinputFrame[0][0].size();
-   if (frame_width>0){
-    int no_channels = vinputFrame[0][0][0].size();
+  int no_channels = vinputFrame[0].size();
+  if (no_channels>0){
+   int frame_height = vinputFrame[0][0].size();
+   if (frame_height>0){
+    int frame_width = vinputFrame[0][0][0].size();
     //TF_CHECK_OK(ReadBinaryProto(Env::Default(), graph_definition, &graph_def));
     // load the graph definition, i.e. an object that contains the computational graph
     tensorflow::GraphDef* graphDef = tensorflow::loadGraphDef(graph_definition);
@@ -69,18 +69,18 @@ e2e::Frame2D e2e::predict_tf(e2e::Frame4D& vinputFrame, string model_filename, s
     std::cout<<" >> Classification done"<<endl;}}
    }
    else{
-    std::cout<<"* Shape Error: Invalid dimension. Expected format: (N, D, H, W)"<<std::endl;
+    std::cout<<"* Shape Error: Invalid Width(<0) dimension. Expected format: (N, C, H, W)"<<std::endl;
    }
   }
   else{
-   std::cout<<"* Shape Error: Invalid dimension. Expected format: (N, D, H, W)"<<std::endl;
+   std::cout<<"* Shape Error: Invalid Height(<0) dimension. Expected format: (N, C, H, W)"<<std::endl;
   }
   else{
-   std::cout<<"* Shape Error: Invalid dimension. Expected format: (N, D, H, W)"<<std::endl;
+   std::cout<<"* Shape Error: Invalid Channel(<0) dimension. Expected format: (N, C, H, W)"<<std::endl;
   }
  }
  else{
-  std::cout<<"* Shape Error: Invalid dimension. Expected format: (N, D, H, W)"<<std::endl;
+  std::cout<<"* Shape Error: Invalid Batch(<0) dimension. Expected format: (N, C, H, W)"<<std::endl;
  }
     // cleanup
     //tensorflow::closeSession(session);
