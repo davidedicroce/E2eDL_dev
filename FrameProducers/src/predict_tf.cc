@@ -1,6 +1,6 @@
 #include "E2eDL/FrameProducers/interface/predict_tf.h"
 
-e2e::Frame2D predict_tf(e2e::Frame4D& vinputFrame, string model_filename, string input_layer_name, string output_layer_name){
+e2e::Frame2D e2e::predict_tf(e2e::Frame4D& vinputFrame, string model_filename, string input_layer_name, string output_layer_name){
  tensorflow::Session* session;
  tensorflow::GraphDef graph_def;
  tensorflow::SessionOptions opts;
