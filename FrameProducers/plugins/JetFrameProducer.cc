@@ -51,9 +51,9 @@ JetFrameProducer::JetFrameProducer(const edm::ParameterSet& iConfig)
   
   // Output collections to be produced
   produces<e2e::Frame2D>   ("JetSeeds");
-  produces<e2e::Frame4D> ("HBHEFrames");
-  produces<e2e::Frame4D>("ECALstitchedFrames");
-  produces<e2e::Frame4D>("TracksAtECALstitchedPtFrames");
+  produces<std::vector<e2e::Frame3D>> ("HBHEFrames");
+  produces<std::vector<e2e::Frame3D>> ("ECALstitchedFrames");
+  produces<std::vector<e2e::Frame3D>> ("TracksAtECALstitchedPtFrames");
   if (jetCollection_sel == "ak8") produces<e2e::Frame4D>("TracksAtECALadjPtFrames");
 }
 
@@ -138,12 +138,12 @@ JetFrameProducer::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
 	}
    }
    // Put collections into output EDM file
-   std::unique_ptr<e2e::Frame4D> cECALstitchedFrames (new e2e::Frame4D(vECALstitchedFrames));
+   std::unique_ptr<std::vector<e2e::Frame3D>> cECALstitchedFrames (new std::vector<e2e::Frame3D>(vECALstitchedFrames));
    iEvent.put( std::move(cECALstitchedFrames),  "ECALstitchedFrames"  ); 
-   std::unique_ptr<e2e::Frame4D> cTracksAtECALstitchedPtFrames (new e2e::Frame4D(vTracksAtECALstitchedPtFrames));
+   std::unique_ptr<std::vector<e2e::Frame3D>> cTracksAtECALstitchedPtFrames (new std::vector<e2e::Frame3D>(vTracksAtECALstitchedPtFrames));
    iEvent.put( std::move(cTracksAtECALstitchedPtFrames),  "TracksAtECALstitchedPtFrames"  ); 
    if (jetCollection_sel == "ak8") {
-	   std::unique_ptr<e2e::Frame4D> cTracksAtECALadjPtFrames (new e2e::Frame4D(vTracksAtECALadjPtFrames));
+	   std::unique_ptr<std::vector<e2e::Frame3D>> cTracksAtECALadjPtFrames (new std::vector<e2e::Frame3D>(vTracksAtECALadjPtFrames));
    	   iEvent.put( std::move(cTracksAtECALadjPtFrames),  "TracksAtECALadjPtFrames"  ); 
    }
    return;
