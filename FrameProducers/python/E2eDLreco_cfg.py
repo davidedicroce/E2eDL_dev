@@ -82,6 +82,9 @@ process.JetFrames.jetCollection = options.jetCollection
 if options.jetCollection == 'ak4':
     process.JetFrames.minJetPt = cms.double(35.)
     process.JetFrames.maxJetEta = cms.double(2.4)
+else if options.JetCollection == 'ak8':
+    process.JetFrames.minJetPt = cms.double(400.)
+    process.JetFrames.maxJetEta = cms.double(1.37)
 
 #process.out = cms.OutputModule("PoolOutputModule",
 #    fileName = cms.untracked.string('myOutputFile.root')
