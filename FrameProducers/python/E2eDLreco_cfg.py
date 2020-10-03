@@ -77,7 +77,12 @@ print (" >> Loaded",len(options.inputFiles),"input files from list.")
 process.load("E2eDL.FrameProducers.DetFrameProducer_cfi")
 process.load("E2eDL.FrameProducers.EGFrameProducer_cfi")
 process.load("E2eDL.FrameProducers.JetFrameProducer_cfi")
+# Set JetCollection parameters for selected jet (ak8/ak4). 
 process.JetFrames.jetCollection = options.jetCollection
+if options.jetCollection == 'ak4':
+    process.JetFrames.minJetPt = cms.double(35.)
+    process.JetFrames.maxJetEta = cms.double(2.4)
+
 #process.out = cms.OutputModule("PoolOutputModule",
 #    fileName = cms.untracked.string('myOutputFile.root')
 #    ,outputCommands = cms.untracked.vstring('drop *',
