@@ -68,7 +68,19 @@ e2e::Frame2D e2e::predict_tf(e2e::Frame4D& vinputFrame, string model_filename, s
     delete session;
     std::cout<<" >> Classification done"<<endl;}}
    }
+   else{
+    std::cout<<"* Shape Error: Invalid dimension. Expected format: (N, D, H, W)"<<std::endl;
+   }
   }
+  else{
+   std::cout<<"* Shape Error: Invalid dimension. Expected format: (N, D, H, W)"<<std::endl;
+  }
+  else{
+   std::cout<<"* Shape Error: Invalid dimension. Expected format: (N, D, H, W)"<<std::endl;
+  }
+ }
+ else{
+  std::cout<<"* Shape Error: Invalid dimension. Expected format: (N, D, H, W)"<<std::endl;
  }
     // cleanup
     //tensorflow::closeSession(session);
