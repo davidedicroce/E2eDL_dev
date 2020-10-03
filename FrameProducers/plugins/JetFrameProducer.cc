@@ -55,7 +55,7 @@ JetFrameProducer::JetFrameProducer(const edm::ParameterSet& iConfig)
   produces<std::vector<e2e::Frame3D>> ("HBHEFrames");
   produces<std::vector<e2e::Frame3D>> ("ECALstitchedFrames");
   produces<std::vector<e2e::Frame3D>> ("TracksAtECALstitchedPtFrames");
-  if (jetCollection_sel == "ak8") produces<e2e::Frame4D>("TracksAtECALadjPtFrames");
+  produces<e2e::Frame4D>("TracksAtECALadjPtFrames");
 }
 
 JetFrameProducer::~JetFrameProducer()
