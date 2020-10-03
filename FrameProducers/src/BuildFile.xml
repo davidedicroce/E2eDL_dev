@@ -8,8 +8,9 @@
 <use name="DataFormats/GeometryVector"/>
 <use name="DataFormats/ParticleFlowCandidate"/>
 <use name="DataFormats/PatCandidates"/>
-<use name="E2eDL/DataFormats"/>
 <use name="DataFormats/EgammaCandidates"/>
+<use name="PhysicsTools/TensorFlow" />
+<use name="E2eDL/DataFormats"/>
 <export>
   <lib name="1"/>
 </export>
