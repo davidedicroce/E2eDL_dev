@@ -90,8 +90,10 @@ JetFrameProducer::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
    iEvent.getByToken(ECALstitched_energy_token, ECALstitched_energy_handle);
    edm::Handle<e2e::Frame1D> TracksAtECALstitchedPt_handle;
    iEvent.getByToken(TracksAtECALstitchedPt_token, TracksAtECALstitchedPt_handle);
-   edm::Handle<e2e::Frame1D> TracksAtECALadjPt_handle;
-   iEvent.getByToken(TracksAtECALadjPt_token, TracksAtECALadjPt_handle);
+   if (jetCollection == "ak8"){
+	   edm::Handle<e2e::Frame1D> TracksAtECALadjPt_handle;
+   	   iEvent.getByToken(TracksAtECALadjPt_token, TracksAtECALadjPt_handle);
+   }
    edm::Handle<std::vector<float>> HBHEenergy_handle;
    iEvent.getByToken(HBHEenergy_token, HBHEenergy_handle);
 	
@@ -100,7 +102,7 @@ JetFrameProducer::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
    e2e::Frame1D vTracksAtECALadjPt = *TracksAtECALadjPt_handle;
    e2e::Frame1D* vECALstitchedptr = &vECALstitched;
    e2e::Frame1D* vTracksAtECALstitchedPtptr = &vTracksAtECALstitchedPt;
-   e2e::Frame1D* vTracksAtECALadjPtptr = &vTracksAtECALadjPt;
+   if (jetCollection == "ak8") e2e::Frame1D* vTracksAtECALadjPtptr = &vTracksAtECALadjPt;
 	
    // Put collections into output EDM file
    std::unique_ptr<e2e::Frame2D> cJetSeeds (new e2e::Frame2D(vJetSeeds));
