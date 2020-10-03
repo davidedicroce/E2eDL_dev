@@ -32,7 +32,7 @@ e2e::Frame2D e2e::predict_tf(e2e::Frame4D& vinputFrame, string model_filename, s
   for (int row_idx=0;row_idx<frame_height; row_idx++){
    for (int col_idx=0; col_idx<frame_width; col_idx++){
     for (int depth_idx=0; depth_idx<no_channels; depth_idx++){
-     _XTensor(batch_idx, row_idx, col_idx, depth_idx) = vinputFrame[batch_idx][row_idx][col_idx][depth_idx];
+     _XTensor(batch_idx, depth_idx, row_idx, col_idx) = vinputFrame[batch_idx][row_idx][col_idx][depth_idx];
     }
    }
   }
