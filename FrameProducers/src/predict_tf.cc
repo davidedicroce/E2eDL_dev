@@ -66,7 +66,7 @@ e2e::Frame2D e2e::predict_tf(e2e::Frame4D& vinputFrame, string model_filename, s
   
     session->Close();
     delete session;
-    std::cout<<" >> Classification done"<<endl;}}
+    std::cout<<" >> Classification done"<<endl;
    }
    else{
     std::cout<<"* Shape Error: Invalid Width(<0) dimension. Expected format: (N, C, H, W)"<<std::endl;
