@@ -1,8 +1,9 @@
 //#include "ProdTutorial/ProducerTest/plugins/predict_tf.h"
-#include "E2eDL/E2eDLrec/plugins/predict_tf.h"
+#include "E2eDL/FrameProducers/interface/predict_tf.h"
 #include "tensorflow/core/graph/default_device.h"
+#include "E2eDL/DataFormats/interface/FrameCollections.h"
 
-std::vector<float> predict_tf(std::vector<std::vector<float>>& vinputFrame, string model_filename, string input_layer_name, string output_layer_name){
+e2e::Frame2D predict_tf(e2e::Frame4D& vinputFrame, string model_filename, string input_layer_name, string output_layer_name){
  tensorflow::Session* session;
  tensorflow::GraphDef graph_def;
  tensorflow::SessionOptions opts;
@@ -12,8 +13,10 @@ std::vector<float> predict_tf(std::vector<std::vector<float>>& vinputFrame, stri
  
  std::string graph_definition="E2eDL/"+model_filename;
  std::cout<<" >> Running Inference."<<endl;
- int frame_height = vinputFrame.size();
- int frame_width = vinputFrame[0].size();
+ int batch_sz = vinputFrame.size();
+ int frame_height = vinputFrame[0].size();
+ int frame_width = vinputFrame[0][0].size();
+ int no_channels = vinputFrame[0][0][0].size();
  //TF_CHECK_OK(ReadBinaryProto(Env::Default(), graph_definition, &graph_def));
  // load the graph definition, i.e. an object that contains the computational graph
  tensorflow::GraphDef* graphDef = tensorflow::loadGraphDef(graph_definition);
@@ -28,7 +31,8 @@ std::vector<float> predict_tf(std::vector<std::vector<float>>& vinputFrame, stri
  std::cout<<" >> Reading input data file done."<<endl;
 
   
-  tensorflow::Tensor x(tensorflow::DT_FLOAT, tensorflow::TensorShape({1, frame_height, frame_width, 1}));
+  tensorflow::Tensor x(tensorflow::DT_FLOAT, tensorflow::TensorShape({batch_sz, frame_height, frame_width, no_channels}));
+  auto _XTensor = x.tensor<float,4>();
   if(!x.CopyFrom(tmp, tensorflow::TensorShape({1, frame_height, frame_width, 1}))){
     std::cout<<" >> Reshape not successfull."<<endl;
   }
