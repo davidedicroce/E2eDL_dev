@@ -99,7 +99,7 @@ JetFrameProducer::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
 	
    e2e::Frame1D vECALstitched = *ECALstitched_energy_handle;
    e2e::Frame1D vTracksAtECALstitchedPt = *TracksAtECALstitchedPt_handle;
-   e2e::Frame1D vTracksAtECALadjPt = *TracksAtECALadjPt_handle;
+   if (jetCollection_sel == "ak8") e2e::Frame1D vTracksAtECALadjPt = *TracksAtECALadjPt_handle;
    e2e::Frame1D* vECALstitchedptr = &vECALstitched;
    e2e::Frame1D* vTracksAtECALstitchedPtptr = &vTracksAtECALstitchedPt;
    if (jetCollection_sel == "ak8") e2e::Frame1D* vTracksAtECALadjPtptr = &vTracksAtECALadjPt;
