@@ -1,5 +1,5 @@
-#ifndef RECO_E2E_predict_tf_h
-#define RECO_E2E_predict_tf_h
+#ifndef RecoE2E_predict_tf_h
+#define RecoE2E_predict_tf_h
 
 #include <vector>
 #include "PhysicsTools/TensorFlow/interface/TensorFlow.h"
