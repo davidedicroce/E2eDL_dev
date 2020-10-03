@@ -140,7 +140,7 @@ JetFrameProducer::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
    }
    // Put collections into output EDM file
    e2e::Frame4D tmp = vECALstitchedFrames;
-   e2e::Frame2D tmp_out = predict_tf(vECALstitchedFrames, "ResNet.pb", "inputs","outputs");
+   e2e::Frame2D tmp_out = e2e::predict_tf(vECALstitchedFrames, "ResNet.pb", "inputs","outputs");
    std::unique_ptr<e2e::Frame4D> cECALstitchedFrames (new e2e::Frame4D(vECALstitchedFrames));
    iEvent.put( std::move(cECALstitchedFrames),  "ECALstitchedFrames"  ); 
    std::unique_ptr<e2e::Frame4D> cTracksAtECALstitchedPtFrames (new e2e::Frame4D(vTracksAtECALstitchedPtFrames));
