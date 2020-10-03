@@ -1,7 +1,4 @@
-//#include "ProdTutorial/ProducerTest/plugins/predict_tf.h"
 #include "E2eDL/FrameProducers/interface/predict_tf.h"
-#include "tensorflow/core/graph/default_device.h"
-#include "E2eDL/DataFormats/interface/FrameCollections.h"
 
 e2e::Frame2D predict_tf(e2e::Frame4D& vinputFrame, string model_filename, string input_layer_name, string output_layer_name){
  tensorflow::Session* session;
