@@ -9,6 +9,7 @@
 #include <fstream>
 using namespace std;
 
-e2e::Frame2D predict_tf(e2e::Frame4D&, string, string, string);
-
+namespace e2e {
+  e2e::Frame2D predict_tf(e2e::Frame4D&, string, string, string);
+}
 #endif
