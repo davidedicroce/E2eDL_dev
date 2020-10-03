@@ -82,7 +82,7 @@ process.JetFrames.jetCollection = options.jetCollection
 if options.jetCollection == 'ak4':
     process.JetFrames.minJetPt = cms.double(35.)
     process.JetFrames.maxJetEta = cms.double(2.4)
-elif options.JetCollection == 'ak8':
+elif options.jetCollection == 'ak8':
     process.JetFrames.minJetPt = cms.double(400.)
     process.JetFrames.maxJetEta = cms.double(1.37)
 
