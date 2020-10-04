@@ -74,6 +74,11 @@ JetFrameProducer::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
   bool passedSelection = false;
   // Selecting Jet Seeds (ak8 / ak4) and storing them in edm root file.
   edm::LogInfo("JetFrameProducer") << " >> doJets set";
+  edm::Handle<reco::PFJetCollection> jets;
+  iEvent.getByToken(jetCollectionT_, jets);
+  if ( debug ) std::cout << " >> PFJetCol.size: " << jets->size() << std::endl;
+  e2e::Frame2D    vJetSeeds ( jets->size(), std::vector<float> (nSeedCoords, float(defaultVal)) );
+	
   passedSelection = runEvtSel_jet( iEvent, iSetup );
   std::cout<<" >> Passed Selection: "<<passedSelection<<std::endl;	
   std::cout<<" >> Number of Jets: "<<vJetSeeds.size()<<std::endl;
