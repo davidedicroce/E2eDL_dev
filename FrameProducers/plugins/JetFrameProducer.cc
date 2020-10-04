@@ -79,7 +79,7 @@ JetFrameProducer::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
   if ( debug ) std::cout << " >> PFJetCol.size: " << jets->size() << std::endl;
   e2e::Frame2D    vJetSeeds ( jets->size(), std::vector<float> (nSeedCoords, float(defaultVal)) );
 	
-  passedSelection = runEvtSel_jet( iEvent, iSetup );
+  passedSelection = runEvtSel_jet( iEvent, iSetup, vJetSeeds );
   std::cout<<" >> Passed Selection: "<<passedSelection<<std::endl;	
   std::cout<<" >> Number of Jets: "<<vJetSeeds.size()<<std::endl;
   std::cout<<" >> The jet seeds are (ieta,iphi): ";
