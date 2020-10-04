@@ -65,7 +65,7 @@ e2e::Frame2D e2e::predict_tf(e2e::Frame4D& vinputFrame, string model_filename, s
      
      if (outputs[0].shape().dims()!=2) std::cout<<"* Expected 2 dimensional output. Received "<<outputs[0].shape().dims()<<" dimension output."<<std::endl;
      else {
-      preds = e2e::Frame1D;
+      e2e::Frame1D preds;
       for (int row_idx=0; row_idx<outputs[0].shape().dim_size(0); row_idx++){
        for (int col_idx=0; col_idx<outputs[0].shape().dim_size(1); col_idx++){
         preds.push_back( outputs[0].matrix<float>()(row_idx,col_idx) );
