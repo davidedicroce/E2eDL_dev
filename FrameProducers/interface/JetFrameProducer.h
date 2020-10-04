@@ -118,7 +118,6 @@ class JetFrameProducer : public edm::stream::EDProducer<> {
       static const int nPhotons = 2;
    
       // Output collections to be produced and values stored in them
-      e2e::Frame2D    vJetSeeds;
       std::vector<e2e::Frame3D> vECALstitchedFrames;
       std::vector<e2e::Frame3D> vTracksAtECALstitchedPtFrames;
       std::vector<e2e::Frame3D> vTracksAtECALadjPtFrames;
