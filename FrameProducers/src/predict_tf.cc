@@ -60,7 +60,7 @@ e2e::Frame2D e2e::predict_tf(e2e::Frame4D& vinputFrame, string model_filename, s
  
      TF_CHECK_OK(session->Run({{input_layer_name/*"inputs"*/, x}/*, {"y", y}*/}, {output_layer_name/*"softmax_1/Sigmoid"*/}, {}, &outputs)); // Get output
      //tensorflow::run(session, { { "x", x }, {"y", y} }, { "cost" }, &outputs);
-     std::cout<<"Classification"
+     std::cout<<"Classification predictions: "<<std::endl;
      e2e::Frame2D output_preds (outputs[0].shape().dim_size(0), (outputs[0].shape().dim_size(1),0.));
      if (outputs[0].shape().dims()!=2) std::cout<<"* Expected 2 dimensional output. Received "<<outputs[0].shape().dims()<<" dimension output."<<std::endl;
      else {
