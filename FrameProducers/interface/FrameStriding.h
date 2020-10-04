@@ -1,5 +1,5 @@
-#ifndef E2eReco_frameStriding_h
-#define E2eReco_frameStriding_h
+#ifndef RecoE2E_frameStriding_h
+#define RecoE2E_frameStriding_h
 
 #include <iostream>
 #include <vector>
