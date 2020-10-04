@@ -23,7 +23,7 @@ e2e::Frame2D e2e::predict_tf(e2e::Frame4D& vinputFrame, string model_filename, s
      tensorflow::GraphDef* graphDef = tensorflow::loadGraphDef(graph_definition);
      tensorflow::Tensor tmp(tensorflow::DT_FLOAT, tensorflow::TensorShape({frame_height, frame_width}));
   
-     tensorflow::Tensor x(tensorflow::DT_FLOAT, tensorflow::TensorShape({batch_sz, no_channels, frame_height, frame_width}));
+     tensorflow::Tensor x(tensorflow::DT_FLOAT, tensorflow::TensorShape({batch_sz, frame_height, frame_width,  no_channels}));
      auto _XTensor = x.tensor<float,4>();
      for (int batch_idx=0; batch_idx<batch_sz; batch_idx++){
       for (int row_idx=0;row_idx<frame_height; row_idx++){
