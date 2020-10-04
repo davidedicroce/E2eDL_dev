@@ -66,10 +66,7 @@ void e2e::getFrame ( e2e::Frame2D& vframe, const e2e::seed& objSeed, const e2e::
    }
    //std::cout<<std::endl;
   }
-  //vEB_photon_frames.push_back(vEB_flat_frame);
-  std::cout<<" >> Size of frame is:"<<"("<<vframe.size()<<", "<<vframe[0].size()<<")"<<std::endl;
-  //std::cout<<" >> E_max at ("<<ieta_seed<<", "<<iphi_seed<<")is: "<<vdetector_image[ieta_seed*detImg_width+iphi_seed]<<std::endl;
-  std::cout<<" >> Detector Image value at ("<<ieta_seed<<", "<<iphi_seed<<")is: "<<vframe[half_frame_height][half_frame_width]<<std::endl;
-  //std::cout<<ieta_seed<<" "<<iphi_seed<<" "<<buff_y<<" "<<start_y<<std::endl;
-  //return vframe;
+  //std::cout<<" >> Size of frame is:"<<"("<<vframe.size()<<", "<<vframe[0].size()<<")"<<std::endl;
+  //std::cout<<" >> Detector Image value at ("<<ieta_seed<<", "<<iphi_seed<<")is: "<<vframe[half_frame_height][half_frame_width]<<std::endl;
+  return;
 }
