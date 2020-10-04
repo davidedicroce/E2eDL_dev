@@ -60,9 +60,18 @@ e2e::Frame2D e2e::predict_tf(e2e::Frame4D& vinputFrame, string model_filename, s
  
      TF_CHECK_OK(session->Run({{input_layer_name/*"inputs"*/, x}/*, {"y", y}*/}, {output_layer_name/*"softmax_1/Sigmoid"*/}, {}, &outputs)); // Get output
      //tensorflow::run(session, { { "x", x }, {"y", y} }, { "cost" }, &outputs);
- 
- 
-     std::cout<<" >> Batch size is: "<<outputs.size()<<std::endl;
+     std::cout<<"Classification"
+     e2e::Frame2D output_preds (outputs[0].shape().dim_size(0), (outputs[0].shape().dim_size(1),0.));
+     if (outputs[0].shape().dims()!=2) std::cout<<"* Expected 2 dimensional output. Received "<<outputs[0].shape().dims()<<" dimension output."<<std::endl;
+     else {
+      for (int row_idx=0; row_idx<outputs[0].shape().dim_size(0); row_idx++){
+       for (int col_idx=0; col_idx<outputs[0].shape.dim_size(1); col_idx++){
+        output_preds[row_idx][col_idx] = outputs[0].matrix<float>()(row_idx,col_idx));
+        std::cout<<"outputs: ("<<row_idx<<","<<col_idx<<"): "<<output_preds[row_idx][col_idx]<<std::endl;
+       }
+      }
+     }
+     std::cout<<" >> Batch size is: "<<outputs[0].shape().dim_size(0)<<std::endl;
      outputs.clear();
   
      session->Close();
@@ -87,6 +96,5 @@ e2e::Frame2D e2e::predict_tf(e2e::Frame4D& vinputFrame, string model_filename, s
  // cleanup
  //tensorflow::closeSession(session);
  //delete graphDef;
- e2e::Frame2D tmp_outputs = {{0,0},{0,0}};
- return tmp_outputs;
+ return output_preds;
 }
