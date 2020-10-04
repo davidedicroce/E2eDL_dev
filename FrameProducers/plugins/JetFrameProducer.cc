@@ -51,11 +51,11 @@ JetFrameProducer::JetFrameProducer(const edm::ParameterSet& iConfig)
   
   
   // Output collections to be produced
-  produces<e2e::Frame2D>   ("JetSeeds");
-  produces<std::vector<e2e::Frame3D>> ("HBHEFrames");
-  produces<std::vector<e2e::Frame3D>> ("ECALstitchedFrames");
-  produces<std::vector<e2e::Frame3D>> ("TracksAtECALstitchedPtFrames");
-  produces<e2e::Frame4D>("TracksAtECALadjPtFrames");
+  produces<e2e::Frame2D> ("JetSeeds");
+  produces<e2e::Frame4D> ("HBHEenergyFrames");
+  produces<e2e::Frame4D> ("ECALstitchedFrames");
+  produces<e2e::Frame4D> ("TracksAtECALstitchedPtFrames");
+  produces<e2e::Frame4D> ("TracksAtECALadjPtFrames");
 }
 
 JetFrameProducer::~JetFrameProducer()
@@ -97,7 +97,7 @@ JetFrameProducer::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
    iEvent.getByToken(TracksAtECALstitchedPt_token, TracksAtECALstitchedPt_handle);   
    edm::Handle<e2e::Frame1D> TracksAtECALadjPt_handle;
    iEvent.getByToken(TracksAtECALadjPt_token, TracksAtECALadjPt_handle);
-   edm::Handle<std::vector<float>> HBHEenergy_handle;
+   edm::Handle<e2e::Frame1D> HBHEenergy_handle;
    iEvent.getByToken(HBHEenergy_token, HBHEenergy_handle);
 	
    e2e::Frame1D vECALstitched = *ECALstitched_energy_handle;
@@ -167,7 +167,7 @@ JetFrameProducer::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
    std::unique_ptr<e2e::Frame4D> cTracksAtECALadjPtFrames (new e2e::Frame4D(vTracksAtECALadjPtFrames));
    iEvent.put( std::move(cTracksAtECALadjPtFrames),  "TracksAtECALadjPtFrames"  ); 
    std::unique_ptr<e2e::Frame4D> cHBHEenergyFrames (new e2e::Frame4D(vHBHEenergyFrames));
-   iEvent.put( std::move(cHBHEenergyFrames), "vHBHEenergyFrames" );
+   iEvent.put( std::move(cHBHEenergyFrames), "HBHEenergyFrames" );
    return;
 }
 
