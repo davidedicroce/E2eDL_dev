@@ -108,7 +108,7 @@ JetFrameProducer::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
    e2e::Frame1D* vTracksAtECALstitchedPtptr = &vTracksAtECALstitchedPt;
    e2e::Frame1D* vTracksAtECALadjPtptr = &vTracksAtECALadjPt;
    //Performing Striding on HBHE Frames.
-   e2e::vHBHEenergy_strided = frameStriding(vHBHEenergy, int(nDetImgH/nStrideH), int(nDetImgW/nStrideW), nStrideH, nStrideW);
+   e2e::Frame1D vHBHEenergy_strided = frameStriding(vHBHEenergy, int(nDetImgH/nStrideH), int(nDetImgW/nStrideW), nStrideH, nStrideW);
    e2e::Frame1D* vHBHEenergyptr = &vHBHEenergy_strided;
 	
    // Put collections into output EDM file
