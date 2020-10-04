@@ -103,5 +103,5 @@ e2e::Frame2D e2e::predict_tf(e2e::Frame4D& vinputFrame, string model_filename, s
  // cleanup
  //tensorflow::closeSession(session);
  //delete graphDef;
- return *output_preds;
+ return output_preds;
 }
