@@ -54,7 +54,9 @@ EGTagger::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
   // Run inference on `vPhoFrames` batch of size nPhos*nFrameD*nFrameH*nFrameW: store output in `vPhoProbs`
   // Running on entire batch at once maximizes computing parellization
   // runInference( vPhoProbs, vPhoFrames, modelName );
-
+  
+  e2e::Frame2D tmp_out = e2e::predict_tf(vPhoFrames, "e_vs_ph_model.pb", "inputs","softmax_1/Sigmoid");
+  
   //_____ Store products associated with each photon _____//
 
   // Initialize pointers to edm::AssociationVector (key,val) collections
