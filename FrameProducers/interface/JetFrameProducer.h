@@ -65,6 +65,7 @@
 #include "E2eDL/DataFormats/interface/FrameCollections.h"
 #include "E2eDL/FrameProducers/interface/FrameCropping.h"
 #include "E2eDL/FrameProducers/interface/predict_tf.h"
+#include "E2eDL/FrameProducers/interface/FrameStriding.h"
 
 #include <iostream>
 using namespace std;
