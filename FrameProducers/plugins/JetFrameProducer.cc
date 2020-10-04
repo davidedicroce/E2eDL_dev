@@ -103,9 +103,13 @@ JetFrameProducer::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
    e2e::Frame1D vECALstitched = *ECALstitched_energy_handle;
    e2e::Frame1D vTracksAtECALstitchedPt = *TracksAtECALstitchedPt_handle;
    e2e::Frame1D vTracksAtECALadjPt = *TracksAtECALadjPt_handle;
+   e2e::Frame1D vHBHEenergy = *HBHEenergy_handle;
    e2e::Frame1D* vECALstitchedptr = &vECALstitched;
    e2e::Frame1D* vTracksAtECALstitchedPtptr = &vTracksAtECALstitchedPt;
    e2e::Frame1D* vTracksAtECALadjPtptr = &vTracksAtECALadjPt;
+   //Performing Striding on HBHE Frames.
+   e2e::vHBHEenergy_strided = frameStriding(vHBHEenergy, int(nDetImgH/nStrideH), int(nDetImgW/nStrideW), nStrideH, nStrideW);
+   e2e::Frame1D* vHBHEenergyptr = &vHBHEenergy_strided;
 	
    // Put collections into output EDM file
    std::unique_ptr<e2e::Frame2D> cJetSeeds (new e2e::Frame2D(vJetSeeds));
@@ -125,30 +129,34 @@ JetFrameProducer::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
                                         	       e2e::Frame3D(nFrameD,
                                          	       e2e::Frame2D(nFrameH,
                                         	       e2e::Frame1D(nFrameW, 0.))) );
-   if (vECALstitchedFrames.size()>0) if (vECALstitchedFrames[0].size()>0) if (vECALstitchedFrames[0][0].size()>0) if (vECALstitchedFrames[0][0][0].size()>0) std::cout<<" >>Sizes of ECAL stitched energy vectors: ("<<vECALstitchedFrames.size()<<","<<vECALstitchedFrames[0].size()<<","<<vECALstitchedFrames[0][0].size()<<","<<vECALstitchedFrames[0][0][0].size()<<")"<<std::endl;
-   if (vTracksAtECALstitchedPtFrames.size()>0) if (vTracksAtECALstitchedPtFrames[0].size()>0) if (vTracksAtECALstitchedPtFrames[0][0].size()>0) if (vTracksAtECALstitchedPtFrames[0][0][0].size()>0) std::cout<<" >>Sizes of Tracks at ECAL stitched vectors: ("<<vTracksAtECALstitchedPtFrames.size()<<","<<vTracksAtECALstitchedPtFrames[0].size()<<","<<vTracksAtECALstitchedPtFrames[0][0].size()<<","<<vTracksAtECALstitchedPtFrames[0][0][0].size()<<")"<<std::endl;
-   if (vTracksAtECALadjPtFrames.size()>0) if (vTracksAtECALadjPtFrames[0].size()>0) if (vTracksAtECALadjPtFrames[0][0].size()>0) if (vTracksAtECALadjPtFrames[0][0][0].size()>0) std::cout<<" >>Sizes of Tracks at ECAL adj vectors: ("<<vTracksAtECALadjPtFrames.size()<<","<<vTracksAtECALadjPtFrames[0].size()<<","<<vTracksAtECALadjPtFrames[0][0].size()<<","<<vTracksAtECALadjPtFrames[0][0][0].size()<<")"<<std::endl;
+   std::vector<e2e::Frame3D> vHBHEenergyFrames( vJetSeeds.size(),
+                                        	e2e::Frame3D(nFrameD,
+                                         	e2e::Frame2D(nFrameH,
+                                        	e2e::Frame1D(nFrameW, 0.))) );
+   if (vECALstitchedFrames.size()>0) if (vECALstitchedFrames[0].size()>0) if (vECALstitchedFrames[0][0].size()>0) if (vECALstitchedFrames[0][0][0].size()>0) std::cout<<" >> Sizes of ECAL stitched energy vectors: ("<<vECALstitchedFrames.size()<<","<<vECALstitchedFrames[0].size()<<","<<vECALstitchedFrames[0][0].size()<<","<<vECALstitchedFrames[0][0][0].size()<<")"<<std::endl;
+   if (vTracksAtECALstitchedPtFrames.size()>0) if (vTracksAtECALstitchedPtFrames[0].size()>0) if (vTracksAtECALstitchedPtFrames[0][0].size()>0) if (vTracksAtECALstitchedPtFrames[0][0][0].size()>0) std::cout<<" >> Sizes of Tracks at ECAL stitched vectors: ("<<vTracksAtECALstitchedPtFrames.size()<<","<<vTracksAtECALstitchedPtFrames[0].size()<<","<<vTracksAtECALstitchedPtFrames[0][0].size()<<","<<vTracksAtECALstitchedPtFrames[0][0][0].size()<<")"<<std::endl;
+   if (vTracksAtECALadjPtFrames.size()>0) if (vTracksAtECALadjPtFrames[0].size()>0) if (vTracksAtECALadjPtFrames[0][0].size()>0) if (vTracksAtECALadjPtFrames[0][0][0].size()>0) std::cout<<" >> Sizes of Tracks at ECAL adj vectors: ("<<vTracksAtECALadjPtFrames.size()<<","<<vTracksAtECALadjPtFrames[0].size()<<","<<vTracksAtECALadjPtFrames[0][0].size()<<","<<vTracksAtECALadjPtFrames[0][0][0].size()<<")"<<std::endl;
+   if (vHBHEenergyFrames.size()>0) if (vHBHEenergyFrames[0].size()>0) if (vHBHEenergyFrames[0][0].size()>0) if (vHBHEenergyFrames[0][0][0].size()>0) std::cout<<" >> Size of HBHE energy vectors: ("<<vHBHEenergyFrames.size()<<","<<vHBHEenergyFrames[0].size()<<","<<vHBHEenergyFrames[0][0].size()<<","<<vHBHEenergyFrames[0][0][0].size()<<")"<<std::endl;	
 	
    for (int idx=0;idx<int(vJetSeeds.size());idx++){
    	std::cout<<"Generating stitched and adjustable ECAL frames and their track frames from the jet seed "<<idx+1<<"/"<<vJetSeeds.size()<<" with seed value: ("<<vJetSeeds[idx][0]<<","<<vJetSeeds[idx][1]<<")"<<std::endl;
    	if(vJetSeeds[idx][0]>=0) {
-   		// Producing cropped frames.
+   		// Producing cropped frames from the seeds.
 		e2e::seed vJetSeed_ = {-1,-1};
 		vJetSeed_[0] = vJetSeeds[idx][0];
 		vJetSeed_[1] = vJetSeeds[idx][1];
     		e2e::getFrame(vECALstitchedFrames[idx][0], vJetSeed_, vECALstitchedptr, nDetImgH, nDetImgW); 
     		e2e::getFrame(vTracksAtECALstitchedPtFrames[idx][0], vJetSeed_, vTracksAtECALstitchedPtptr, nDetImgH, nDetImgW);
     		e2e::getFrame(vTracksAtECALadjPtFrames[idx][0], vJetSeed_, vTracksAtECALadjPtptr, nDetImgH, nDetImgW);
+    		e2e::getFrame(vHBHEenergyFrames[idx][0], vJetSeed_, vHBHEenergyptr, nDetImgH, nDetImgW);
     		
-    		// running inference on the cropped frames
-    		//vECALstitchedClass = predict_tf(vECALstitched_frame, modelName, "inputs","outputs");
-    		//vTracksAtECALstitchedPtClass = predict_tf(vTracksAtECALstitchedPt_frame, modelName, "inputs", "outputs");
-    		//vTracksAtECALadjPtClass = predict_tf(vTracksAtECALadjPt_frame, modelName, "inputs", "outputs");
 	}
    }
+   
    if (vECALstitchedFrames.size()>0) if (vECALstitchedFrames[0].size()>0) if (vECALstitchedFrames[0][0].size()>0) if (vECALstitchedFrames[0][0][0].size()>0) std::cout<<" >>Sizes of ECAL stitched energy vectors: ("<<vECALstitchedFrames.size()<<","<<vECALstitchedFrames[0].size()<<","<<vECALstitchedFrames[0][0].size()<<","<<vECALstitchedFrames[0][0][0].size()<<")"<<std::endl;
    if (vTracksAtECALstitchedPtFrames.size()>0) if (vTracksAtECALstitchedPtFrames[0].size()>0) if (vTracksAtECALstitchedPtFrames[0][0].size()>0) if (vTracksAtECALstitchedPtFrames[0][0][0].size()>0) std::cout<<" >>Sizes of Tracks at ECAL stitched vectors: ("<<vTracksAtECALstitchedPtFrames.size()<<","<<vTracksAtECALstitchedPtFrames[0].size()<<","<<vTracksAtECALstitchedPtFrames[0][0].size()<<","<<vTracksAtECALstitchedPtFrames[0][0][0].size()<<")"<<std::endl;
    if (vTracksAtECALadjPtFrames.size()>0) if (vTracksAtECALadjPtFrames[0].size()>0) if (vTracksAtECALadjPtFrames[0][0].size()>0) if (vTracksAtECALadjPtFrames[0][0][0].size()>0) std::cout<<" >>Sizes of Tracks at ECAL adj vectors: ("<<vTracksAtECALadjPtFrames.size()<<","<<vTracksAtECALadjPtFrames[0].size()<<","<<vTracksAtECALadjPtFrames[0][0].size()<<","<<vTracksAtECALadjPtFrames[0][0][0].size()<<")"<<std::endl;
+   if (vHBHEenergyFrames.size()>0) if (vHBHEenergyFrames[0].size()>0) if (vHBHEenergyFrames[0][0].size()>0) if (vHBHEenergyFrames[0][0][0].size()>0) std::cout<<" >> Size of HBHE energy vectors: ("<<vHBHEenergyFrames.size()<<","<<vHBHEenergyFrames[0].size()<<","<<vHBHEenergyFrames[0][0].size()<<","<<vHBHEenergyFrames[0][0][0].size()<<")"<<std::endl;
    // Put collections into output EDM file
    e2e::Frame4D tmp = vECALstitchedFrames;
    e2e::Frame2D tmp_out = e2e::predict_tf(vECALstitchedFrames, "ResNet.pb", "inputs","outputs");
@@ -158,6 +166,8 @@ JetFrameProducer::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
    iEvent.put( std::move(cTracksAtECALstitchedPtFrames),  "TracksAtECALstitchedPtFrames"  ); 
    std::unique_ptr<e2e::Frame4D> cTracksAtECALadjPtFrames (new e2e::Frame4D(vTracksAtECALadjPtFrames));
    iEvent.put( std::move(cTracksAtECALadjPtFrames),  "TracksAtECALadjPtFrames"  ); 
+   std::unique_ptr<e2e::Frame4D> cHBHEenergyFrames (new e2e::Frame4D(vHBHEenergyFrames));
+   iEvent.put( std::move(cHBHEenergyFrames), "vHBHEenergyFrames" );
    return;
 }
 
