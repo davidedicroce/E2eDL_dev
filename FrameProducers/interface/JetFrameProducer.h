@@ -72,12 +72,14 @@ using namespace edm;
 using reco::PhotonCollection;
 using reco::PhotonRef;
 
-static const float defaultVal = -1.;        // default value to fill for invalid objects
-static const unsigned int nSeedCoords = 2;  // no. of elements to specify frame seed coordinates
+static const float defaultVal = -1.;         // default value to fill for invalid objects
+static const unsigned int nSeedCoords = 2;   // no. of elements to specify frame seed coordinates
 const unsigned int nFrameH = 125;            // frame height in no. of pixels
 const unsigned int nFrameW = 125;            // frame width in no. of pixel
-const unsigned int nDetImgH = 280;            // frame height in no. of pixels
-const unsigned int nDetImgW = 360;            // frame width in no. of pixel
+const unsigned int nDetImgH = 280;           // frame height in no. of pixels
+const unsigned int nDetImgW = 360;           // frame width in no. of pixel
+const unsigned int nStrideH = 5;             // Stride kernel height for HBHE striding;
+const unsigned int nStrideW = 5;             // Stride kernel width for HBHE striding;
 
 class JetFrameProducer : public edm::stream::EDProducer<> {
    public:
