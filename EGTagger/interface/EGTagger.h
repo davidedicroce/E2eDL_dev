@@ -23,7 +23,7 @@
 #include "PhysicsTools/TensorFlow/interface/TensorFlow.h"
 #include "E2eDL/DataFormats/interface/FrameCollections.h"
 #include "E2eDL/FrameProducers/interface/EGFrameProducer.h"
-#include "E2eDL/E2eDLrec/plugins/predict_tf.h"
+#include "E2eDL/FrameProducers/interface/predict_tf.h"
 
 using namespace std;
 
