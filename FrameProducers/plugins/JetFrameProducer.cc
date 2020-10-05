@@ -165,8 +165,10 @@ JetFrameProducer::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
    iEvent.put( std::move(cECALstitchedFrames),  "ECALstitchedFrames"  ); 
    std::unique_ptr<e2e::Frame4D> cTracksAtECALstitchedPtFrames (new e2e::Frame4D(vTracksAtECALstitchedPtFrames));
    iEvent.put( std::move(cTracksAtECALstitchedPtFrames),  "TracksAtECALstitchedPtFrames"  ); 
-   std::unique_ptr<e2e::Frame4D> cTracksAtECALadjPtFrames (new e2e::Frame4D(vTracksAtECALadjPtFrames));
-   iEvent.put( std::move(cTracksAtECALadjPtFrames),  "TracksAtECALadjPtFrames"  ); 
+   if (jetCollection_sel == "ak8") {
+	   std::unique_ptr<e2e::Frame4D> cTracksAtECALadjPtFrames (new e2e::Frame4D(vTracksAtECALadjPtFrames));
+   	   iEvent.put( std::move(cTracksAtECALadjPtFrames),  "TracksAtECALadjPtFrames"  );
+   }
    std::unique_ptr<e2e::Frame4D> cHBHEenergyFrames (new e2e::Frame4D(vHBHEenergyFrames));
    iEvent.put( std::move(cHBHEenergyFrames), "HBHEenergyFrames" );
    return;
