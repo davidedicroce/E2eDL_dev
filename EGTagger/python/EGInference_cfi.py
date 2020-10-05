@@ -33,7 +33,7 @@ process.maxEvents = cms.untracked.PSet(
 process.source = cms.Source("PoolSource",
     fileNames = cms.untracked.vstring(
       #options.inputFiles
-      "file:SinglePhotonPt50_noPU_AODSIM.root"
+      "file:myOutputFile.root"#SinglePhotonPt50_noPU_AODSIM.root
       )
     , skipEvents = cms.untracked.uint32(0)#options.skipEvents
     )
@@ -45,7 +45,7 @@ process.load("E2eDL.EGTagger.EGTagger_cfi")
 process.EGTagger.EGModelName = options.EGModelName
 
 process.out = cms.OutputModule("PoolOutputModule",
-    fileName = cms.untracked.string('SinglePhotonPt50_noPU_AODSIM+EGFrames.root')
+    fileName = cms.untracked.string('SinglePhotonPt50_noPU_AODSIM+EGFrames.root') 
     )
 process.TFileService = cms.Service("TFileService",
     fileName = cms.string("ntuple.root")#options.outputFile
