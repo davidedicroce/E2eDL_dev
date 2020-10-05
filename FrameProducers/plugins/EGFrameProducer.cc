@@ -79,7 +79,7 @@ EGFrameProducer::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
   for ( unsigned int iP = 0; iP < hPhoton->size(); iP++ ) {
     PhotonRef iRecoPho( hPhoton, iP );
     cPhoSeeds->setValue ( iP, vPhoSeeds[iP]  );
-    cPhoFrames->setValue( iP, vPhoFrames[iP] );
+    cPhoFrames3DCollection->setValue( iP, vPhoFrames[iP] );
   } // photons
 
   // Put collections into output EDM file
