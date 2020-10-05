@@ -4,7 +4,8 @@ EGTagger::EGTagger(const edm::ParameterSet& iConfig)
 {
   // Input tokens
   tPhotonCollection  = consumes<PhotonCollection>(iConfig.getParameter<edm::InputTag>("photonCollection"));
-  tEGframeCollection = consumes<std::vector<e2e::Frame3D> >(iConfig.getParameter<edm::InputTag>("EGFrames"));
+  //tEGframeCollection = consumes<std::vector<e2e::Frame3D> >(iConfig.getParameter<edm::InputTag>("EGFrames"));
+  tEGframeCollection = consumes<e2e::PhoFrame3DCollection>(iConfig.getParameter<edm::InputTag>("EGFrames"));
 
   // DL inference model
   modelName = iConfig.getParameter<std::string>("EGModelName");
