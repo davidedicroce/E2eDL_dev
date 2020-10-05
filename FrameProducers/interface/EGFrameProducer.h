@@ -73,7 +73,7 @@ class EGFrameProducer : public edm::stream::EDProducer<> {
       // Output collections to be produced and values stored in them
       std::unique_ptr<e2e::PhoPredCollection>    cPhoProbs;
       std::unique_ptr<e2e::PhoSeedCollection>    cPhoSeeds;
-      std::unique_ptr<e2e::PhoFrame3DCollection> cPhoFrames;
+      std::unique_ptr<e2e::PhoFrame3DCollection> cPhoFrames3DCollection;
       std::vector<e2e::pred>    vPhoProbs;
       std::vector<e2e::seed>    vPhoSeeds;
       std::vector<e2e::Frame3D> vPhoFrames;
