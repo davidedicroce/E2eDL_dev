@@ -50,8 +50,8 @@ class EGTagger : public edm::stream::EDProducer<> {
       // ----------member data ---------------------------
       // Input tokens
       edm::EDGetTokenT<PhotonCollection>           tPhotonCollection;
-      edm::EDGetTokenT<std::vector<e2e::Frame3D> > tEGframeCollection;
-
+      //edm::EDGetTokenT<std::vector<e2e::Frame3D> > tEGframeCollection;
+      edm::EDGetTokenT<e2e::PhoFrame3DCollection> tEGframeCollection;
       // Handles
       edm::Handle<PhotonCollection>           hPhoton;
       edm::Handle<std::vector<e2e::Frame3D> > hEGframe;
