@@ -77,7 +77,7 @@ print (" >> Loaded",len(options.inputFiles),"input files from list.")
 process.load("E2eDL.FrameProducers.DetFrameProducer_cfi")
 process.load("E2eDL.FrameProducers.EGFrameProducer_cfi")
 process.load("E2eDL.FrameProducers.JetFrameProducer_cfi")
-process.load("E2eDL.EGTagger.EGTagger_cfi")
+
 # Set JetCollection parameters for selected jet (ak8/ak4). 
 process.JetFrames.jetCollection = options.jetCollection
 if options.jetCollection == 'ak4':
@@ -103,7 +103,7 @@ process.TFileService = cms.Service("TFileService",
     fileName = cms.string("myoutput.root")#options.outputFile
    )
 
-process.p = cms.Path(process.DetFrames + process.EGFrames + process.JetFrames + process.EGInference)
+process.p = cms.Path(process.DetFrames + process.EGFrames + process.JetFrames)
 process.ep=cms.EndPath(process.out)
 process.Timing = cms.Service("Timing",
   summaryOnly = cms.untracked.bool(False),
