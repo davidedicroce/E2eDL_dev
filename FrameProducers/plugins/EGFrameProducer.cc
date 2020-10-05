@@ -12,7 +12,8 @@ EGFrameProducer::EGFrameProducer(const edm::ParameterSet& iConfig)
 
   // Output collections to be produced
   produces<e2e::PhoSeedCollection>   ("EGSeeds");
-  produces<e2e::PhoFrame3DCollection>("EGFrames");
+  produces<e2e::PhoFrame3DCollection> ("EGPhoFrames3DCollection");
+  produces<e2e::Frame4D> ("EGFrames");
 }
 
 EGFrameProducer::~EGFrameProducer()
@@ -71,7 +72,8 @@ EGFrameProducer::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
   // Initialize pointers to edm::AssociationVector (key,val) collections
   // These collections create explicit associations between the photon object (key) and the stored product (val)
   cPhoSeeds  = std::make_unique<e2e::PhoSeedCollection>   ( reco::PhotonRefProd(hPhoton) );
-  cPhoFrames = std::make_unique<e2e::PhoFrame3DCollection>( reco::PhotonRefProd(hPhoton) );
+  cPhoFrames3DCollection = std::make_unique<e2e::PhoFrame3DCollection>( reco::PhotonRefProd(hPhoton) );
+  std::unique_ptr<e2e::Frame4D> cPhoFrames (new e2e::Frame4D(vPhoFrames));
 
   // Set association between photon ref (key) and products to be stored (val)
   for ( unsigned int iP = 0; iP < hPhoton->size(); iP++ ) {
@@ -82,7 +84,8 @@ EGFrameProducer::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
 
   // Put collections into output EDM file
   iEvent.put( std::move(cPhoSeeds),  "EGSeeds"  );
-  iEvent.put( std::move(cPhoFrames), "EGFrames" );
+  iEvent.put( std::move(cPhoFrames3DCollection), "EGPhoFrames3DCollection" );
+  iEvent.put( std::move(cPhoFrames), "EGFrames");
 
   return;
 
