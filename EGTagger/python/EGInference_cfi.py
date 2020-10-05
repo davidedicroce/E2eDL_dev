@@ -2,6 +2,24 @@ import FWCore.ParameterSet.Config as cms
 import FWCore.ParameterSet.VarParsing as VarParsing
 
 options = VarParsing.VarParsing('analysis')
+options.register('skipEvents', 
+    default=0, 
+    mult=VarParsing.VarParsing.multiplicity.singleton,
+    mytype=VarParsing.VarParsing.varType.int,
+    info = "skipEvents")
+# TODO: put this option in cmsRun scripts
+options.register('processMode', 
+    default='JetLevel', 
+    mult=VarParsing.VarParsing.multiplicity.singleton,
+    mytype=VarParsing.VarParsing.varType.string,
+    info = "process mode: JetLevel or EventLevel")
+# Set doEBenergy to 1 to produce EGSeeds and EGFrames.
+options.register('doEBenergy',
+    default=False,
+    mult=VarParsing.VarParsing.multiplicity.singleton,
+    mytype=VarParsing.VarParsing.varType.bool,
+    info = "set doEBenergy")
+options = VarParsing.VarParsing('analysis')
 options.register('skipEvents',
     default=0,
     mult=VarParsing.VarParsing.multiplicity.singleton,
@@ -51,7 +69,7 @@ process.TFileService = cms.Service("TFileService",
     fileName = cms.string("ntuple.root")#options.outputFile
     )
 
-process.p = cms.Path(process.ProducerFrames+process.EGFrames+process.EGTagger)
+process.p = cms.Path(process.DetFrames + process.EGFrames+process.EGTagger)
 process.ep=cms.EndPath(process.out)
 
 #process.Timing = cms.Service("Timing",
