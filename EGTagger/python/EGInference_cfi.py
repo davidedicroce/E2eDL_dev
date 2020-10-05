@@ -39,7 +39,7 @@ process.source = cms.Source("PoolSource",
     )
 print (" >> Loaded",len(options.inputFiles),"input files from list.")
 
-process.load("E2eDL.E2eDLrec.DetImg_cfi")
+process.load("E2eDL.FrameProducers.DetFrameProducer_cfi")
 process.load("E2eDL.FrameProducers.EGFrameProducer_cfi")
 process.load("E2eDL.EGTagger.EGTagger_cfi")
 process.EGTagger.EGModelName = options.EGModelName
