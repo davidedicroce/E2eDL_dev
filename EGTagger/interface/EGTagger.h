@@ -54,7 +54,8 @@ class EGTagger : public edm::stream::EDProducer<> {
       edm::EDGetTokenT<e2e::PhoFrame3DCollection> tEGframeCollection;
       // Handles
       edm::Handle<PhotonCollection>           hPhoton;
-      edm::Handle<std::vector<e2e::Frame3D> > hEGframe;
+      //edm::Handle<std::vector<e2e::Frame3D> > hEGframe;
+      edm::Handle<e2e::PhoFrame3DCollection> hEGframe;
 
       // DL inference model
       std::string modelName;
