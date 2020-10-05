@@ -42,7 +42,7 @@ print (" >> Loaded",len(options.inputFiles),"input files from list.")
 process.load("E2eDL.FrameProducers.DetFrameProducer_cfi")
 process.load("E2eDL.FrameProducers.EGFrameProducer_cfi")
 process.load("E2eDL.EGTagger.EGTagger_cfi")
-process.EGTagger.EGModelName = options.EGModelName
+#process.EGTagger.EGModelName = options.EGModelName
 
 process.out = cms.OutputModule("PoolOutputModule",
     fileName = cms.untracked.string('SinglePhotonPt50_noPU_AODSIM+EGFrames.root') 
