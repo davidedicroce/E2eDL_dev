@@ -19,7 +19,7 @@ options.register('doEBenergy',
     mult=VarParsing.VarParsing.multiplicity.singleton,
     mytype=VarParsing.VarParsing.varType.bool,
     info = "set doEBenergy")
-options = VarParsing.VarParsing('analysis')
+# Skip Events.
 options.register('skipEvents',
     default=0,
     mult=VarParsing.VarParsing.multiplicity.singleton,
@@ -45,13 +45,13 @@ process.GlobalTag.globaltag = cms.string('102X_upgrade2018_realistic_v15')
 process.es_prefer_GlobalTag = cms.ESPrefer('PoolDBESSource','GlobalTag')
 
 process.maxEvents = cms.untracked.PSet(
-    #input = cms.untracked.int32(options.maxEvents)
-    input = cms.untracked.int32(10)
+    input = cms.untracked.int32(options.maxEvents)
+    #input = cms.untracked.int32(10)
     )
 process.source = cms.Source("PoolSource",
     fileNames = cms.untracked.vstring(
-      #options.inputFiles
-      "file:myOutputFile.root"#SinglePhotonPt50_noPU_AODSIM.root
+      options.inputFiles
+      #"file:myOutputFile.root"#SinglePhotonPt50_noPU_AODSIM.root
       )
     , skipEvents = cms.untracked.uint32(0)#options.skipEvents
     )
