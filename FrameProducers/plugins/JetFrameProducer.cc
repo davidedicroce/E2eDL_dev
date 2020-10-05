@@ -157,9 +157,10 @@ JetFrameProducer::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
    if (vTracksAtECALstitchedPtFrames.size()>0) if (vTracksAtECALstitchedPtFrames[0].size()>0) if (vTracksAtECALstitchedPtFrames[0][0].size()>0) if (vTracksAtECALstitchedPtFrames[0][0][0].size()>0) std::cout<<" >>Sizes of Tracks at ECAL stitched vectors: ("<<vTracksAtECALstitchedPtFrames.size()<<","<<vTracksAtECALstitchedPtFrames[0].size()<<","<<vTracksAtECALstitchedPtFrames[0][0].size()<<","<<vTracksAtECALstitchedPtFrames[0][0][0].size()<<")"<<std::endl;
    if (vTracksAtECALadjPtFrames.size()>0) if (vTracksAtECALadjPtFrames[0].size()>0) if (vTracksAtECALadjPtFrames[0][0].size()>0) if (vTracksAtECALadjPtFrames[0][0][0].size()>0) std::cout<<" >>Sizes of Tracks at ECAL adj vectors: ("<<vTracksAtECALadjPtFrames.size()<<","<<vTracksAtECALadjPtFrames[0].size()<<","<<vTracksAtECALadjPtFrames[0][0].size()<<","<<vTracksAtECALadjPtFrames[0][0][0].size()<<")"<<std::endl;
    if (vHBHEenergyFrames.size()>0) if (vHBHEenergyFrames[0].size()>0) if (vHBHEenergyFrames[0][0].size()>0) if (vHBHEenergyFrames[0][0][0].size()>0) std::cout<<" >> Size of HBHE energy vectors: ("<<vHBHEenergyFrames.size()<<","<<vHBHEenergyFrames[0].size()<<","<<vHBHEenergyFrames[0][0].size()<<","<<vHBHEenergyFrames[0][0][0].size()<<")"<<std::endl;
+   
+   //e2e::Frame4D tmp = vECALstitchedFrames;
+   //e2e::Frame2D tmp_out = e2e::predict_tf(vECALstitchedFrames, "ResNet.pb", "inputs","outputs");
    // Put collections into output EDM file
-   e2e::Frame4D tmp = vECALstitchedFrames;
-   e2e::Frame2D tmp_out = e2e::predict_tf(vECALstitchedFrames, "ResNet.pb", "inputs","outputs");
    std::unique_ptr<e2e::Frame4D> cECALstitchedFrames (new e2e::Frame4D(vECALstitchedFrames));
    iEvent.put( std::move(cECALstitchedFrames),  "ECALstitchedFrames"  ); 
    std::unique_ptr<e2e::Frame4D> cTracksAtECALstitchedPtFrames (new e2e::Frame4D(vTracksAtECALstitchedPtFrames));
