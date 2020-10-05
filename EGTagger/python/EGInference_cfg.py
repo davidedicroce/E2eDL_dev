@@ -2,11 +2,7 @@ import FWCore.ParameterSet.Config as cms
 import FWCore.ParameterSet.VarParsing as VarParsing
 
 options = VarParsing.VarParsing('analysis')
-options.register('skipEvents', 
-    default=0, 
-    mult=VarParsing.VarParsing.multiplicity.singleton,
-    mytype=VarParsing.VarParsing.varType.int,
-    info = "skipEvents")
+
 # TODO: put this option in cmsRun scripts
 options.register('processMode', 
     default='JetLevel', 
