@@ -1,10 +1,10 @@
-#include "E2eDL/EGTagger/interface/EGTagger.h"
+#include "E2eDL/QGTagger/interface/QGTagger.h"
 
-EGTagger::EGTagger(const edm::ParameterSet& iConfig)
+QGTagger::QGTagger(const edm::ParameterSet& iConfig)
 {
   // Input tokens
   tPhotonCollection  = consumes<PhotonCollection>(iConfig.getParameter<edm::InputTag>("photonCollection"));
-  tEGframeCollection = consumes<std::vector<e2e::Frame3D> >(iConfig.getParameter<edm::InputTag>("EGFrames"));
+  tQGframeCollection = consumes<std::vector<e2e::Frame3D> >(iConfig.getParameter<edm::InputTag>("EGFrames"));
   //tEGframeCollection = consumes<e2e::PhoFrame3DCollection>(iConfig.getParameter<edm::InputTag>("EGFrames"));
 
   // DL inference model
@@ -14,15 +14,15 @@ EGTagger::EGTagger(const edm::ParameterSet& iConfig)
   produces<e2e::PhoPredCollection>("EGProbs");
 }
 
-EGTagger::~EGTagger()
+QGTagger::~QGTagger()
 {
 }
 
 void
-EGTagger::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
+QGTagger::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
 {
 
-  edm::LogInfo("EGTagger") << " >> Running EGTagger...";
+  edm::LogInfo("QGTagger") << " >> Running QGTagger...";
 
   // Load required tokens into input collection handles
   iEvent.getByToken( tPhotonCollection,  hPhoton  );
@@ -80,19 +80,19 @@ EGTagger::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
 } // EGTagger::produce()
 
 void
-EGTagger::beginStream(edm::StreamID)
+QGTagger::beginStream(edm::StreamID)
 {
 }
 
 // ------------ method called once each stream after processing all runs, lumis and events  ------------
 void
-EGTagger::endStream()
+QGTagger::endStream()
 {
 }
 
 // ------------ method fills 'descriptions' with the allowed parameters for the module  ------------
 void
-EGTagger::fillDescriptions(edm::ConfigurationDescriptions& descriptions) {
+QGTagger::fillDescriptions(edm::ConfigurationDescriptions& descriptions) {
   //The following says we do not know what parameters are allowed so do no validation
   // Please change this to state exactly what you do use, even if it is no parameters
   edm::ParameterSetDescription desc;
@@ -101,4 +101,4 @@ EGTagger::fillDescriptions(edm::ConfigurationDescriptions& descriptions) {
 }
 
 //define this as a plug-in
-DEFINE_FWK_MODULE(EGTagger);
+DEFINE_FWK_MODULE(QGTagger);
