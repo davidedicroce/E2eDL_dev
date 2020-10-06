@@ -111,13 +111,13 @@ DetFrameProducer::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
    std::cout<<" >> Number of TracksAtECALadj per event: "<<sizeof(vECALadj_tracksPt_)/sizeof(vECALadj_tracksPt_[0])<<std::endl;
    std::cout<<" >> Number of TracksAtECALadjPtMax per event: "<<sizeof(vECALadj_tracksPt_max_)/sizeof(vECALadj_tracksPt_max_[0])<<std::endl;
    std::cout<<" >> Sizes of TracksadjPt, Tracksadj and TracksadjPtMax are: "<<vECALadj_tracksPt_[0].size()<<", "<<vECALadj_tracks_[0].size()<<", "<<vECALadj_tracksPt_max_[0].size()<<std::endl;
-   std::unique_ptr<e2e::Frame1D> TracksECALadjPt_edm (new e2e::Frame1D(vECALadj_tracksPt_));
+   std::unique_ptr<e2e::Frame1D> TracksECALadjPt_edm (new e2e::Frame1D(vECALadj_tracksPt_[0]));
    std::cout<<" >> Size of Pt Tracks vector at ECAL adjustable is : "<<std::move(TracksECALadjPt_edm).get()->size()<<std::endl;
    iEvent.put(std::move(TracksECALadjPt_edm),"TracksAtECALadjPt");
-   std::unique_ptr<e2e::Frame1D> TracksECALadj_edm (new e2e::Frame1D(vECALadj_tracks_));
+   std::unique_ptr<e2e::Frame1D> TracksECALadj_edm (new e2e::Frame1D(vECALadj_tracks_[0]));
    std::cout<<" >> Size of Track vector at ECAL adjustable is : "<<std::move(TracksECALadj_edm).get()->size()<<std::endl;
    iEvent.put(std::move(TracksECALadj_edm),"TracksAtECALadj");
-   std::unique_ptr<e2e::Frame1D> TracksECALadjPt_max_edm (new e2e::Frame1D(vECALadj_tracksPt_max_));
+   std::unique_ptr<e2e::Frame1D> TracksECALadjPt_max_edm (new e2e::Frame1D(vECALadj_tracksPt_max_[0]));
    std::cout<<" >> Size of max Pt Track vector at ECAL adjustable is : "<<std::move(TracksECALadjPt_max_edm).get()->size()<<std::endl;
    iEvent.put(std::move(TracksECALadjPt_max_edm),"TracksAtECALadjPtMax");
  
