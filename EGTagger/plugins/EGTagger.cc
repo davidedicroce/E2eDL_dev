@@ -31,7 +31,7 @@ EGTagger::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
   
   nPhos = hPhoton->size();
   std::vector<e2e::pred>    vPhoProbs ( nPhos, defaultVal );
-  if (hEGframe->size>0) {
+  if (hEGframe->size()>0) {
     // Get pointer to input EG frames
     const std::vector<e2e::Frame3D>* pEGframe = hEGframe.product();
     nFrameD = pEGframe->front().size(); // get size of depth dimension
