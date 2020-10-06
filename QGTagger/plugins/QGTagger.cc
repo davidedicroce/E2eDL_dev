@@ -3,15 +3,19 @@
 QGTagger::QGTagger(const edm::ParameterSet& iConfig)
 {
   // Input tokens
-  tPhotonCollection  = consumes<PhotonCollection>(iConfig.getParameter<edm::InputTag>("photonCollection"));
-  tQGframeCollection = consumes<std::vector<e2e::Frame3D> >(iConfig.getParameter<edm::InputTag>("EGFrames"));
+  HBHERecHitCollectionT_  = consumes<HBHERecHitCollection>(iConfig.getParameter<edm::InputTag>("reducedHBHERecHitCollection"));
+  tQGframeCollection = consumes<std::vector<e2e::Frame3D> >(iConfig.getParameter<edm::InputTag>("QGFrames"));
+  jetCollectionT_ = consumes<reco::PFJetCollection>(iConfig.getParameter<edm::InputTag>("ak4PFJetCollection"));
+  genJetCollectionT_      = consumes<reco::GenJetCollection>(iConfig.getParameter<edm::InputTag>("ak4GenJetCollection"));
+  recoJetsT_              = consumes<edm::View<reco::Jet> >(iConfig.getParameter<edm::InputTag>("ak4RecoJetsForBTagging"));
+  TracksAtECALadjPt_token=consumes<e2e::Frame1D>(iConfig.getParameter<edm::InputTag>("TracksAtECALadjPt"));
   //tEGframeCollection = consumes<e2e::PhoFrame3DCollection>(iConfig.getParameter<edm::InputTag>("EGFrames"));
 
   // DL inference model
-  modelName = iConfig.getParameter<std::string>("EGModelName");
+  modelName = iConfig.getParameter<std::string>("QGModelName");
 
   // Output collections to be produced
-  produces<e2e::PhoPredCollection>("EGProbs");
+  produces<e2e::PhoPredCollection>("QGProbs");
 }
 
 QGTagger::~QGTagger()
