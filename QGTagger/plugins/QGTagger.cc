@@ -4,7 +4,6 @@ QGTagger::QGTagger(const edm::ParameterSet& iConfig)
 {
   // Input tokens
   HBHERecHitCollectionT_  = consumes<HBHERecHitCollection>(iConfig.getParameter<edm::InputTag>("reducedHBHERecHitCollection"));
-  tQGframeCollection = consumes<std::vector<e2e::Frame3D> >(iConfig.getParameter<edm::InputTag>("QGFrames"));
   jetCollectionT_ = consumes<reco::PFJetCollection>(iConfig.getParameter<edm::InputTag>("ak4PFJetCollection"));
   genJetCollectionT_      = consumes<reco::GenJetCollection>(iConfig.getParameter<edm::InputTag>("ak4GenJetCollection"));
   recoJetsT_              = consumes<edm::View<reco::Jet> >(iConfig.getParameter<edm::InputTag>("ak4RecoJetsForBTagging"));
@@ -35,7 +34,6 @@ QGTagger::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
   edm::LogInfo("QGTagger") << " >> Running QGTagger...";
 
   // Load required tokens into input collection handles
-  iEvent.getByToken( tQGframeCollection, hQGframe );
   iEvent.getByToken( jetCollectionT_, jets );
   iEvent.getByToken( JetFramesT_, hJetFrames );
   assert( hJetFrames->size() == jets->size() );
