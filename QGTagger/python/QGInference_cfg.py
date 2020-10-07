@@ -9,27 +9,21 @@ options.register('processMode',
     mult=VarParsing.VarParsing.multiplicity.singleton,
     mytype=VarParsing.VarParsing.varType.string,
     info = "process mode: JetLevel or EventLevel")
-# Set doEBenergy to 1 to produce EGSeeds and EGFrames.
-options.register('doEBenergy',
-    default=False,
-    mult=VarParsing.VarParsing.multiplicity.singleton,
-    mytype=VarParsing.VarParsing.varType.bool,
-    info = "set doEBenergy")
 # Skip Events.
 options.register('skipEvents',
     default=0,
     mult=VarParsing.VarParsing.multiplicity.singleton,
     mytype=VarParsing.VarParsing.varType.int,
     info = "skipEvents")
-# Name of the EGInference model to be used for inference.
-options.register('EGModelName',
-    default='e_vs_ph_model.pb',
+# Name of the QGInference model to be used for inference.
+options.register('QGModelName',
+    default='ResNet.pb',
     mult=VarParsing.VarParsing.multiplicity.singleton,
     mytype=VarParsing.VarParsing.varType.string,
-    info = "EGInference Model name")
+    info = "QGInference Model name")
 options.parseArguments()
 
-process = cms.Process("EGClassifier")
+process = cms.Process("QGClassifier")
 
 process.load("FWCore.MessageService.MessageLogger_cfi")
 process.load("Configuration.StandardSequences.GeometryDB_cff")
@@ -55,17 +49,17 @@ print (" >> Loaded",len(options.inputFiles),"input files from list.")
 
 process.load("E2eDL.FrameProducers.DetFrameProducer_cfi")
 process.load("E2eDL.FrameProducers.EGFrameProducer_cfi")
-process.load("E2eDL.EGTagger.EGTagger_cfi")
+process.load("E2eDL.QGTagger.QGTagger_cfi")
 #process.EGTagger.EGModelName = options.EGModelName
 
 process.out = cms.OutputModule("PoolOutputModule",
-    fileName = cms.untracked.string('SinglePhotonPt50_noPU_AODSIM+EGFrames.root') 
+    fileName = cms.untracked.string('QGPt+QGFrames.root') 
     )
 process.TFileService = cms.Service("TFileService",
     fileName = cms.string("ntuple.root")#options.outputFile
     )
 
-process.p = cms.Path(process.DetFrames + process.EGFrames+process.EGTagger)
+process.p = cms.Path(process.DetFrames + process.JetFrames+process.QGTagger)
 process.ep=cms.EndPath(process.out)
 
 #process.Timing = cms.Service("Timing",
