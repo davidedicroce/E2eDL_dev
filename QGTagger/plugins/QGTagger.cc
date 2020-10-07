@@ -41,7 +41,7 @@ QGTagger::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
   nJets = jets->size();
   std::vector<e2e::pred>    vJetProbs ( nJets, defaultVal );
   if (hJetFrames->size()>0) {
-    // Get pointer to input EG frames
+    // Get pointer to input QG frames
     const std::vector<e2e::Frame3D>* pJetFrame = hJetFrames.product();
     nFrameD = pJetFrame->front().size(); // get size of depth dimension
 
@@ -56,15 +56,15 @@ QGTagger::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
     //_____ Load EG frame collection into `vPhoFrames` for each photon _____//
 
     for ( unsigned int iJ = 0; iJ < jets->size(); iJ++ ) {
-      // Get EG frame for this photon
+      // Get QG frame for this jet
       vJetFrames[iP] = pJetFrame->at(iJ);
-    } // photons
+    } // jets
 
     //_____ Run DL inference _____//
 
-    // Run inference on `vPhoFrames` batch of size nPhos*nFrameD*nFrameH*nFrameW: store output in `vPhoProbs`
+    // Run inference on `vJetFrames` batch of size nJetss*nFrameD*nFrameH*nFrameW: store output in `vJetProbs`
     // Running on entire batch at once maximizes computing parellization
-    // runInference( vPhoProbs, vPhoFrames, modelName );
+    // runInference( vJetProbs, vJetFrames, modelName );
   
     e2e::Frame2D tmp_out = e2e::predict_tf(vJetFrames, "ResNet.pb", "inputs","outputs");
   
@@ -74,12 +74,6 @@ QGTagger::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
     // These collections create explicit associations between the photon object (key) and the stored product (val)
   }
   cJetProbs  = std::make_unique<e2e::Frame2D>   ( tmp_out );
-  // Set association between photon ref (key) and products to be stored (val)
-  /*for ( unsigned int iP = 0; iP < hPhoton->size(); iP++ ) {
-    PhotonRef iRecoPho( hPhoton, iP );
-    cPhoProbs->setValue( iP, vPhoProbs[iP] );
-  } */ // photons
-    
     
   // Put collections into output EDM file
   iEvent.put( std::move(cJetProbs), "JetProbs" );
