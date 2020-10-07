@@ -156,6 +156,49 @@ JetFrameProducer::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
    return;
 }
 
+void EGFrameProducer::getEGseed ( e2e::Frame2D& vJetSeed, const PhotonRef& iRecoPho, const edm::Handle<EcalRecHitCollection>& hEBRecHits )
+{
+
+  if ( iRecoPho->pt()       < ptCutEB  ) return;
+  if ( abs(iRecoPho->eta()) > etaCutEB ) return; // TODO: implement EE seed finding
+
+  // Get underlying super cluster (SC) or set of DetIds corresponding to energy deposits associated with photon
+  reco::SuperClusterRef const& iSC = iRecoPho->superCluster();
+  std::vector<std::pair<DetId, float>> const& SCHits( iSC->hitsAndFractions() );
+
+  // Loop over SC hits of photon to find seed crystal with largest energy deposit
+  seedE = defaultVal;
+  iphi_ = int(defaultVal);
+  ieta_ = int(defaultVal);
+  for ( unsigned iH(0); iH != SCHits.size(); ++iH ) {
+
+    // Get DetId
+    if ( SCHits[iH].first.subdetId() != EcalBarrel ) continue;
+    EcalRecHitCollection::const_iterator iRHit( hEBRecHits->find(SCHits[iH].first) );
+    if ( iRHit == hEBRecHits->end() ) continue;
+
+    // Convert coordinates to ordinals
+    //EBDetId ebId( iSC->seed()->seed() ); // doesnt always seem to give largest deposit...
+    EBDetId ebId( iRHit->id() );
+    ieta_  = ebId.ieta() > 0 ? ebId.ieta()-1 : ebId.ieta(); // [-85,...,-1,1,...,85]
+    ieta_ += EBDetId::MAX_IETA; // [0,...,169]
+    iphi_  = ebId.iphi()-1; // [0,...,359]
+
+    // Store coordinates of seed
+    if ( iRHit->energy() <= seedE ) continue;
+    seedE     = float(iRHit->energy());
+    EGseed[0] = ieta_;
+    EGseed[1] = iphi_;
+
+  } // SCHits
+
+  edm::LogInfo("JetFrameProducer::getEGseed") << " >> photon seed(ieta,iphi,E):" << Jetseed[0] << "," << Jetseed[1] << "," << seedE;
+
+  return;
+
+} // JetFrameProducer::getEGseed()
+
+
 // ------------ method called once each stream before processing any runs, lumis or events  ------------
 void
 JetFrameProducer::beginStream(edm::StreamID)
