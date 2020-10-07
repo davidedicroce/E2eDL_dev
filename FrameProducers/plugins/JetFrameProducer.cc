@@ -69,7 +69,7 @@ JetFrameProducer::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
   if ( debug ) std::cout << " >> PFJetCol.size: " << jets->size() << std::endl;
   e2e::Frame2D    vJetSeeds ( jets->size(), std::vector<float> (nSeedCoords, float(defaultVal)) );
 	
-  passedSelection = runEvtSel_jet( iEvent, iSetup, vJetSeeds );
+  getEGseed( iEvent, iSetup, vJetSeeds );
   std::cout<<" >> Passed Selection: "<<passedSelection<<std::endl;	
   std::cout<<" >> Number of Jets: "<<vJetSeeds.size()<<std::endl;
   std::cout<<" >> The jet seeds are (ieta,iphi): ";
@@ -156,46 +156,107 @@ JetFrameProducer::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
    return;
 }
 
-void EGFrameProducer::getEGseed ( e2e::Frame2D& vJetSeed, const PhotonRef& iRecoPho, const edm::Handle<EcalRecHitCollection>& hEBRecHits )
+void EGFrameProducer::getEGseed ( const edm::Event& iEvent, const edm::EventSetup& iSetup, e2e::Frame2D& vJetSeeds )
 {
+	
+	edm::ESHandle<CaloGeometry> caloGeomH_;
+   	iSetup.get<CaloGeometryRecord>().get( caloGeomH_ );
+   	const CaloGeometry* caloGeom = caloGeomH_.product();
+	
+   	edm::Handle<HBHERecHitCollection> HBHERecHitsH_;
+   	iEvent.getByToken( HBHERecHitCollectionT_, HBHERecHitsH_ );
+	
+   	edm::Handle<reco::PFJetCollection> jets;
+   	iEvent.getByToken(jetCollectionT_, jets);
+   	if ( debug ) std::cout << " >> PFJetCol.size: " << jets->size() << std::endl;
+   
+	float seedE;
+   	int iphi_, ieta_, ietaAbs_;
+   	int nJet = 0;
+	std::cout<<" >> Reading and selecting Jets from "<<jets->size()<<" jet seeds: "<<std::endl;
+   	
+	for (unsigned iJ=0;iJ<jets->size();iJ++){
+   	bool keepJet = true;
+    	iphi_ = -1;
+    	ieta_ = -1;
+	reco::PFJetRef iJet( jets, iJ );
+		
+	if ( debug ) std::cout << " >> jet[" << iJ << "]Pt:" << iJet->pt()  << " Eta:" << iJet->eta()  << " Phi:" << iJet->phi() 
+			   << " jetE:" << iJet->energy() << " jetM:" << iJet->mass() << std::endl;
+	HcalDetId hId( spr::findDetIdHCAL( caloGeom, iJet->eta(), iJet->phi(), false ) );
+    	if ( hId.subdet() != HcalBarrel && hId.subdet() != HcalEndcap ){
+      		vFailedJetIdx_.push_back(iJ);
+      		continue;
+    	}
+	   
+	HBHERecHitCollection::const_iterator iRHit( HBHERecHitsH_->find(hId) );
+    	seedE = ( iRHit == HBHERecHitsH_->end() ) ? 0. : iRHit->energy() ;
+    	HcalDetId seedId = hId;
+    	if ( debug ) std::cout << " >> hId.ieta:" << hId.ieta() << " hId.iphi:" << hId.iphi() << " E:" << seedE << std::endl;
+	
+	// Look for the most energetic HBHE tower deposit within a search window
+	for ( int ieta = 0; ieta < search_window; ieta++ ) {
 
-  if ( iRecoPho->pt()       < ptCutEB  ) return;
-  if ( abs(iRecoPho->eta()) > etaCutEB ) return; // TODO: implement EE seed finding
+      		ieta_ = hId.ieta() - (search_window/2)+ieta;
 
-  // Get underlying super cluster (SC) or set of DetIds corresponding to energy deposits associated with photon
-  reco::SuperClusterRef const& iSC = iRecoPho->superCluster();
-  std::vector<std::pair<DetId, float>> const& SCHits( iSC->hitsAndFractions() );
+      		if ( std::abs(ieta_) > HBHE_IETA_MAX_HE-1 ) continue;
+      		if ( std::abs(ieta_) < HBHE_IETA_MIN_HB ) continue;
 
-  // Loop over SC hits of photon to find seed crystal with largest energy deposit
-  seedE = defaultVal;
-  iphi_ = int(defaultVal);
-  ieta_ = int(defaultVal);
-  for ( unsigned iH(0); iH != SCHits.size(); ++iH ) {
+      		HcalSubdetector subdet_ = std::abs(ieta_) > HBHE_IETA_MAX_HB ? HcalEndcap : HcalBarrel;
 
-    // Get DetId
-    if ( SCHits[iH].first.subdetId() != EcalBarrel ) continue;
-    EcalRecHitCollection::const_iterator iRHit( hEBRecHits->find(SCHits[iH].first) );
-    if ( iRHit == hEBRecHits->end() ) continue;
+      		for ( int iphi = 0; iphi < search_window; iphi++ ) {
 
-    // Convert coordinates to ordinals
-    //EBDetId ebId( iSC->seed()->seed() ); // doesnt always seem to give largest deposit...
-    EBDetId ebId( iRHit->id() );
-    ieta_  = ebId.ieta() > 0 ? ebId.ieta()-1 : ebId.ieta(); // [-85,...,-1,1,...,85]
-    ieta_ += EBDetId::MAX_IETA; // [0,...,169]
-    iphi_  = ebId.iphi()-1; // [0,...,359]
+        		iphi_ = hId.iphi() - (search_window/2)+iphi;
 
-    // Store coordinates of seed
-    if ( iRHit->energy() <= seedE ) continue;
-    seedE     = float(iRHit->energy());
-    EGseed[0] = ieta_;
-    EGseed[1] = iphi_;
+        		// iphi should wrap around
+        		if ( iphi_ > HBHE_IPHI_MAX ) {
+          		iphi_ = iphi_-HBHE_IPHI_MAX;
+        		} else if ( iphi_ < HBHE_IPHI_MIN ) {
+          		iphi_ = HBHE_IPHI_MAX-abs(iphi_); 
+        		}
+        		// Skip non-existent and lower energy towers 
+        		HcalDetId hId_( subdet_, ieta_, iphi_, 1 );
+        		HBHERecHitCollection::const_iterator iRHit( HBHERecHitsH_->find(hId_) );
+        		if ( iRHit == HBHERecHitsH_->end() ) continue;
+        		if ( iRHit->energy() <= seedE ) continue;
+        		if ( debug ) std::cout << " !! hId.ieta:" << hId_.ieta() << " hId.iphi:" << hId_.iphi() << " E:" << iRHit->energy() << std::endl;
 
-  } // SCHits
+        		seedE = iRHit->energy();
+        		seedId = hId_;
 
-  edm::LogInfo("JetFrameProducer::getEGseed") << " >> photon seed(ieta,iphi,E):" << Jetseed[0] << "," << Jetseed[1] << "," << seedE;
+      		} // iphi 
+    	} // ieta
+	
+    	// NOTE: HBHE iphi = 1 does not correspond to EB iphi = 1!
+    	// => Need to shift by 2 HBHE towers: HBHE::iphi: [1,...,71,72]->[3,4,...,71,72,1,2]
+    	iphi_  = seedId.iphi() + 2; // shift
+    	iphi_  = iphi_ > HBHE_IPHI_MAX ? iphi_-HBHE_IPHI_MAX : iphi_; // wrap-around
+    	iphi_  = iphi_ - 1; // make histogram-friendly
+    	ietaAbs_  = seedId.ietaAbs() == HBHE_IETA_MAX_HE ? HBHE_IETA_MAX_HE-1 : seedId.ietaAbs(); // last HBHE ieta embedded
+    	ieta_  = seedId.zside() > 0 ? ietaAbs_-1 : -ietaAbs_;
+    	ieta_  = ieta_+HBHE_IETA_MAX_HE-1;
 
-  return;
-
+    	// If the seed is too close to the edge of HE, discard event
+    	// Required to keep the seed at the image center
+    	if ( HBHE_IETA_MAX_HE-1 - ietaAbs_ < image_padding ) { 
+      	if ( debug ) std::cout << " Fail HE edge cut " << std::endl;
+      	vFailedJetIdx_.push_back(iJ);
+	std::cout<<"     * Failed Jet seed at index: "<<iJ<<" seed is too close to the edge of HE. Adding -1 to JetSeediphi and JetSeedieta vectors."<<std::endl;
+	ieta_=-1;
+	iphi_=-1;
+    	nJet++;
+      	continue;
+    	}
+    	// Save position of most energetic HBHE tower
+    	// in EB-aligned coordinates
+    	if ( debug ) std::cout << " !! ieta_:" << ieta_ << " iphi_:" << iphi_ << " ietaAbs_:" << ietaAbs_ << " E:" << seedE << std::endl;
+	
+    	vJetSeeds[iJ][0] = ieta_;
+	vJetSeeds[iJ][1] = iphi_;
+    	nJet++;
+   } // good jets	
+  
+  return true;
 } // JetFrameProducer::getEGseed()
 
 
