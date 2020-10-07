@@ -99,6 +99,8 @@ class QGTagger : public edm::stream::EDProducer<> {
       // Input tokens
       edm::EDGetTokenT<reco::PFJetCollection> jetCollectionT_;
       edm::EDGetTokenT<e2e::Frame4D> JetFramesT_;
+      edm::EDGetTokenT<reco::GenJetCollection> genJetCollectionT_;
+      edm::EDGetTokenT<edm::View<reco::Jet> > recoJetsT_;
       //edm::EDGetTokenT<e2e::PhoFrame3DCollection> tEGframeCollection;
       // Handles
       edm::Handle<reco::PFJetCollection> jets;
