@@ -1,5 +1,5 @@
-#ifndef RecoE2E_EGTagger_h
-#define RecoE2E_EGTagger_h
+#ifndef RecoE2E_QGTagger_h
+#define RecoE2E_QGTagger_h
 
 #include <memory>
 #include <iostream>
@@ -22,22 +22,20 @@
 
 #include "PhysicsTools/TensorFlow/interface/TensorFlow.h"
 #include "E2eDL/DataFormats/interface/FrameCollections.h"
-#include "E2eDL/FrameProducers/interface/EGFrameProducer.h"
+#include "E2eDL/FrameProducers/interface/JetFrameProducer.h"
 #include "E2eDL/FrameProducers/interface/predict_tf.h"
 
 using namespace std;
 
-using reco::PhotonCollection;
-using reco::PhotonRef;
 //using pat::PhotonCollection;
 //using pat::PhotonRef;
 
-class EGTagger : public edm::stream::EDProducer<> {
+class QGTagger : public edm::stream::EDProducer<> {
 
    public:
 
-      explicit EGTagger(const edm::ParameterSet&);
-      ~EGTagger();
+      explicit QGTagger(const edm::ParameterSet&);
+      ~QGTagger();
 
       static void fillDescriptions(edm::ConfigurationDescriptions& descriptions);
 
@@ -49,28 +47,28 @@ class EGTagger : public edm::stream::EDProducer<> {
 
       // ----------member data ---------------------------
       // Input tokens
-      edm::EDGetTokenT<PhotonCollection>           tPhotonCollection;
-      edm::EDGetTokenT<std::vector<e2e::Frame3D> > tEGframeCollection;
+      edm::EDGetTokenT<reco::PFJetCollection> jetCollectionT_;
+      edm::EDGetTokenT<e2e::Frame4D> JetFramesT_;
       //edm::EDGetTokenT<e2e::PhoFrame3DCollection> tEGframeCollection;
       // Handles
-      edm::Handle<PhotonCollection>           hPhoton;
-      edm::Handle<std::vector<e2e::Frame3D> > hEGframe;
+      edm::Handle<reco::PFJetCollection> jets;
+      edm::Handle<e2e::Frame4D> hJetFrames;
       //edm::Handle<e2e::PhoFrame3DCollection> hEGframe;
-
+   
       // DL inference model
       std::string modelName;
       void runInference( std::vector<e2e::pred>&, const std::vector<e2e::Frame3D>&, const std::string );
 
       // Vector to hold input EG frames for inference
-      std::vector<e2e::Frame3D> vPhoFrames;
+      std::vector<e2e::Frame3D> vJetFrames;
 
       // Frame dimensions determined at runtime
-      int nPhos;   // frame batch size in no. of photons
+      int nJets;   // frame batch size in no. of photons
       int nFrameD; // frame depth in no. of detector layers
 
       // Output collections to be produced and values stored in them
-      std::unique_ptr<e2e::PhoPredCollection> cPhoProbs;
-      std::vector<e2e::pred> vPhoProbs;
+      std::unique_ptr<e2e::Frame2D> cPhoProbs;
+      std::vector<e2e::pred> vJetProbs;
 
 }; // EGTagger
 
