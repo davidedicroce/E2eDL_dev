@@ -45,10 +45,7 @@ JetFrameProducer::JetFrameProducer(const edm::ParameterSet& iConfig)
   
   // Output collections to be produced
   produces<e2e::Frame2D> ("JetSeeds");
-  produces<e2e::Frame4D> ("HBHEenergyFrames");
-  produces<e2e::Frame4D> ("ECALstitchedFrames");
-  produces<e2e::Frame4D> ("TracksAtECALstitchedPtFrames");
-  produces<e2e::Frame4D> ("TracksAtECALadjPtFrames");
+  produces<e2e::Frame4D> ("JetFrames");
 }
 
 JetFrameProducer::~JetFrameProducer()
@@ -133,7 +130,7 @@ JetFrameProducer::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
 	vLayerPointer.push_back(vHBHEenergyptr);
    }	
    
-   std::vector<e2e::Frame3D> VFrames (vJetSeeds.size(),
+   std::vector<e2e::Frame3D> vJetFrames (vJetSeeds.size(),
 				      e2e::Frame3D(nFrameD,
 				      e2e::Frame2D(nFrameH,
 				      e2e::Frame1D(nFrameW, 0.))) );	
@@ -146,7 +143,7 @@ JetFrameProducer::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
 		vJetSeed_[0] = vJetSeeds[idx][0];
 		vJetSeed_[1] = vJetSeeds[idx][1];
 		for (int layer_idx=0; layer_idx<nFrameD; layer_idx++){
-			e2e::getFrame(vFrames[idx][layer_idx], vJetSeed_, vLayerPointer[layer_idx], nDetImgH, nDetImgW);
+			e2e::getFrame(vJetFrames[idx][layer_idx], vJetSeed_, vLayerPointer[layer_idx], nDetImgH, nDetImgW);
 		}	
 	}
    }
@@ -154,8 +151,8 @@ JetFrameProducer::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
    //e2e::Frame4D tmp = vECALstitchedFrames;
    //e2e::Frame2D tmp_out = e2e::predict_tf(vECALstitchedFrames, "ResNet.pb", "inputs","outputs");
    // Put collections into output EDM file
-   std::unique_ptr<e2e::Frame4D> cFrames (new e2e::Frame4D(vFrames));
-   iEvent.put( std::move(cFrames),  "Frames"  ); 
+   std::unique_ptr<e2e::Frame4D> cJetFrames (new e2e::Frame4D(vJetFrames));
+   iEvent.put( std::move(cJetFrames),  "JetFrames"  ); 
    return;
 }
 
