@@ -116,7 +116,8 @@ bool JetFrameProducer::runEvtSel_jet ( const edm::Event& iEvent, const edm::Even
 	
     	vJetSeeds[iJ][0] = ieta_;
 	vJetSeeds[iJ][1] = iphi_;
-    	nJet++;}
+    	nJet++;
+      }
    } // good jets	
   
   return true;
