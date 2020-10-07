@@ -8,9 +8,15 @@ QGTagger::QGTagger(const edm::ParameterSet& iConfig)
   jetCollectionT_ = consumes<reco::PFJetCollection>(iConfig.getParameter<edm::InputTag>("ak4PFJetCollection"));
   genJetCollectionT_      = consumes<reco::GenJetCollection>(iConfig.getParameter<edm::InputTag>("ak4GenJetCollection"));
   recoJetsT_              = consumes<edm::View<reco::Jet> >(iConfig.getParameter<edm::InputTag>("ak4RecoJetsForBTagging"));
-  TracksAtECALadjPt_token=consumes<e2e::Frame1D>(iConfig.getParameter<edm::InputTag>("TracksAtECALadjPt"));
+  TracksAtECALadjPt_token = consumes<e2e::Frame1D>(iConfig.getParameter<edm::InputTag>("TracksAtECALadjPt"));
+  JetFramesT_ = consumes<e2e::Frame4D>(iConfig.getParameter<edm::InputTag>("JetFrames"));
   //tEGframeCollection = consumes<e2e::PhoFrame3DCollection>(iConfig.getParameter<edm::InputTag>("EGFrames"));
 
+  mode_      = iConfig.getParameter<std::string>("mode");
+  minJetPt_  = iConfig.getParameter<double>("minJetPt");
+  maxJetEta_ = iConfig.getParameter<double>("maxJetEta");
+  z0PVCut_   = iConfig.getParameter<double>("z0PVCut");
+  
   // DL inference model
   modelName = iConfig.getParameter<std::string>("QGModelName");
 
@@ -29,31 +35,31 @@ QGTagger::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
   edm::LogInfo("QGTagger") << " >> Running QGTagger...";
 
   // Load required tokens into input collection handles
-  iEvent.getByToken( tPhotonCollection,  hPhoton  );
-  iEvent.getByToken( tEGframeCollection, hEGframe );
-  assert( hPhoton->size() == hEGframe->size() );
+  iEvent.getByToken( tQGframeCollection, hQGframe );
+  iEvent.getByToken( jetCollectionT_, jets );
+  iEvent.getByToken( JetFramesT_, hJetFrames );
+  assert( hJetFrames->size() == jets->size() );
   
-  nPhos = hPhoton->size();
-  std::vector<e2e::pred>    vPhoProbs ( nPhos, defaultVal );
-  if (hEGframe->size()>0) {
+  nJets = jets->size();
+  std::vector<e2e::pred>    vJetProbs ( nJets, defaultVal );
+  if (hJetFrames->size()>0) {
     // Get pointer to input EG frames
-    const std::vector<e2e::Frame3D>* pEGframe = hEGframe.product();
-    nFrameD = pEGframe->front().size(); // get size of depth dimension
+    const std::vector<e2e::Frame3D>* pJetFrame = hJetFrames.product();
+    nFrameD = pJetFrame->front().size(); // get size of depth dimension
 
     // Initialize product values to be stored with default values at start of every event
     // Each object is a vector over the no. of photons in the event
   
-    std::vector<e2e::Frame3D> vPhoFrames( nPhos,
+    std::vector<e2e::Frame3D> vJetFrames( nJets,
                                         e2e::Frame3D(nFrameD,
                                         e2e::Frame2D(nFrameH,
                                         e2e::Frame1D(nFrameW, 0.))) );
 
     //_____ Load EG frame collection into `vPhoFrames` for each photon _____//
 
-    for ( unsigned int iP = 0; iP < hPhoton->size(); iP++ ) {
+    for ( unsigned int iJ = 0; iJ < jets->size(); iJ++ ) {
       // Get EG frame for this photon
-      PhotonRef iRecoPho( hPhoton, iP );
-      vPhoFrames[iP] = pEGframe->at(iP);
+      vJetFrames[iP] = pJetFrame->at(iJ);
     } // photons
 
     //_____ Run DL inference _____//
@@ -62,23 +68,23 @@ QGTagger::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
     // Running on entire batch at once maximizes computing parellization
     // runInference( vPhoProbs, vPhoFrames, modelName );
   
-    e2e::Frame2D tmp_out = e2e::predict_tf(vPhoFrames, "e_vs_ph_model.pb", "inputs","softmax_1/Sigmoid");
+    e2e::Frame2D tmp_out = e2e::predict_tf(vJetFrames, "ResNet.pb", "inputs","outputs");
   
     //_____ Store products associated with each photon _____//
 
     // Initialize pointers to edm::AssociationVector (key,val) collections
     // These collections create explicit associations between the photon object (key) and the stored product (val)
   }
-  cPhoProbs  = std::make_unique<e2e::PhoPredCollection>   ( reco::PhotonRefProd(hPhoton) );
+  cJetProbs  = std::make_unique<e2e::Frame2D>   ( tmp_out );
   // Set association between photon ref (key) and products to be stored (val)
-  for ( unsigned int iP = 0; iP < hPhoton->size(); iP++ ) {
+  /*for ( unsigned int iP = 0; iP < hPhoton->size(); iP++ ) {
     PhotonRef iRecoPho( hPhoton, iP );
     cPhoProbs->setValue( iP, vPhoProbs[iP] );
-  } // photons
+  } */ // photons
     
     
   // Put collections into output EDM file
-  iEvent.put( std::move(cPhoProbs), "EGProbs" );
+  iEvent.put( std::move(cJetProbs), "JetProbs" );
 
   return;
 } // EGTagger::produce()
