@@ -158,7 +158,7 @@ JetFrameProducer::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
 
 void JetFrameProducer::getJetseed ( const edm::Event& iEvent, const edm::EventSetup& iSetup, e2e::Frame2D& vJetSeeds )
 {
-	
+	vector<int>   vFailedJetIdx_;
 	edm::ESHandle<CaloGeometry> caloGeomH_;
    	iSetup.get<CaloGeometryRecord>().get( caloGeomH_ );
    	const CaloGeometry* caloGeom = caloGeomH_.product();
