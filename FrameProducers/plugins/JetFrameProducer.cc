@@ -71,7 +71,7 @@ JetFrameProducer::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
   std::cout<<"Raw seeds are: ";
   for (int iJ = 0; iJ<jets->size(); iJ++){
 	reco::PFJetRef iJet( jets, iJ );
-  	std::cout<<"("<<iJet->eta()<<","<<iJet->pt()<<")";
+  	std::cout<<"("<<iJet->eta()<<","<<iJet->phi()<<")";
   }
   std::cout<<std::endl;
   getJetseed( iEvent, iSetup, vJetSeeds );
