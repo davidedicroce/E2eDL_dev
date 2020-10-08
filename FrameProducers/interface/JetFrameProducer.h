@@ -135,6 +135,9 @@ class JetFrameProducer : public edm::stream::EDProducer<> {
       std::string jetCollection_sel;
       typedef std::vector<reco::PFCandidate>  PFCollection;
       edm::EDGetTokenT<PFCollection> pfCollectionT_;
+   
+      // Seed finding
+      void getJetseed ( const edm::Event&, const edm::EventSetup&, e2e::Frame2D& );
       
       std::vector<float> vSC_eta_;
       std::vector<float> vSC_phi_;
