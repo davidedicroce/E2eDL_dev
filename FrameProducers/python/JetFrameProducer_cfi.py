@@ -56,4 +56,8 @@ JetFrames = cms.EDProducer('JetFrameProducer'
     , minTopPt = cms.double(200.)
     , maxTopEta = cms.double(2.4)
     , jetCollection = cms.string('ak8')
+    , doECALstitched = cms.bool(True)
+    , doTracksAtECALstitchedPt = cms.bool(True)
+    , doTracksAtECALadjPt = cms.bool(True)
+    , doHBHEenergy = cms.bool(True)
     )
