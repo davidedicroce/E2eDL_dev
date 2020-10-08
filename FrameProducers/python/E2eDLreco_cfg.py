@@ -18,6 +18,30 @@ options.register('doEBenergy',
     mult=VarParsing.VarParsing.multiplicity.singleton,
     mytype=VarParsing.VarParsing.varType.bool,
     info = "set doEBenergy")
+# Set doECALstitched to 1 to produce JetSeeds and JetFrames.
+options.register('doECALstitched',
+    default=False,
+    mult=VarParsing.VarParsing.multiplicity.singleton,
+    mytype=VarParsing.VarParsing.varType.bool,
+    info = "set doECALstitched")
+# Set doTracksAtECALstitchedPt to 1 to produce JetSeeds and JetFrames.
+options.register('doTracksAtECALstitchedPt',
+    default=False,
+    mult=VarParsing.VarParsing.multiplicity.singleton,
+    mytype=VarParsing.VarParsing.varType.bool,
+    info = "set doTracksAtECALstitchedPt")
+# Set doTracksAtECALadjPt to 1 to produce JetSeeds and JetFrames.
+options.register('doTracksAtECALadjPt',
+    default=False,
+    mult=VarParsing.VarParsing.multiplicity.singleton,
+    mytype=VarParsing.VarParsing.varType.bool,
+    info = "set doTracksAtECALadjPt")
+# Set doHBHEenergy to 1 to produce JetSeeds and JetFrames.
+options.register('doHBHEenergy',
+    default=False,
+    mult=VarParsing.VarParsing.multiplicity.singleton,
+    mytype=VarParsing.VarParsing.varType.bool,
+    info = "set doHBHEenergy")
 # Name of the jets to be used.
 options.register('jetCollection',
     default='ak8',
