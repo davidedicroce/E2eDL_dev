@@ -111,23 +111,23 @@ JetFrameProducer::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
    std::vector<e2e::Frame1D*> vLayerPointerMap;
    if (doECALstitched){
    	nFrameD++;
-	vlayermap.push_back("ECALstitched");
-	vLayerPointer.push_back(vECALstitchedptr);
+	vLayerNameMap.push_back("ECALstitched");
+	vLayerPointerMap.push_back(vECALstitchedptr);
    }
    if (doTracksAtECALstitchedPt){
    	nFrameD++;
-	vlayermap.push_back("TracksAtECALstitched");
-	vLayerPointer.push_back(vTracksAtECALstitchedPtptr);
+	vLayerNameMap.push_back("TracksAtECALstitched");
+	vLayerPointerMap.push_back(vTracksAtECALstitchedPtptr);
    }
    if (doTracksAtECALadjPt){
    	nFrameD++;
-	vlayermap.push_back("TracksAtECALadj");
-	vLayerPointer.push_back(vTracksAtECALadjPtptr);
+	vLayerNameMap.push_back("TracksAtECALadj");
+	vLayerPointerMap.push_back(vTracksAtECALadjPtptr);
    }
    if (doHBHEenergy){
    	nFrameD++;
-	vlayermap.push_back("HBHEenergy");
-	vLayerPointer.push_back(vHBHEenergyptr);
+	vLayerNameMap.push_back("HBHEenergy");
+	vLayerPointerMap.push_back(vHBHEenergyptr);
    }	
    
    std::vector<e2e::Frame3D> vJetFrames (vJetSeeds.size(),
