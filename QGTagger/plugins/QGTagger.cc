@@ -52,12 +52,17 @@ QGTagger::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
                                         e2e::Frame3D(nFrameD,
                                         e2e::Frame2D(nFrameH,
                                         e2e::Frame1D(nFrameW, 0.))) );
+    std::vector<e2e::Frame3D> vtmpFrames( nJets,
+                                        e2e::Frame3D(1,
+                                        e2e::Frame2D(nFrameH,
+                                        e2e::Frame1D(nFrameW, 0.))) );
 
     //_____ Load QG frame collection into `vJetFrames` for each jet _____//
 
     for ( unsigned int iJ = 0; iJ < jets->size(); iJ++ ) {
       // Get QG frame for this jet
       vJetFrames[iJ] = pJetFrame->at(iJ);
+      vtmpFrames[iJ][0] = vJetFrames[iJ][0];
     } // jets
 
     //_____ Run DL inference _____//
@@ -65,8 +70,9 @@ QGTagger::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
     // Run inference on `vJetFrames` batch of size nJetss*nFrameD*nFrameH*nFrameW: store output in `vJetProbs`
     // Running on entire batch at once maximizes computing parellization
     // runInference( vJetProbs, vJetFrames, modelName );
-  
-    tmp_out = e2e::predict_tf(vJetFrames, "ResNet.pb", "inputs","outputs");
+    for (int channelidx = 0; channelidx<nFrameD; channelidx++){ 
+      tmp_out = e2e::predict_tf(vtmpFrames, "ResNet.pb", "inputs","outputs");
+    }
   
     //_____ Store products associated with each photon _____//
 
