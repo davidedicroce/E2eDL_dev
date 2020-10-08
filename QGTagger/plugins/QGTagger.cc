@@ -19,7 +19,8 @@ QGTagger::QGTagger(const edm::ParameterSet& iConfig)
   modelName = iConfig.getParameter<std::string>("QGModelName");
 
   // Output collections to be produced
-  produces<e2e::PhoPredCollection>("QGProbs");
+  //produces<e2e::PhoPredCollection>("QGProbs");
+  produces<e2e::Frame2D>("QGProbs");
 }
 
 QGTagger::~QGTagger()
