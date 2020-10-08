@@ -56,7 +56,7 @@ QGTagger::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
 
     for ( unsigned int iJ = 0; iJ < jets->size(); iJ++ ) {
       // Get QG frame for this jet
-      vJetFrames[iP] = pJetFrame->at(iJ);
+      vJetFrames[iJ] = pJetFrame->at(iJ);
     } // jets
 
     //_____ Run DL inference _____//
