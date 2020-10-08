@@ -39,20 +39,21 @@ QGTagger::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
   
   nJets = jets->size();
   std::vector<e2e::pred>    vJetProbs ( nJets, defaultVal );
+  e2e::Frame2D tmp_out;
   if (hJetFrames->size()>0) {
     // Get pointer to input QG frames
     const std::vector<e2e::Frame3D>* pJetFrame = hJetFrames.product();
     nFrameD = pJetFrame->front().size(); // get size of depth dimension
 
     // Initialize product values to be stored with default values at start of every event
-    // Each object is a vector over the no. of photons in the event
+    // Each object is a vector over the no. of Jets in the event
   
     std::vector<e2e::Frame3D> vJetFrames( nJets,
                                         e2e::Frame3D(nFrameD,
                                         e2e::Frame2D(nFrameH,
                                         e2e::Frame1D(nFrameW, 0.))) );
 
-    //_____ Load EG frame collection into `vPhoFrames` for each photon _____//
+    //_____ Load QG frame collection into `vJetFrames` for each jet _____//
 
     for ( unsigned int iJ = 0; iJ < jets->size(); iJ++ ) {
       // Get QG frame for this jet
@@ -65,7 +66,7 @@ QGTagger::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
     // Running on entire batch at once maximizes computing parellization
     // runInference( vJetProbs, vJetFrames, modelName );
   
-    e2e::Frame2D tmp_out = e2e::predict_tf(vJetFrames, "ResNet.pb", "inputs","outputs");
+    tmp_out = e2e::predict_tf(vJetFrames, "ResNet.pb", "inputs","outputs");
   
     //_____ Store products associated with each photon _____//
 
