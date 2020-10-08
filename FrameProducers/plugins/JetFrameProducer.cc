@@ -68,7 +68,12 @@ JetFrameProducer::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
   iEvent.getByToken(jetCollectionT_, jets);
   if ( debug ) std::cout << " >> PFJetCol.size: " << jets->size() << std::endl;
   e2e::Frame2D    vJetSeeds ( jets->size(), std::vector<float> (nSeedCoords, float(defaultVal)) );
-	
+  std::cout<<"Raw seeds are: ";
+  for (int iJ = 0; iJ<jets->size(); iJ++){
+	reco::PFJetRef iJet( jets, iJ );
+  	std::cout<<"("<<iJet->eta()<<","<<iJet->pt()<<")";
+  }
+  std::cout<<std::endl;
   getJetseed( iEvent, iSetup, vJetSeeds );
   std::cout<<" >> The seeds are: ";
   for (int idx=0; idx<int(vJetSeeds.size());idx++){
@@ -191,6 +196,7 @@ void JetFrameProducer::getJetseed ( const edm::Event& iEvent, const edm::EventSe
 			   << " jetE:" << iJet->energy() << " jetM:" << iJet->mass() << std::endl;
 	HcalDetId hId( spr::findDetIdHCAL( caloGeom, iJet->eta(), iJet->phi(), false ) );
     	if ( hId.subdet() != HcalBarrel && hId.subdet() != HcalEndcap ){
+		std::cout<<"     * Failed Jet index because hId.subdet not equal to HCAL Barrel and HCAL Endcap. Adding -1 to Jet Seed vector"<<std::endl;
       		vFailedJetIdx_.push_back(iJ);
       		continue;
     	}
@@ -247,7 +253,7 @@ void JetFrameProducer::getJetseed ( const edm::Event& iEvent, const edm::EventSe
     	if ( HBHE_IETA_MAX_HE-1 - ietaAbs_ < image_padding ) { 
       	if ( debug ) std::cout << " Fail HE edge cut " << std::endl;
       	vFailedJetIdx_.push_back(iJ);
-	std::cout<<"     * Failed Jet seed at index: "<<iJ<<" seed is too close to the edge of HE. Adding -1 to JetSeediphi and JetSeedieta vectors."<<std::endl;
+	std::cout<<"     * Failed Jet seed at index: "<<iJ<<" seed is too close to the edge of HE. Adding -1 to Jet Seed vectors."<<std::endl;
 	ieta_=-1;
 	iphi_=-1;
     	nJet++;
