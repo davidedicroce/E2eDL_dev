@@ -82,7 +82,7 @@ QGTagger::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
   cJetProbs  = std::make_unique<e2e::Frame2D>   ( tmp_out );
     
   // Put collections into output EDM file
-  iEvent.put( std::move(cJetProbs), "JetProbs" );
+  iEvent.put( std::move(cJetProbs), "QGProbs" );
 
   return;
 } // EGTagger::produce()
