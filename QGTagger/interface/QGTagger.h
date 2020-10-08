@@ -101,6 +101,7 @@ class QGTagger : public edm::stream::EDProducer<> {
       edm::EDGetTokenT<e2e::Frame4D> JetFramesT_;
       edm::EDGetTokenT<reco::GenJetCollection> genJetCollectionT_;
       edm::EDGetTokenT<edm::View<reco::Jet> > recoJetsT_;
+      edm::EDGetTokenT<HBHERecHitCollection> HBHERecHitCollectionT_;
       //edm::EDGetTokenT<e2e::PhoFrame3DCollection> tEGframeCollection;
       // Handles
       edm::Handle<reco::PFJetCollection> jets;
@@ -117,6 +118,10 @@ class QGTagger : public edm::stream::EDProducer<> {
       // Frame dimensions determined at runtime
       int nJets;   // frame batch size in no. of photons
       int nFrameD; // frame depth in no. of detector layers
+      std::string mode_;  // EventLevel / JetLevel
+      double minJetPt_;
+      double maxJetEta_;
+      double z0PVCut_;
 
       // Output collections to be produced and values stored in them
       std::unique_ptr<e2e::Frame2D> cJetProbs;
