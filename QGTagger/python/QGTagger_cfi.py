@@ -1,7 +1,7 @@
 import FWCore.ParameterSet.Config as cms
 
 QGTagger = cms.EDProducer('QGTagger'
-    , QGFrames = cms.InputTag('QGFrames','QGFrames')
+    , QGFrames = cms.InputTag('JetFrameProducer','JetFrames')
     , reducedHBHERecHitCollection = cms.InputTag('reducedHcalRecHits:hbhereco')
     , ak4PFJetCollection = cms.InputTag('ak4PFJetsCHS')
     , ak4GenJetCollection = cms.InputTag('ak4GenJets')
