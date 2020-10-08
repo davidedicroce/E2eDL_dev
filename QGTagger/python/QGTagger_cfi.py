@@ -7,8 +7,4 @@ QGTagger = cms.EDProducer('QGTagger'
     , ak4GenJetCollection = cms.InputTag('ak4GenJets')
     , ak4RecoJetsForBTagging = cms.InputTag("ak4PFJetsCHS")
     , QGModelName = cms.string('ResNet.pb')
-    , doECALstitched = cms.bool(True)
-    , doTracksAtECALstitchedPt = cms.bool(True)
-    , doTracksAtECALadjPt = cms.bool(True)
-    , doHBHEenergy = cms.bool(True)
     )
