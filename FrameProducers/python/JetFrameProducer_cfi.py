@@ -34,9 +34,6 @@ JetFrames = cms.EDProducer('JetFrameProducer'
     , pfCollection = cms.InputTag("particleFlow")
     , jetTagCollection    = cms.InputTag("pfCombinedInclusiveSecondaryVertexV2BJetTags")
     , ipTagInfoCollection = cms.InputTag("pfImpactParameterTagInfos")
-    , HBHEjetCollection = cms.InputTag("QGInference","QGhbheJetCollection")
-    , ECALstitchedJetCollection = cms.InputTag("QGInference","QGecalStitchedJetCollection")
-    , TracksAtECALstitchedJetCollection = cms.InputTag("QGInference","QGtracksAtECALstitchedJetCollectionPt")
     , mode = cms.string("JetLevel")
     
     , siPixelRecHitCollection = cms.InputTag('siPixelRecHits')
