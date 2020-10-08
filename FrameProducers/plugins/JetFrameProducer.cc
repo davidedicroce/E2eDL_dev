@@ -69,7 +69,7 @@ JetFrameProducer::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
   if ( debug ) std::cout << " >> PFJetCol.size: " << jets->size() << std::endl;
   e2e::Frame2D    vJetSeeds ( jets->size(), std::vector<float> (nSeedCoords, float(defaultVal)) );
 	
-  getEGseed( iEvent, iSetup, vJetSeeds );
+  getJetseed( iEvent, iSetup, vJetSeeds );
   std::cout<<" >> Passed Selection: "<<passedSelection<<std::endl;	
   std::cout<<" >> Number of Jets: "<<vJetSeeds.size()<<std::endl;
   std::cout<<" >> The jet seeds are (ieta,iphi): ";
@@ -156,7 +156,7 @@ JetFrameProducer::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
    return;
 }
 
-void EGFrameProducer::getEGseed ( const edm::Event& iEvent, const edm::EventSetup& iSetup, e2e::Frame2D& vJetSeeds )
+void JetFrameProducer::getJetseed ( const edm::Event& iEvent, const edm::EventSetup& iSetup, e2e::Frame2D& vJetSeeds )
 {
 	
 	edm::ESHandle<CaloGeometry> caloGeomH_;
