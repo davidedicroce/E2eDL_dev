@@ -75,6 +75,9 @@ process.load("E2eDL.FrameProducers.DetFrameProducer_cfi")
 process.load("E2eDL.FrameProducers.JetFrameProducer_cfi")
 process.load("E2eDL.QGTagger.QGTagger_cfi")
 #process.EGTagger.EGModelName = options.EGModelName
+process.JetFrames.jetCollection = options.jetCollection
+process.JetFrames.minJetPt = cms.double(35.)
+process.JetFrames.maxJetEta = cms.double(2.4)
 
 process.out = cms.OutputModule("PoolOutputModule",
     fileName = cms.untracked.string('QGPt+QGFrames.root') 
