@@ -142,8 +142,8 @@ JetFrameProducer::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
 		e2e::seed vJetSeed_ = {-1,-1};
 		vJetSeed_[0] = vJetSeeds[idx][0];
 		vJetSeed_[1] = vJetSeeds[idx][1];
-		for (int layer_idx=0; layer_idx<nFrameD; layer_idx++){
-			e2e::getFrame(vJetFrames[idx][layer_idx], vJetSeed_, vLayerPointer[layer_idx], nDetImgH, nDetImgW);
+		for (int layer_idx=0; layer_idx<int(nFrameD); layer_idx++){
+			e2e::getFrame(vJetFrames[idx][layer_idx], vJetSeed_, vLayerPointerMap[layer_idx], nDetImgH, nDetImgW);
 		}	
 	}
    }
