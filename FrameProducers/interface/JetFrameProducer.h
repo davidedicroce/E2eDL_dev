@@ -117,7 +117,11 @@ class JetFrameProducer : public edm::stream::EDProducer<> {
       edm::EDGetTokenT<edm::View<reco::Jet> > recoJetsT_;
       edm::EDGetTokenT<EBDigiCollection>     EBDigiCollectionT_;
       
-      static const int nPhotons = 2;
+      // Detector image switches
+      bool doECALstitched;
+      bool doTracksAtECALstitchedPt;
+      bool doTracksAtECALadjPt;
+      bool doHBHEenergy;
    
       // Output collections to be produced and values stored in them
       std::vector<e2e::Frame3D> vECALstitchedFrames;
