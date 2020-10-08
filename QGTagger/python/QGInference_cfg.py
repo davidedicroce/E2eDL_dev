@@ -15,6 +15,30 @@ options.register('skipEvents',
     mult=VarParsing.VarParsing.multiplicity.singleton,
     mytype=VarParsing.VarParsing.varType.int,
     info = "skipEvents")
+# Set doECALstitched to 1 to produce JetSeeds and JetFrames.
+options.register('doECALstitched',
+    default=False,
+    mult=VarParsing.VarParsing.multiplicity.singleton,
+    mytype=VarParsing.VarParsing.varType.bool,
+    info = "set doECALstitched")
+# Set doTracksAtECALstitchedPt to 1 to produce JetSeeds and JetFrames.
+options.register('doTracksAtECALstitchedPt',
+    default=False,
+    mult=VarParsing.VarParsing.multiplicity.singleton,
+    mytype=VarParsing.VarParsing.varType.bool,
+    info = "set doTracksAtECALstitchedPt")
+# Set doTracksAtECALadjPt to 1 to produce JetSeeds and JetFrames.
+options.register('doTracksAtECALadjPt',
+    default=False,
+    mult=VarParsing.VarParsing.multiplicity.singleton,
+    mytype=VarParsing.VarParsing.varType.bool,
+    info = "set doTracksAtECALadjPt")
+# Set doHBHEenergy to 1 to produce JetSeeds and JetFrames.
+options.register('doHBHEenergy',
+    default=False,
+    mult=VarParsing.VarParsing.multiplicity.singleton,
+    mytype=VarParsing.VarParsing.varType.bool,
+    info = "set doHBHEenergy")
 # Name of the QGInference model to be used for inference.
 options.register('QGModelName',
     default='ResNet.pb',
@@ -48,7 +72,7 @@ process.source = cms.Source("PoolSource",
 print (" >> Loaded",len(options.inputFiles),"input files from list.")
 
 process.load("E2eDL.FrameProducers.DetFrameProducer_cfi")
-process.load("E2eDL.FrameProducers.EGFrameProducer_cfi")
+process.load("E2eDL.FrameProducers.JetFrameProducer_cfi")
 process.load("E2eDL.QGTagger.QGTagger_cfi")
 #process.EGTagger.EGModelName = options.EGModelName
 
