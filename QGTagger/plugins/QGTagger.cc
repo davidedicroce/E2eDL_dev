@@ -7,7 +7,7 @@ QGTagger::QGTagger(const edm::ParameterSet& iConfig)
   jetCollectionT_ = consumes<reco::PFJetCollection>(iConfig.getParameter<edm::InputTag>("ak4PFJetCollection"));
   genJetCollectionT_      = consumes<reco::GenJetCollection>(iConfig.getParameter<edm::InputTag>("ak4GenJetCollection"));
   recoJetsT_              = consumes<edm::View<reco::Jet> >(iConfig.getParameter<edm::InputTag>("ak4RecoJetsForBTagging"));
-  JetFramesT_ = consumes<e2e::Frame4D>(iConfig.getParameter<edm::InputTag>("JetFrames"));
+  JetFramesT_ = consumes<e2e::Frame4D>(iConfig.getParameter<edm::InputTag>("QGFrames"));
   //tEGframeCollection = consumes<e2e::PhoFrame3DCollection>(iConfig.getParameter<edm::InputTag>("EGFrames"));
 
   mode_      = iConfig.getParameter<std::string>("mode");
