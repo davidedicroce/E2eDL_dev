@@ -256,7 +256,7 @@ void JetFrameProducer::getJetseed ( const edm::Event& iEvent, const edm::EventSe
     	nJet++;
    } // good jets	
   
-  return true;
+  return;
 } // JetFrameProducer::getEGseed()
 
 
