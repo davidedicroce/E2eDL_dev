@@ -176,7 +176,6 @@ void JetFrameProducer::getJetseed ( const edm::Event& iEvent, const edm::EventSe
 	std::cout<<" >> Reading and selecting Jets from "<<jets->size()<<" jet seeds: "<<std::endl;
    	
 	for (unsigned iJ=0;iJ<jets->size();iJ++){
-   	bool keepJet = true;
     	iphi_ = -1;
     	ieta_ = -1;
 	reco::PFJetRef iJet( jets, iJ );
