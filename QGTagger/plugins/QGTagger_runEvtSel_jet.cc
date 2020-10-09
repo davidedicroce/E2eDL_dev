@@ -1,4 +1,4 @@
-#include "E2eDL/FrameProducers/interface/JetFrameProducer.h"
+#include "E2eDL/QGTagger/interface/QGTagger.h"
 
 const int search_window = 7;
 const int image_padding = 12;
