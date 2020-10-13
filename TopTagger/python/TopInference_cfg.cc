@@ -86,7 +86,7 @@ process.TFileService = cms.Service("TFileService",
     fileName = cms.string("ntuple.root")#options.outputFile
     )
 
-process.p = cms.Path(process.DetFrames + process.JetFrames+process.QGTagger)
+process.p = cms.Path(process.DetFrames + process.JetFrames+process.TopTagger)
 process.ep=cms.EndPath(process.out)
 
 #process.Timing = cms.Service("Timing",
