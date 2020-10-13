@@ -37,12 +37,14 @@ QGTagger::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
   iEvent.getByToken( jetCollectionT_, jets );
   iEvent.getByToken( JetFramesT_, hJetFrames );
   assert( hJetFrames->size() == jets->size() );
+  
   e2e::Frame2D    vJetSeeds ( jets->size(), std::vector<float> (nSeedCoords, float(defaultVal)) );
   runEvtSel_jet ( iEvent, iSetup, vJetSeeds);
+  assert( jets->size() == vJetSeeds.size() );
   
   nJets = jets->size();
-  std::vector<e2e::pred>    vJetProbs ( nJets, defaultVal );
-  e2e::Frame2D vJetPred;
+  //std::vector<e2e::pred>    vJetProbs ( nJets, defaultVal );
+  e2e::Frame2D vJetPred ( nJets, defaultVal );
   if (hJetFrames->size()>0) {
     // Get pointer to input QG frames
     const std::vector<e2e::Frame3D>* pJetFrame = hJetFrames.product();
@@ -51,25 +53,22 @@ QGTagger::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
     // Initialize product values to be stored with default values at start of every event
     // Each object is a vector over the no. of Jets in the event
   
-    std::vector<e2e::Frame3D> vJetFrames;/*( nJets,
+    std::vector<e2e::Frame3D> vJetFrames( nJets,
                                         e2e::Frame3D(nFrameD,
                                         e2e::Frame2D(nFrameH,
-                                        e2e::Frame1D(nFrameW, 0.))) );*/
-    std::vector<e2e::Frame3D> vtmpFrames;/*( nJets,
+                                        e2e::Frame1D(nFrameW, 0.))) );
+    std::vector<e2e::Frame3D> vtmpFrames( nJets,
                                         e2e::Frame3D(1,
                                         e2e::Frame2D(nFrameH,
-                                        e2e::Frame1D(nFrameW, 0.))) );*/
+                                        e2e::Frame1D(nFrameW, 0.))) );
 
     //_____ Load QG frame collection into `vJetFrames` for each jet _____//
 
     for ( unsigned int iJ = 0; iJ < vJetSeeds.size(); iJ++ ) {
       // Get QG frame for this jet
       if (vJetSeeds[iJ][0]>=0 and vJetSeeds[iJ][1]>=0){
-        //vJetPred.push_back({0.});
-        //vJetFrames[iJ] = pJetFrame->at(iJ);
-        //vtmpFrames[iJ][0] = vJetFrames[iJ][0];
-        vJetFrames.push_back(pJetFrame->at(iJ));
-        vtmpFrames.push_back({vJetFrames[iJ][0]});
+        vJetFrames[iJ] = pJetFrame->at(iJ);
+        vtmpFrames[iJ][0] = vJetFrames[iJ][0];
       }
       else {
         //vJetFrames.push_back(e2e::Frame3D());
@@ -84,6 +83,11 @@ QGTagger::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
     // runInference( vJetProbs, vJetFrames, modelName );
     
     vJetPred = e2e::predict_tf(vtmpFrames, "ResNet.pb", "inputs","outputs");
+    for (int iJ = 0; iJ < vJetSeeds.size(); iJ++){
+      if ( vJetSeeds[iJ] == defaultVal and vJetSeeds[iJ][1] == defaultVal ){
+        vJetPred[iJ] = e2e::Frame1D ({defaultVal});
+      }
+    }
   
     //_____ Store products associated with each photon _____//
 
