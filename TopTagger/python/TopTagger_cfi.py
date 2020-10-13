@@ -3,9 +3,9 @@ import FWCore.ParameterSet.Config as cms
 TopTagger = cms.EDProducer('TopTagger'
     , TopTagger = cms.InputTag('JetFrames','JetFrames')
     , reducedHBHERecHitCollection = cms.InputTag('reducedHcalRecHits:hbhereco')
-    , ak4PFJetCollection = cms.InputTag('ak4PFJetsCHS')
-    , ak4GenJetCollection = cms.InputTag('ak4GenJets')
-    , ak4RecoJetsForBTagging = cms.InputTag("ak4PFJetsCHS")
+    , ak8PFJetCollection = cms.InputTag('ak8PFJetsCHS')
+    , ak8GenJetCollection = cms.InputTag('ak8GenJets')
+    , ak8RecoJetsForBTagging = cms.InputTag("ak8PFJetsCHS")
     , mode = cms.string("JetLevel")
     
     , siPixelRecHitCollection = cms.InputTag('siPixelRecHits')
