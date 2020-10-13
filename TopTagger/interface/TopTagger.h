@@ -1,5 +1,5 @@
-#ifndef RecoE2E_QGTagger_h
-#define RecoE2E_QGTagger_h
+#ifndef RecoE2E_TopTagger_h
+#define RecoE2E_TopTagger_h
 
 #include <memory>
 #include <iostream>
@@ -80,12 +80,12 @@ using namespace std;
 //using pat::PhotonCollection;
 //using pat::PhotonRef;
 
-class QGTagger : public edm::stream::EDProducer<> {
+class TopTagger : public edm::stream::EDProducer<> {
 
    public:
 
-      explicit QGTagger(const edm::ParameterSet&);
-      ~QGTagger();
+      explicit TopTagger(const edm::ParameterSet&);
+      ~TopTagger();
 
       static void fillDescriptions(edm::ConfigurationDescriptions& descriptions);
 
@@ -128,6 +128,6 @@ class QGTagger : public edm::stream::EDProducer<> {
       std::unique_ptr<e2e::Frame2D> cJetProbs;
       std::vector<e2e::pred> vJetProbs;
 
-}; // QGTagger
+}; // TopTagger
 
 #endif
