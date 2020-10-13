@@ -18,12 +18,10 @@ TopTagger = cms.EDProducer('TopTagger'
 
     # Jet level cfg
     , nJets = cms.int32(2)
-    , minJetPt = cms.double(400.)
-    , maxJetEta = cms.double(1.37)
+    , minJetPt = cms.double(200.)
+    , maxJetEta = cms.double(2.4)
     , z0PVCut  = cms.double(0.1)
     , isTTbar = cms.bool(True)
-    , minTopPt = cms.double(200.)
-    , maxTopEta = cms.double(2.4)
     , doECALstitched = cms.bool(True)
     , doTracksAtECALstitchedPt = cms.bool(True)
     , doTracksAtECALadjPt = cms.bool(True)
