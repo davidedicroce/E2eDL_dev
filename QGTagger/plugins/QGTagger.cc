@@ -72,8 +72,8 @@ QGTagger::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
         vtmpFrames.push_back({vJetFrames[iJ][0]});
       }
       else {
-        vJetFrames.push_back(e2e::Frame3D());
-        vtmpFrames.push_back(e2e::Frame3D());
+        //vJetFrames.push_back(e2e::Frame3D());
+        //vtmpFrames.push_back(e2e::Frame3D());
       }
     } // jets
 
