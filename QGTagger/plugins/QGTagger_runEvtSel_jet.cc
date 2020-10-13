@@ -7,7 +7,7 @@ extern unsigned int jet_runId_;
 extern unsigned int jet_lumiId_;
 extern unsigned long long jet_eventId_;
 
-bool QGTagger::runEvtSel_jet ( const edm::Event& iEvent, const edm::EventSetup& iSetup, e2e::Frame2D& vJetSeeds ) {
+void QGTagger::runEvtSel_jet ( const edm::Event& iEvent, const edm::EventSetup& iSetup, e2e::Frame2D& vJetSeeds ) {
 
    edm::ESHandle<CaloGeometry> caloGeomH_;
    iSetup.get<CaloGeometryRecord>().get( caloGeomH_ );
@@ -120,6 +120,6 @@ bool QGTagger::runEvtSel_jet ( const edm::Event& iEvent, const edm::EventSetup& 
       }
    } // good jets	
   
-  return true;
+  return;
 
 } // runEvtSel_jet()
