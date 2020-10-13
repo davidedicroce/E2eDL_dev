@@ -8,7 +8,7 @@ TopTagger::TopTagger(const edm::ParameterSet& iConfig)
   jetCollectionT_ = consumes<reco::PFJetCollection>(iConfig.getParameter<edm::InputTag>("ak4PFJetCollection"));
   genJetCollectionT_      = consumes<reco::GenJetCollection>(iConfig.getParameter<edm::InputTag>("ak4GenJetCollection"));
   recoJetsT_              = consumes<edm::View<reco::Jet> >(iConfig.getParameter<edm::InputTag>("ak4RecoJetsForBTagging"));
-  JetFramesT_ = consumes<e2e::Frame4D>(iConfig.getParameter<edm::InputTag>("QGFrames"));
+  JetFramesT_ = consumes<e2e::Frame4D>(iConfig.getParameter<edm::InputTag>("TopFrames"));
   //tEGframeCollection = consumes<e2e::PhoFrame3DCollection>(iConfig.getParameter<edm::InputTag>("EGFrames"));
 
   mode_      = iConfig.getParameter<std::string>("mode");
@@ -17,11 +17,11 @@ TopTagger::TopTagger(const edm::ParameterSet& iConfig)
   z0PVCut_   = iConfig.getParameter<double>("z0PVCut");
   
   // DL inference model
-  modelName = iConfig.getParameter<std::string>("QGModelName");
+  modelName = iConfig.getParameter<std::string>("TopModelName");
 
   // Output collections to be produced
-  //produces<e2e::PhoPredCollection>("QGProbs");
-  produces<e2e::Frame2D>("QGProbs");
+  //produces<e2e::PhoPredCollection>("TopProbs");
+  produces<e2e::Frame2D>("TopProbs");
 }
 
 TopTagger::~TopTagger()
@@ -47,7 +47,7 @@ TopTagger::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
   //std::vector<e2e::pred>    vJetProbs ( nJets, defaultVal );
   e2e::Frame2D vJetPred ( nJets, defaultVal );
   if (hJetFrames->size()>0) {
-    // Get pointer to input QG frames
+    // Get pointer to input Top frames
     const std::vector<e2e::Frame3D>* pJetFrame = hJetFrames.product();
     nFrameD = pJetFrame->front().size(); // get size of depth dimension
 
@@ -63,10 +63,10 @@ TopTagger::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
                                         e2e::Frame2D(nFrameH,
                                         e2e::Frame1D(nFrameW, 0.))) );
 
-    //_____ Load QG frame collection into `vJetFrames` for each jet _____//
+    //_____ Load Top frame collection into `vJetFrames` for each jet _____//
 
     for ( unsigned int iJ = 0; iJ < vJetSeeds.size(); iJ++ ) {
-      // Get QG frame for this jet
+      // Get Top frame for this jet
       if (vJetSeeds[iJ][0]>=0 and vJetSeeds[iJ][1]>=0){
         vJetFrames[iJ] = pJetFrame->at(iJ);
         vtmpFrames[iJ][0] = vJetFrames[iJ][0];
@@ -98,7 +98,7 @@ TopTagger::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
   cJetProbs  = std::make_unique<e2e::Frame2D>   ( vJetPred );
     
   // Put collections into output EDM file
-  iEvent.put( std::move(cJetProbs), "QGProbs" );
+  iEvent.put( std::move(cJetProbs), "TopProbs" );
 
   return;
 } // EGTagger::produce()
