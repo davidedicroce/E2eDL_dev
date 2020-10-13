@@ -1,7 +1,7 @@
 //TopTagger
-#include "E2eDL/QGTagger/interface/QGTagger.h"
+#include "E2eDL/TopTagger/interface/TopTagger.h"
 
-QGTagger::QGTagger(const edm::ParameterSet& iConfig)
+TopTagger::TopTagger(const edm::ParameterSet& iConfig)
 {
   // Input tokens
   HBHERecHitCollectionT_  = consumes<HBHERecHitCollection>(iConfig.getParameter<edm::InputTag>("reducedHBHERecHitCollection"));
@@ -24,15 +24,15 @@ QGTagger::QGTagger(const edm::ParameterSet& iConfig)
   produces<e2e::Frame2D>("QGProbs");
 }
 
-QGTagger::~QGTagger()
+TopTagger::~TopTagger()
 {
 }
 
 void
-QGTagger::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
+TopTagger::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
 {
 
-  edm::LogInfo("QGTagger") << " >> Running QGTagger...";
+  edm::LogInfo("TopTagger") << " >> Running TopTagger...";
 
   // Load required tokens into input collection handles
   iEvent.getByToken( jetCollectionT_, jets );
@@ -104,19 +104,19 @@ QGTagger::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
 } // EGTagger::produce()
 
 void
-QGTagger::beginStream(edm::StreamID)
+TopTagger::beginStream(edm::StreamID)
 {
 }
 
 // ------------ method called once each stream after processing all runs, lumis and events  ------------
 void
-QGTagger::endStream()
+TopTagger::endStream()
 {
 }
 
 // ------------ method fills 'descriptions' with the allowed parameters for the module  ------------
 void
-QGTagger::fillDescriptions(edm::ConfigurationDescriptions& descriptions) {
+TopTagger::fillDescriptions(edm::ConfigurationDescriptions& descriptions) {
   //The following says we do not know what parameters are allowed so do no validation
   // Please change this to state exactly what you do use, even if it is no parameters
   edm::ParameterSetDescription desc;
@@ -125,4 +125,4 @@ QGTagger::fillDescriptions(edm::ConfigurationDescriptions& descriptions) {
 }
 
 //define this as a plug-in
-DEFINE_FWK_MODULE(QGTagger);
+DEFINE_FWK_MODULE(TopTagger);
