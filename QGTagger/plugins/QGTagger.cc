@@ -62,7 +62,7 @@ QGTagger::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
 
     //_____ Load QG frame collection into `vJetFrames` for each jet _____//
 
-    for ( unsigned int iJ = 0; iJ < vJetSeeds->size(); iJ++ ) {
+    for ( unsigned int iJ = 0; iJ < vJetSeeds.size(); iJ++ ) {
       // Get QG frame for this jet
       if (vJetSeeds[iJ][0]>=0 and vJetSeeds[iJ][1]>=0){
         //vJetPred.push_back({0.});
@@ -90,7 +90,7 @@ QGTagger::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
     // Initialize pointers to edm::AssociationVector (key,val) collections
     // These collections create explicit associations between the photon object (key) and the stored product (val)
   }
-  cJetProbs  = std::make_unique<e2e::Frame2D>   ( tmp_out );
+  cJetProbs  = std::make_unique<e2e::Frame2D>   ( vJetPred );
     
   // Put collections into output EDM file
   iEvent.put( std::move(cJetProbs), "QGProbs" );
