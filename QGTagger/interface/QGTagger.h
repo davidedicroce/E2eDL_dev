@@ -110,6 +110,7 @@ class QGTagger : public edm::stream::EDProducer<> {
    
       // DL inference model
       std::string modelName;
+      void runEvtSel_jet ( const edm::Event&, const edm::EventSetup&, e2e::Frame2D& );
       void runInference( std::vector<e2e::pred>&, const std::vector<e2e::Frame3D>&, const std::string );
 
       // Vector to hold input EG frames for inference
