@@ -45,7 +45,7 @@ QGTagger::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
   
   nJets = jets->size();
   //std::vector<e2e::pred>    vJetProbs ( nJets, defaultVal );
-  e2e::Frame2D vJetPred ( nJets, defaultVal );
+  e2e::Frame2D vJetPred ( nJets );
   if (hJetFrames->size()>0) {
     // Get pointer to input QG frames
     const std::vector<e2e::Frame3D>* pJetFrame = hJetFrames.product();
