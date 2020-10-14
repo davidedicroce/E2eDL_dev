@@ -84,8 +84,8 @@ TopTagger::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
     // runInference( vJetProbs, vJetFrames, modelName );
     
     vJetPred = e2e::predict_tf(vtmpFrames, "ResNet.pb", "inputs","outputs");
-    for (int iJ = 0; iJ < vJetSeeds.size(); iJ++){
-      if ( vJetSeeds[iJ] == defaultVal and vJetSeeds[iJ][1] == defaultVal ){
+    for (unsigned int iJ = 0; iJ < vJetSeeds.size(); iJ++){
+      if ( vJetSeeds[iJ][0] == defaultVal and vJetSeeds[iJ][1] == defaultVal ){
         vJetPred[iJ] = e2e::Frame1D ({defaultVal});
       }
     }
