@@ -1,7 +1,7 @@
 import FWCore.ParameterSet.Config as cms
 
 TopTagger = cms.EDProducer('TopTagger'
-    , TopTagger = cms.InputTag('JetFrames','JetFrames')
+    , TopFrames = cms.InputTag('JetFrames','JetFrames')
     , reducedHBHERecHitCollection = cms.InputTag('reducedHcalRecHits:hbhereco')
     , ak8PFJetCollection = cms.InputTag('ak8PFJetsCHS')
     , ak8GenJetCollection = cms.InputTag('ak8GenJets')
