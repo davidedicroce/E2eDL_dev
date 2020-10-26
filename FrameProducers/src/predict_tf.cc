@@ -39,12 +39,13 @@ e2e::Frame2D e2e::predict_tf(e2e::Frame4D& vinputFrame, string model_filename, s
       std::cout<<" >> Reshape not successfull."<<endl;
      }*/
      // Set GPU options
-     //graph::SetDefaultDevice("/gpu:0", &graph_def);
-     //opts.config.mutable_gpu_options()->set_per_process_gpu_memory_fraction(0.5);
-     //opts.config.mutable_gpu_options()->set_allow_growth(true);
+     tensorflow::graph::SetDefaultDevice("/gpu:0", &graph_def);
+     opts.config.mutable_gpu_options()->set_per_process_gpu_memory_fraction(0.5);
+     opts.config.mutable_gpu_options()->set_allow_growth(true);
  
      //int GPUID = std::stoi(params->getGpuDeviceStr());
-     //setenv("CUDA_VISIBLE_DEVICES", "", GPUID);
+     int GPUID = 1;
+     setenv("CUDA_VISIBLE_DEVICES", "", GPUID);
 
      //std::cout << "Initial  visible_device_list : "<<opts.config.gpu_options().visible_device_list() << std::endl;
      opts.config.mutable_gpu_options()->set_allow_growth(true);
