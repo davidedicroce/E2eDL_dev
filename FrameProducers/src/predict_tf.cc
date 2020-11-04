@@ -44,7 +44,7 @@ e2e::Frame2D e2e::predict_tf(e2e::Frame4D& vinputFrame, string model_filename, s
      opts.config.mutable_gpu_options()->set_allow_growth(true);
  
      //int GPUID = std::stoi(params->getGpuDeviceStr());
-     int GPUID = 1;
+     int GPUID = 0;
      setenv("CUDA_VISIBLE_DEVICES", "", GPUID);
 
      //std::cout << "Initial  visible_device_list : "<<opts.config.gpu_options().visible_device_list() << std::endl;
